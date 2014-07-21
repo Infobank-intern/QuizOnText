@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" >
 
+<<<<<<< HEAD
     <ImageView
         android:id="@+id/iv1"
         android:layout_width="50dip"
@@ -23,3 +24,20 @@
         android:contentDescription="@string/app_name"
         />
 </RelativeLayout>
+=======
+    <TextView
+        android:id="@+id/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_world" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="GetBroadcast"
+        />
+</RelativeLayout>
+>>>>>>> ac0bb540d6a1bc875253c3350874a4effe0a8f0b
