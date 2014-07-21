@@ -1,6 +1,7 @@
 package net.ib.baseballtext;
 
 import java.util.List;
+
 import kr.co.quizon.network.HttpLib;
 import kr.co.quizon.network.link.match.GetMatchBroadcastLink;
 import net.ib.quizon.api.match.GetMatchBroadcastReq;
@@ -12,14 +13,17 @@ import net.ib.quizon.domain.match.MatchSummary;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements OnClickListener {
-	private String accessToken = "b867b048-8f20-4a01-bfc4-53784e4b488e";
-    private TextView textView;
+	private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e";
+    private TextView baseballText;
+    private TextView teamName1;
+    private TextView teamName2;
     private Button button;
     
     private String matchId = "7580b1a4-ac96-4369-a93e-f462be19df88";
@@ -29,7 +33,11 @@ public class MainActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        textView = (TextView) findViewById(R.id.textview);
+        baseballText = (TextView) findViewById(R.id.baseballtext);
+        baseballText.setMovementMethod(new ScrollingMovementMethod());
+        
+        teamName1 = (TextView) findViewById(R.id.teamname1);
+        teamName2 = (TextView) findViewById(R.id.teamname2);
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(this);
     }
@@ -92,11 +100,11 @@ public class MainActivity extends Activity implements OnClickListener {
 			@Override
 			protected void onPostExecute(GetMatchBroadcastRes result) {
 				if (result != null) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("매치 정보");
-					sb.append("\n");
-					sb.append(result);
-					sb.append("\n");
+//					StringBuilder sb = new StringBuilder();
+//					sb.append("매치 정보");
+//					sb.append("\n");
+//					sb.append(result);
+//					sb.append("\n");
 					
 					List<MatchBroadcast> broadcast = result.getBroadcast();
 					for (MatchBroadcast matchBroadcast : broadcast) {
@@ -107,41 +115,10 @@ public class MainActivity extends Activity implements OnClickListener {
 						Integer inning2 = matchBroadcast.getInning();
 					}
 					MatchDisplayBoard matchDisplayBoard = result.getMatchDisplayBoard();
-					if (matchDisplayBoard != null) {
-						String awayTeamName = matchDisplayBoard.getAwayTeamName();
-						sb.append("AwayTeamName");
-						sb.append("\t");
-						sb.append(awayTeamName);
-						sb.append("\n");
-						List<String> awayTeamPoint = matchDisplayBoard.getAwayTeamPoint();
-						String ball = matchDisplayBoard.getBall();
-						String homeTeamName = matchDisplayBoard.getHomeTeamName();
-						sb.append("HomeTeamName");
-						sb.append("\t");
-						sb.append(homeTeamName);
-						sb.append("\n");
-						List<String> homeTeamPoint = matchDisplayBoard.getHomeTeamPoint();
-						String out = matchDisplayBoard.getOut();
-						String strike = matchDisplayBoard.getStrike();
-					}
+					setMatchDisplayBoard(matchDisplayBoard);
 					
 					MatchPlayers matchPlayers = result.getMatchPlayers();
-					if (matchPlayers != null) {						
-						String batter = matchPlayers.getBatter();
-						String firstBatter = matchPlayers.getFirstBatter();
-						String pitcher = matchPlayers.getPitcher();
-						String secondBatter = matchPlayers.getSecondBatter();
-						String thirdBatter = matchPlayers.getThirdBatter();
-						
-						sb.append("타자");
-						sb.append("\t");
-						sb.append(batter);
-						sb.append("\n");
-						sb.append("투수");
-						sb.append("\t");
-						sb.append(pitcher);
-						sb.append("\n");
-					}
+					setMatchPlayers(matchPlayers);
 					
 					List<MatchSummary> matchSummaryList = result.getMatchSummaryList();
 					for (MatchSummary matchSummary : matchSummaryList) {
@@ -160,9 +137,9 @@ public class MainActivity extends Activity implements OnClickListener {
 						Integer matchStatus = matchSummary.getMatchStatus();
 					}
 					
-					textView.setText(sb.toString());
+//					baseballText.setText(sb.toString());
 				} else {
-					textView.setText("문자 중계 로딩 실패");
+					baseballText.setText("문자 중계 로딩 실패");
 				}
 			}
 		}.execute(matchId, inning);
@@ -178,6 +155,45 @@ public class MainActivity extends Activity implements OnClickListener {
 			break;
 		default:
 			break;
+		}
+	}
+	
+	private void setMatchDisplayBoard(MatchDisplayBoard matchDisplayBoard) {
+		if (matchDisplayBoard != null) {
+			String awayTeamName = matchDisplayBoard.getAwayTeamName();
+//			sb.append("AwayTeamName");
+//			sb.append("\t");
+//			sb.append(awayTeamName);
+//			sb.append("\n");
+			List<String> awayTeamPoint = matchDisplayBoard.getAwayTeamPoint();
+			String ball = matchDisplayBoard.getBall();
+			String homeTeamName = matchDisplayBoard.getHomeTeamName();
+//			sb.append("HomeTeamName");
+//			sb.append("\t");
+//			sb.append(homeTeamName);
+//			sb.append("\n");
+			List<String> homeTeamPoint = matchDisplayBoard.getHomeTeamPoint();
+			String out = matchDisplayBoard.getOut();
+			String strike = matchDisplayBoard.getStrike();
+		}
+	}
+	
+	private void setMatchPlayers(MatchPlayers matchPlayers) {
+		if (matchPlayers != null) {						
+			String batter = matchPlayers.getBatter();
+			String firstBatter = matchPlayers.getFirstBatter();
+			String pitcher = matchPlayers.getPitcher();
+			String secondBatter = matchPlayers.getSecondBatter();
+			String thirdBatter = matchPlayers.getThirdBatter();
+			
+//			sb.append("타자");
+//			sb.append("\t");
+//			sb.append(batter);
+//			sb.append("\n");
+//			sb.append("투수");
+//			sb.append("\t");
+//			sb.append(pitcher);
+//			sb.append("\n");
 		}
 	}
 }
