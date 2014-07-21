@@ -1,15 +1,10 @@
 package net.ib.baseballtext;
 
 import java.util.List;
-
 import kr.co.quizon.network.HttpLib;
 import kr.co.quizon.network.link.match.GetMatchBroadcastLink;
-import kr.co.quizon.network.link.match.GetMatchListLink;
 import net.ib.quizon.api.match.GetMatchBroadcastReq;
 import net.ib.quizon.api.match.GetMatchBroadcastRes;
-import net.ib.quizon.api.match.GetMatchListReq;
-import net.ib.quizon.api.match.GetMatchListRes;
-import net.ib.quizon.domain.match.Match;
 import net.ib.quizon.domain.match.MatchBroadcast;
 import net.ib.quizon.domain.match.MatchDisplayBoard;
 import net.ib.quizon.domain.match.MatchPlayers;
@@ -17,11 +12,6 @@ import net.ib.quizon.domain.match.MatchSummary;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
-<<<<<<< HEAD
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-=======
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -29,8 +19,6 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity implements OnClickListener {
 	private String accessToken = "b867b048-8f20-4a01-bfc4-53784e4b488e";
->>>>>>> ac0bb540d6a1bc875253c3350874a4effe0a8f0b
-
     private TextView textView;
     private Button button;
     
