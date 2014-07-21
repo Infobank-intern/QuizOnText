@@ -6,7 +6,6 @@
 *.pydevproject
 .metadata
 .gradle
-bin/
 tmp/
 *.tmp
 *.bak
@@ -47,6 +46,8 @@ local.properties
 *.class
 
 # Generated files
+baseballtext/bin/
+baseballtext/gen/
 bin/
 gen/
 
