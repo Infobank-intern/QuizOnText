@@ -2,59 +2,166 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+     android:background="#ffffff"
     tools:context="${relativePackage}.${activityClass}" >
     
     <RelativeLayout
         android:id="@+id/title"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        >
         
         <TextView
-            android:id="@+id/teamname1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/hometeamname"
+            android:layout_width="80dip"
+            android:layout_height="30dip"
             android:layout_marginLeft="20dip"
-            android:layout_marginTop="50dip"
-            android:text="teamname1" />
+            android:layout_marginTop="20dip"
+            android:background="#7f7f7f" />
 
         <TextView
-            android:id="@+id/teamname2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/awayteamname"
+            android:layout_width="80dip"
+            android:layout_height="30dip"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dip"
-            android:layout_marginTop="50dip"
-            android:text="teamname2" />
+            android:layout_marginTop="20dip"
+            android:background="#7f7f7f" />
+        
+        <TextView
+            android:id="@+id/stadium"
+            android:layout_width="50dip"
+            android:layout_height="30dip"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dip"
+            android:background="#7f7f7f" />
+        
+        <TextView
+            android:id="@+id/inning"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/stadium"
+            android:layout_marginTop="10dip"
+            android:background="#7f7f7f" />
+        
+        <TextView 
+            android:id="@+id/hometeampoint"
+            android:layout_width="20dip"
+            android:layout_height="30dip"
+            android:layout_below="@+id/hometeamname"
+            android:layout_marginTop="10dip"
+            android:layout_marginLeft="50dip"
+            android:background="#7f7f7f" />
+        
+        <TextView 
+            android:id="@+id/awayteampoint"
+            android:layout_width="20dip"
+            android:layout_height="30dip"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/hometeamname"
+            android:layout_marginTop="10dip"
+            android:layout_marginRight="50dip"
+            android:background="#7f7f7f" />
+        
+        <TextView 
+            android:id="@+id/strike"
+            android:layout_width="15dip"
+            android:layout_height="15dip"
+            android:layout_below="@+id/inning"
+            android:layout_marginTop="5dip"
+            android:layout_centerHorizontal="true"
+            android:background="#7f7f7f" />
+        
+        <TextView 
+            android:id="@+id/STRIKE"
+            android:layout_width="15dip"
+            android:layout_height="15dip"
+            android:layout_below="@+id/inning"
+            android:layout_marginTop="5dip"
+            android:layout_toRightOf="@+id/strike"
+            android:text="S" />
+        
+        <TextView 
+            android:id="@+id/ball"
+            android:layout_width="15dip"
+            android:layout_height="15dip"
+            android:layout_below="@+id/inning"
+            android:layout_marginTop="5dip"
+            android:layout_toLeftOf="@+id/BALL"
+            android:background="#7f7f7f" />
+        
+         <TextView 
+            android:id="@+id/BALL"
+            android:layout_width="15dip"
+            android:layout_height="15dip"
+            android:layout_below="@+id/inning"
+            android:layout_marginTop="5dip"
+            android:layout_toLeftOf="@+id/strike"
+            android:text="B" />
+         
+        <TextView 
+            android:id="@+id/out"
+            android:layout_width="15dip"
+            android:layout_height="15dip"
+            android:layout_below="@+id/inning"
+            android:layout_marginTop="5dip"
+            android:layout_toRightOf="@+id/STRIKE"
+            android:background="#7f7f7f" />
+        
+        <TextView 
+            android:id="@+id/OUT"
+            android:layout_width="15dip"
+            android:layout_height="15dip"
+            android:layout_below="@+id/inning"
+            android:layout_marginTop="5dip"
+            android:layout_toRightOf="@+id/out"
+            android:text="O" />"
         
     </RelativeLayout>
     
     <RelativeLayout
         android:id="@+id/main"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title" >
+        android:layout_height="400dip"
+        android:layout_below="@+id/title"
+         >
 
         <TextView
             android:id="@+id/baseballtext"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical" />
+            android:layout_height="fill_parent"
+            android:scrollbars="vertical"
+            android:layout_margin="20dip"
+           
+            android:background="#7f7f7f" />
+        
     </RelativeLayout>
     
     <RelativeLayout
         android:id="@+id/subtitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/main"
-        android:layout_alignParentBottom="true" >
+        android:layout_below="@+id/main" >
 
+        <Spinner 
+            android:id="@+id/selectmatch"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
+            android:layout_marginBottom="20dip"
+            android:text="GetBroadcast"
+            android:background="#7f7f7f" />
         <Button
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:text="GetBroadcast" />
+            
+            android:text="GetBroadcast"
+            android:background="#7f7f7f" />
 	
     </RelativeLayout>
 
