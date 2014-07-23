@@ -35,6 +35,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e";
 	private Integer INNING; // ?????????????????????/  null이면????? 
 	ArrayList<String> spinnerList;
+	ArrayList<String> matchIdList;
 	Spinner spinner;
 	
 //	List<Match> matchList;
@@ -74,7 +75,10 @@ public class MainActivity extends Activity implements OnClickListener {
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(this);
         
-        spinner = (Spinner) findViewById(R.id.selectmatch);
+        matchIdList = new ArrayList<String>();
+        
+        spinner = (Spinner) findViewById(R.id.selectmatchspinner);
+        spinner.setPrompt("원하는 경기를 선택하세요");
         spinnerList = new ArrayList<String>();
     }
 
@@ -105,13 +109,13 @@ public class MainActivity extends Activity implements OnClickListener {
 			protected void onPostExecute(List<Match> result) {
 				// ui process
 				if (result != null) {
-					
 					for (int i=0; i<result.size(); i++) {
+						matchIdList.add(result.get(i).getMatchId());
 						spinnerList.add(result.get(i).getHomeTeamName() + " vs " + result.get(i).getAwayTeamName());
 					}
 					
-					spinner.setPrompt("원하는 경기를 선택하세요");
-					ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.temp, spinnerList);
+					
+					ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.matchspinner, spinnerList);
 					spinner.setAdapter(adapter);
 					
 					spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -119,7 +123,24 @@ public class MainActivity extends Activity implements OnClickListener {
 						public void onItemSelected(AdapterView<?> parent,
 								View view, int position, long id) {
 							// TODO Auto-generated method stub
-							
+							Log.i("test", parent.getItemIdAtPosition(position) + "");
+							Log.i("test1", position + "");
+							switch (position) {
+							case 0:
+								getBroadcast(matchIdList.get(0), String.valueOf(4));
+								break;
+							case 1:
+								getBroadcast(matchIdList.get(1), String.valueOf(4));
+								break;
+							case 2:
+								getBroadcast(matchIdList.get(2), String.valueOf(4));
+								break;
+							case 3:
+								getBroadcast(matchIdList.get(3), String.valueOf(4));
+								break;
+							default:
+								break;
+							}
 						}
 
 						@Override
@@ -131,13 +152,9 @@ public class MainActivity extends Activity implements OnClickListener {
 					
 					for (Match match : result) {
 						match.getMatchStatus();
-						
-						 matchId = match.getMatchId();
-						 Log.i("test", matchId);
-						 
+						matchId = match.getMatchId();
 						if (matchId != null) {
-							baseballText.setText("매치 ID : " + matchId);
-							
+
 							break;
 						}
 					}
@@ -149,13 +166,14 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 	
 	private void getBroadcast(String matchId, final String inning) {
-		INNING = Integer.parseInt(inning);
 		new AsyncTask<String, Void, GetMatchBroadcastRes>() {
 			@Override
 			protected GetMatchBroadcastRes doInBackground(String... params) {
 				GetMatchBroadcastReq getMatchBroadcastReq = new GetMatchBroadcastReq();
 				getMatchBroadcastReq.setMatchId(params[0]);
 				if (inning != null) {
+					INNING = Integer.parseInt(inning);
+					Log.i("inning", INNING + "");
 					getMatchBroadcastReq.setInning(Integer.valueOf(inning));
 				}
 				GetMatchBroadcastLink getMatchBroadcastLink = new GetMatchBroadcastLink(getMatchBroadcastReq);
@@ -169,12 +187,12 @@ public class MainActivity extends Activity implements OnClickListener {
 			@Override
 			protected void onPostExecute(GetMatchBroadcastRes result) {
 				if (result != null) {
+					baseballText.setText("");
 //					Log.i("test", result.toString());
 					StringBuilder sb = new StringBuilder();
-					sb.append("매치 정보");
-					sb.append("\n");
-					sb.append(result);
-					sb.append("\n");
+//					sb.append("매치 정보");
+//					sb.append("\n");
+//					sb.append("\n");
 					
 					List<MatchBroadcast> broadcast = result.getBroadcast();
 					for (MatchBroadcast matchBroadcast : broadcast) {
@@ -183,6 +201,9 @@ public class MainActivity extends Activity implements OnClickListener {
 						}
 						String broadcast2 = matchBroadcast.getBroadcast();
 						Integer inning2 = matchBroadcast.getInning();
+						if (inning2 != null && inning2 == 1) {							
+							sb.append(matchBroadcast.getBroadcast());
+						}
 //						inning = matchBroadcast.getInning();
 					}
 //					result.getMatchSummaryList().
@@ -234,7 +255,53 @@ public class MainActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.button:
 			if (matchId != null) {				
+				getBroadcast(matchId, null);
+			}
+			break;
+		case R.id.first:
+			if (matchId != null) {				
+				getBroadcast(matchId, String.valueOf(1));
+			}
+			break;
+		case R.id.second:
+			if (matchId != null) {				
+				getBroadcast(matchId, String.valueOf(2));
+			}
+			break;
+		case R.id.third:
+			if (matchId != null) {				
+				getBroadcast(matchId, String.valueOf(3));
+			}
+			break;
+		case R.id.fourth:
+			if (matchId != null) {				
 				getBroadcast(matchId, String.valueOf(4));
+			}
+			break;
+		case R.id.fifth:
+			if (matchId != null) {				
+				getBroadcast(matchId, String.valueOf(5));
+			}
+			break;
+		case R.id.sixth:
+			if (matchId != null) {				
+				getBroadcast(matchId, String.valueOf(6));
+			}
+			break;
+		case R.id.seventh:
+			if (matchId != null) {				
+				getBroadcast(matchId, String.valueOf(7));
+			}
+			break;
+		case R.id.eighth:
+			if (matchId != null) {				
+				getBroadcast(matchId, String.valueOf(8));
+			}
+			break;
+		case R.id.ninth:
+			if (matchId != null) {
+				Log.i("ninth", matchId);
+				getBroadcast(matchId, String.valueOf(9));
 			}
 			break;
 		default:
@@ -274,8 +341,9 @@ public class MainActivity extends Activity implements OnClickListener {
 	private void setMatchPlayers(MatchPlayers matchPlayers) {
 		if (matchPlayers != null) {						
 			String batter = matchPlayers.getBatter();
-			String firstBatter = matchPlayers.getFirstBatter();
 			String pitcher = matchPlayers.getPitcher();
+			
+			String firstBatter = matchPlayers.getFirstBatter();
 			String secondBatter = matchPlayers.getSecondBatter();
 			String thirdBatter = matchPlayers.getThirdBatter();
 			
