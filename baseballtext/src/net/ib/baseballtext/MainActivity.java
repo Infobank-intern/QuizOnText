@@ -23,15 +23,21 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener {
 	private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e";
 	private Integer INNING; // ?????????????????????/  null이면????? 
-	ArrayList<String> matchList;
+	ArrayList<String> spinnerList;
+	Spinner spinner;
 	
+//	List<Match> matchList;
 	
     private TextView baseballText;
     private TextView homeTeamNameText;
@@ -68,11 +74,8 @@ public class MainActivity extends Activity implements OnClickListener {
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(this);
         
-        matchList = new ArrayList<String>();
-        matchList.add("");
-        matchList.add("");
-        
-        
+        spinner = (Spinner) findViewById(R.id.selectmatch);
+        spinnerList = new ArrayList<String>();
     }
 
 	@Override
@@ -92,6 +95,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				GetMatchListLink getMatchListLink = new GetMatchListLink(getMatchListReq);
 				GetMatchListRes matchListRes = getMatchListLink.linkage();
 				if (matchListRes != null) {
+//					matchList = matchListRes.getMatchInfoList();
 					return matchListRes.getMatchInfoList();
 				}
 				return null;
@@ -101,14 +105,40 @@ public class MainActivity extends Activity implements OnClickListener {
 			protected void onPostExecute(List<Match> result) {
 				// ui process
 				if (result != null) {
+					
+					for (int i=0; i<result.size(); i++) {
+						spinnerList.add(result.get(i).getHomeTeamName() + " vs " + result.get(i).getAwayTeamName());
+					}
+					
+					spinner.setPrompt("원하는 경기를 선택하세요");
+					ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.temp, spinnerList);
+					spinner.setAdapter(adapter);
+					
+					spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+						@Override
+						public void onItemSelected(AdapterView<?> parent,
+								View view, int position, long id) {
+							// TODO Auto-generated method stub
+							
+						}
+
+						@Override
+						public void onNothingSelected(AdapterView<?> arg0) {
+							// TODO Auto-generated method stub
+							
+						}
+					});
+					
 					for (Match match : result) {
 						match.getMatchStatus();
 						
 						 matchId = match.getMatchId();
+						 Log.i("test", matchId);
+						 
 						if (matchId != null) {
 							baseballText.setText("매치 ID : " + matchId);
 							
-//							break;
+							break;
 						}
 					}
 				} else {
