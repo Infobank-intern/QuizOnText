@@ -2,13 +2,16 @@ package net.ib.baseballtext;
 
 import java.util.List;
 
-import net.ib.baseballtext.network.TextPollingTask;
+import kr.co.quizon.network.link.match.GetMatchBroadcastLink;
+
+import net.ib.quizon.api.match.GetMatchBroadcastReq;
 import net.ib.quizon.api.match.GetMatchBroadcastRes;
 import net.ib.quizon.domain.match.MatchBroadcast;
 import net.ib.quizon.domain.match.MatchDisplayBoard;
 import net.ib.quizon.domain.match.MatchPlayers;
 import net.ib.quizon.domain.match.MatchSummary;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class TextPollingView extends TextPollingTask implements OnClickListener {
+public class TextPollingView implements OnClickListener {
     private TextView baseballText;
     private TextView homeTeamNameText;
     private TextView awayTeamNameText;
@@ -41,6 +44,10 @@ public class TextPollingView extends TextPollingTask implements OnClickListener 
     private ImageView base1ImageView;
     private ImageView base2ImageView;
     private ImageView base3ImageView;
+    
+    private String matchId;
+    private int inning;
+    private int count;
     
 	public TextPollingView(View titleView, View mainView) {
         homeTeamNameText = (TextView) titleView.findViewById(R.id.hometeamname);
@@ -80,114 +87,110 @@ public class TextPollingView extends TextPollingTask implements OnClickListener 
         base2ImageView = (ImageView) mainView.findViewById(R.id.base2);
         base3ImageView = (ImageView) mainView.findViewById(R.id.base3);
 	}
-
-	@Override
-	protected void onPostExecute(GetMatchBroadcastRes getMatchBroadcastRes) {
-		if (getMatchBroadcastRes != null) {
-			baseballText.setText("");
-			StringBuilder sb = new StringBuilder();
-			
-			List<MatchBroadcast> broadcast = getMatchBroadcastRes.getBroadcast();
-			for (MatchBroadcast matchBroadcast : broadcast) {
-				if (matchBroadcast == null) {
-					continue;
+	
+	public void updateView(final String matchId) {
+		count++;
+		this.matchId = matchId; 
+		new AsyncTask<Void, Void, GetMatchBroadcastRes>() {
+			@Override
+			protected GetMatchBroadcastRes doInBackground(Void... param) {
+				GetMatchBroadcastReq getMatchBroadcastReq = new GetMatchBroadcastReq();
+				getMatchBroadcastReq.setMatchId(matchId);
+				if (inning != 0) {
+					getMatchBroadcastReq.setInning(Integer.valueOf(inning));
 				}
-				sb.append(matchBroadcast.getBroadcast());
+				GetMatchBroadcastLink getMatchBroadcastLink = new GetMatchBroadcastLink(getMatchBroadcastReq);
+				return getMatchBroadcastLink.linkage();
 			}
 			
-			MatchDisplayBoard matchDisplayBoard = getMatchBroadcastRes.getMatchDisplayBoard();
-			setMatchDisplayBoard(matchDisplayBoard);
-			
-			MatchPlayers matchPlayers = getMatchBroadcastRes.getMatchPlayers();
-			setMatchPlayers(matchPlayers);
-			Log.i("matchPlayers", matchPlayers.toString());
-			
-			List<MatchSummary> matchSummaryList = getMatchBroadcastRes.getMatchSummaryList();
-			Log.i("matchSummaryList", matchSummaryList.toString());
-			for (MatchSummary matchSummary : matchSummaryList) {
-				if (matchSummary == null) {
-					continue;
-				}
-				if (matchSummary.getMatchId().equals(matchId)) {
-					stadiumText.setText(matchSummary.getMatchStadium());
-					inningText.setText(matchSummary.getMatchPresent());
-					homeTeamNameText.setText(matchSummary.getHomeTeamName());
-					awayTeamNameText.setText(matchSummary.getAwayTeamName());
-					homeTeamPointText.setText(Integer.toString(matchSummary.getHomeTeamPoint()));
-					awayTeamPointText.setText(Integer.toString(matchSummary.getAwayTeamPoint()));
+			@Override
+			protected void onPostExecute(GetMatchBroadcastRes getMatchBroadcastRes) {
+				if (getMatchBroadcastRes != null) {
+					baseballText.setText("");
+					StringBuilder sb = new StringBuilder();
+					
+					List<MatchBroadcast> broadcast = getMatchBroadcastRes.getBroadcast();
+					for (MatchBroadcast matchBroadcast : broadcast) {
+						if (matchBroadcast == null) {
+							continue;
+						}
+						sb.append(matchBroadcast.getBroadcast());
+					}
+					
+					MatchDisplayBoard matchDisplayBoard = getMatchBroadcastRes.getMatchDisplayBoard();
+					setMatchDisplayBoard(matchDisplayBoard);
+					
+					MatchPlayers matchPlayers = getMatchBroadcastRes.getMatchPlayers();
+					setMatchPlayers(matchPlayers);
+					Log.i("matchPlayers", matchPlayers.toString());
+					
+					List<MatchSummary> matchSummaryList = getMatchBroadcastRes.getMatchSummaryList();
+					Log.i("matchSummaryList", matchSummaryList.toString());
+					for (MatchSummary matchSummary : matchSummaryList) {
+						if (matchSummary == null) {
+							continue;
+						}
+						if (matchSummary.getMatchId().equals(matchId)) {
+							stadiumText.setText(matchSummary.getMatchStadium());
+							inningText.setText(matchSummary.getMatchPresent());
+							homeTeamNameText.setText(matchSummary.getHomeTeamName());
+							awayTeamNameText.setText(matchSummary.getAwayTeamName());
+							homeTeamPointText.setText(Integer.toString(matchSummary.getHomeTeamPoint()));
+							awayTeamPointText.setText(Integer.toString(matchSummary.getAwayTeamPoint()));
+							break;
+						}
+					}
+					baseballText.setText(sb.toString());
+				} else {
+					baseballText.setText("문자 중계 로딩 실패");
 				}
 			}
-			baseballText.setText(sb.toString());
-		} else {
-			baseballText.setText("문자 중계 로딩 실패");
-		}
+		}.execute();
 	}
 	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.button:
-			if (matchId != null) {
-				inning = 0;
-			}
 			break;
 		case R.id.first:
-			if (matchId != null) {
-				inning = 1;
-				setButtonColor(firstButton);
-				execute();
-			}
+			setButtonColor(firstButton);
+			inning = 1;
+			updateView(matchId);
 			break;
 		case R.id.second:
-			if (matchId != null) {
-				inning = 2;
-				setButtonColor(secondButton);
-				execute();
-			}
+			setButtonColor(secondButton);
+			inning = 2;
+			updateView(matchId);
 			break;
 		case R.id.third:
-			if (matchId != null) {
-				inning = 3;
-				setButtonColor(thirdButton);
-				execute();
-			}
+			setButtonColor(thirdButton);
+			inning = 3;
+			updateView(matchId);
 			break;
 		case R.id.fourth:
-			if (matchId != null) {
-				inning = 4;
-				setButtonColor(fourthButton);
-				execute();
-			}
+			setButtonColor(fourthButton);
+			updateView(matchId);
 			break;
 		case R.id.fifth:
-			if (matchId != null) {
-				inning = 5;
-				setButtonColor(fifthButton);
-			}
+			setButtonColor(fifthButton);
+			updateView(matchId);
 			break;
 		case R.id.sixth:
-			if (matchId != null) {
-				inning = 6;
-				setButtonColor(sixthButton);
-			}
+			setButtonColor(sixthButton);
+			updateView(matchId);
 			break;
 		case R.id.seventh:
-			if (matchId != null) {
-				inning = 7;
-				setButtonColor(seventhButton);
-			}
+			setButtonColor(seventhButton);
+			updateView(matchId);
 			break;
 		case R.id.eighth:
-			if (matchId != null) {
-				inning = 8;
-				setButtonColor(eighthButton);
-			}
+			setButtonColor(eighthButton);
+			updateView(matchId);
 			break;
 		case R.id.ninth:
-			if (matchId != null) {
-				inning = 9;
-				setButtonColor(ninthButton);
-			}
+			setButtonColor(ninthButton);
+			updateView(matchId);
 			break;
 		default:
 			break;
