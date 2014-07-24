@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-     android:background="#000000"
+    android:background="#000000"
     tools:context="${relativePackage}.${activityClass}" >
     
     <RelativeLayout
@@ -145,8 +145,9 @@
             android:layout_toRightOf="@+id/out"
             android:textStyle="italic"
             android:textColor="#ffffff"
-            android:text="O" />"
-        
+            android:text="O" />
+            
+     	
     </RelativeLayout>
     
     <RelativeLayout
@@ -155,6 +156,8 @@
         android:layout_height="350dip"
         android:layout_below="@+id/title" >
 
+        
+        
         <Button 
             android:id="@+id/first"
             android:layout_width="30dip"
@@ -260,14 +263,49 @@
         <TextView
             android:id="@+id/baseballtext"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="350dip"
             android:layout_below="@+id/first"
             android:layout_marginLeft="20dip"
             android:layout_marginRight="20dip"
+            android:padding="5dip"
             android:background="@drawable/xml_border"
-            
             android:scrollbars="vertical" />
         
+        <ImageView 
+     	    android:id="@+id/base"
+     	    android:layout_width="100dip"
+     	    android:layout_height="100dip"
+     	    android:layout_alignParentRight="true"
+     	    android:layout_marginTop="25dip"
+     	    android:layout_marginRight="25dip"
+     	    android:src="@drawable/base" />
+     	<ImageView 
+     	    android:id="@+id/base1"
+     	    android:layout_width="100dip"
+     	    android:layout_height="100dip"
+     	    android:layout_alignParentRight="true"
+     	    android:layout_marginTop="25dip"
+     	    android:layout_marginRight="25dip"
+     	    android:visibility="invisible"
+     	    android:src="@drawable/base1" />
+     	<ImageView 
+     	    android:id="@+id/base2"
+     	    android:layout_width="100dip"
+     	    android:layout_height="100dip"
+     	    android:layout_alignParentRight="true"
+     	    android:layout_marginTop="25dip"
+     	    android:layout_marginRight="25dip"
+     	    android:visibility="invisible"
+     	    android:src="@drawable/base2" />
+     	<ImageView 
+     	    android:id="@+id/base3"
+     	    android:layout_width="100dip"
+     	    android:layout_height="100dip"
+     	    android:layout_alignParentRight="true"
+     	    android:layout_marginTop="25dip"
+     	    android:layout_marginRight="25dip"
+     	    android:visibility="invisible"
+     	    android:src="@drawable/base3" />
     </RelativeLayout>
     
     <RelativeLayout
@@ -309,7 +347,5 @@
             android:text="G"
             android:background="#7f7f7f" 
             />
-	
     </RelativeLayout>
-
 </RelativeLayout>
