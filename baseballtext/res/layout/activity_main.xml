@@ -153,7 +153,7 @@
     <RelativeLayout
         android:id="@+id/main"
         android:layout_width="fill_parent"
-        android:layout_height="350dip"
+        android:layout_height="400dip"
         android:layout_below="@+id/title" >
 
         
@@ -260,17 +260,36 @@
             android:background="#000000"
             android:text="9회" />
         
-        <TextView
-            android:id="@+id/baseballtext"
+        <Button
+            android:id="@+id/button"
+            android:layout_width="30dip"
+            android:layout_height="20dip"
+            android:layout_toRightOf="@+id/ninth"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:textColor="#ffffff"
+            android:background="#000000"
+            android:text="전체" />
+        
+        <ScrollView
+            android:id="@+id/baseballtextScroll"
             android:layout_width="fill_parent"
-            android:layout_height="350dip"
+            android:layout_height="370dip"
             android:layout_below="@+id/first"
             android:layout_marginLeft="20dip"
             android:layout_marginRight="20dip"
-            android:padding="5dip"
-            android:background="@drawable/xml_border"
-            android:scrollbars="vertical" />
-        
+            android:scrollbars="vertical"
+            android:background="@drawable/xml_border" >"
+
+            <TextView
+                android:id="@+id/baseballtext"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:padding="5dip"
+                 />
+            
+        </ScrollView>
+
         <ImageView 
      	    android:id="@+id/base"
      	    android:layout_width="100dip"
@@ -313,7 +332,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/main"
-        android:layout_marginTop="20dip" >
+        android:layout_marginTop="10dip" >
 
         <TextView 
             android:id="@+id/selectmatchtext"
@@ -321,6 +340,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dip"
             android:layout_marginRight="20dip"
+            android:layout_alignParentTop="true"
 			android:textStyle="italic"
 			android:textSize="20sp"
 			android:textColor="#ffffff"
@@ -339,13 +359,6 @@
             android:text="GetBroadcast"
             android:gravity="center_horizontal"
             android:background="@drawable/xml_border" />
-        <Button
-            android:id="@+id/button"
-            android:layout_width="10dip"
-            android:layout_height="10dip"
-            
-            android:text="G"
-            android:background="#7f7f7f" 
-            />
+        
     </RelativeLayout>
 </RelativeLayout>

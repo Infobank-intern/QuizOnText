@@ -1,4 +1,4 @@
-package net.ib.baseballtext;
+package net.ib.baseballtext.util;
 
 public class Strings {
 	public static boolean isEmptyString(final String str) {

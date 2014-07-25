@@ -1,9 +1,12 @@
-package net.ib.baseballtext;
+package net.ib.baseballtext.view;
 
 import java.util.List;
 
 import kr.co.quizon.network.link.match.GetMatchBroadcastLink;
 
+import net.ib.baseballtext.R;
+import net.ib.baseballtext.R.id;
+import net.ib.baseballtext.util.Strings;
 import net.ib.quizon.api.match.GetMatchBroadcastReq;
 import net.ib.quizon.api.match.GetMatchBroadcastRes;
 import net.ib.quizon.domain.match.MatchBroadcast;
@@ -31,6 +34,7 @@ public class TextPollingView implements OnClickListener {
     private TextView ballText;
     private TextView strikeText;
     private TextView outText;
+    private Button allButton;
     private Button firstButton;
     private Button secondButton;
     private Button thirdButton;
@@ -61,8 +65,9 @@ public class TextPollingView implements OnClickListener {
         outText = (TextView) titleView.findViewById(R.id.out);
         
         baseballText = (TextView) mainView.findViewById(R.id.baseballtext);
-        baseballText.setMovementMethod(new ScrollingMovementMethod());
-        
+//        baseballText.setMovementMethod(new ScrollingMovementMethod());
+        allButton = (Button) mainView.findViewById(R.id.button);
+        allButton.setOnClickListener(this);
         firstButton = (Button) mainView.findViewById(R.id.first);
         firstButton.setOnClickListener(this);
         secondButton = (Button) mainView.findViewById(R.id.second);
@@ -89,7 +94,6 @@ public class TextPollingView implements OnClickListener {
 	}
 	
 	public void updateView(final String matchId) {
-		count++;
 		this.matchId = matchId; 
 		new AsyncTask<Void, Void, GetMatchBroadcastRes>() {
 			@Override
@@ -109,11 +113,13 @@ public class TextPollingView implements OnClickListener {
 					baseballText.setText("");
 					StringBuilder sb = new StringBuilder();
 					
-					List<MatchBroadcast> broadcast = getMatchBroadcastRes.getBroadcast();
+					List<MatchBroadcast> broadcast = getMatchBroadcastRes.getBroadcast();	Log.i("broadcast", broadcast + "");
 					for (MatchBroadcast matchBroadcast : broadcast) {
 						if (matchBroadcast == null) {
 							continue;
 						}
+						Log.i("matchBroadcast", matchBroadcast + "");
+						Log.i("matchBroadcast.getBroadcast()", matchBroadcast.getBroadcast() + "");
 						sb.append(matchBroadcast.getBroadcast());
 					}
 					
@@ -122,7 +128,7 @@ public class TextPollingView implements OnClickListener {
 					
 					MatchPlayers matchPlayers = getMatchBroadcastRes.getMatchPlayers();
 					setMatchPlayers(matchPlayers);
-					Log.i("matchPlayers", matchPlayers.toString());
+//					Log.i("matchPlayers", matchPlayers.toString());
 					
 					List<MatchSummary> matchSummaryList = getMatchBroadcastRes.getMatchSummaryList();
 					Log.i("matchSummaryList", matchSummaryList.toString());
@@ -137,6 +143,8 @@ public class TextPollingView implements OnClickListener {
 							awayTeamNameText.setText(matchSummary.getAwayTeamName());
 							homeTeamPointText.setText(Integer.toString(matchSummary.getHomeTeamPoint()));
 							awayTeamPointText.setText(Integer.toString(matchSummary.getAwayTeamPoint()));
+//							homeTeamPointText.setText(String.valueOf(0));
+//							awayTeamPointText.setText(String.valueOf(0));
 							break;
 						}
 					}
@@ -152,6 +160,9 @@ public class TextPollingView implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.button:
+			setButtonColor(allButton);
+			inning = 0;
+			updateView(matchId);
 			break;
 		case R.id.first:
 			setButtonColor(firstButton);
@@ -170,26 +181,32 @@ public class TextPollingView implements OnClickListener {
 			break;
 		case R.id.fourth:
 			setButtonColor(fourthButton);
+			inning = 4;
 			updateView(matchId);
 			break;
 		case R.id.fifth:
 			setButtonColor(fifthButton);
+			inning = 5;
 			updateView(matchId);
 			break;
 		case R.id.sixth:
 			setButtonColor(sixthButton);
+			inning = 6;
 			updateView(matchId);
 			break;
 		case R.id.seventh:
 			setButtonColor(seventhButton);
+			inning = 7;
 			updateView(matchId);
 			break;
 		case R.id.eighth:
 			setButtonColor(eighthButton);
+			inning = 8;
 			updateView(matchId);
 			break;
 		case R.id.ninth:
 			setButtonColor(ninthButton);
+			inning = 9;
 			updateView(matchId);
 			break;
 		default:
@@ -199,24 +216,6 @@ public class TextPollingView implements OnClickListener {
 	
 	private void setMatchDisplayBoard(MatchDisplayBoard matchDisplayBoard) {
 		if (matchDisplayBoard != null) {
-			String awayTeamName = matchDisplayBoard.getAwayTeamName();
-			if (awayTeamName != null) {				
-//				awayTeamNameText.setText(awayTeamName);
-			}
-			List<String> awayTeamPoint = matchDisplayBoard.getAwayTeamPoint();
-//			awayTeamPointText.setText(awayTeamPoint.get(awayTeamPoint.size()-1));
-//			awayTeamPointText.setText(awayTeamPoint.get(INNING-1));
-			
-			String homeTeamName = matchDisplayBoard.getHomeTeamName();
-			if (homeTeamName != null) {				
-//				homeTeamNameText.setText(homeTeamName);
-			}
-			List<String> homeTeamPoint = matchDisplayBoard.getHomeTeamPoint();
-			
-//			homeTeamPointText.setText(homeTeamPoint.get(homeTeamPoint.size()-1));
-//			homeTeamPointText.setText(homeTeamPoint.get(INNING-1));
-			
-			
 //			뭔가이상해..
 			String ball = matchDisplayBoard.getBall();
 			ballText.setText(ball);
@@ -229,10 +228,10 @@ public class TextPollingView implements OnClickListener {
 	
 	private void setMatchPlayers(MatchPlayers matchPlayers) {
 		if (matchPlayers != null) {						
-			String batter = matchPlayers.getBatter();
-			String pitcher = matchPlayers.getPitcher();
-			Log.i("matchPlayers111", "Batter " + batter);
-			Log.i("matchPlayers111", "Pitcher " + pitcher);
+//			String batter = matchPlayers.getBatter();
+//			String pitcher = matchPlayers.getPitcher();
+//			Log.i("matchPlayers111", "Batter " + batter);
+//			Log.i("matchPlayers111", "Pitcher " + pitcher);
 			
 			String firstBatter = matchPlayers.getFirstBatter();
 			Log.i("test", firstBatter.toString());
@@ -263,6 +262,7 @@ public class TextPollingView implements OnClickListener {
 	}
 
 	private void initButtonColor() {
+		allButton.setTextColor(Color.WHITE);
 		firstButton.setTextColor(Color.WHITE);
 		secondButton.setTextColor(Color.WHITE);
 		thirdButton.setTextColor(Color.WHITE);

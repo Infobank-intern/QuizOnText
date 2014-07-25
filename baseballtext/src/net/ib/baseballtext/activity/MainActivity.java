@@ -1,4 +1,4 @@
-package net.ib.baseballtext;
+package net.ib.baseballtext.activity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,10 @@ import java.util.TimerTask;
 
 import kr.co.quizon.network.HttpLib;
 import kr.co.quizon.network.link.match.GetMatchListLink;
+import net.ib.baseballtext.R;
+import net.ib.baseballtext.R.id;
+import net.ib.baseballtext.R.layout;
+import net.ib.baseballtext.view.TextPollingView;
 import net.ib.quizon.api.match.GetMatchListReq;
 import net.ib.quizon.api.match.GetMatchListRes;
 import net.ib.quizon.domain.match.Match;
@@ -24,8 +28,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements OnClickListener {
-	private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
-//	private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // release
+//	private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
+	private final String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
     
 	private Timer timer;
 	private TimerTask timerTask = new TimerJob();
@@ -69,7 +73,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		HttpLib.setTest(true);
+//		HttpLib.setTest(true);
 		setData();
 		timerTask = new TimerJob();
 		timer = new Timer();
@@ -95,9 +99,13 @@ public class MainActivity extends Activity implements OnClickListener {
 				getMatchListReq.setAccessToken(ACCESS_TOKEN);
 				GetMatchListLink getMatchListLink = new GetMatchListLink(getMatchListReq);
 				GetMatchListRes matchListRes = getMatchListLink.linkage();
+				
+				
+				Log.i("matchListRes", matchListRes + "");
 				if (matchListRes != null) {
 					return matchListRes.getMatchInfoList();
 				}
+				Log.i("dsdf","adsf");
 				return null;
 			}
 
