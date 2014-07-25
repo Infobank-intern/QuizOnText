@@ -46,7 +46,10 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	// UI
 	private Spinner spinner;
-    private TextView baseballText;
+    private TextView baseballText1;
+    private TextView homeTeamNameText1;
+    private TextView awayTeamNameText1;
+    private TextView stadiumText1;
     
     private View titleView;
     private View mainView;
@@ -61,6 +64,11 @@ public class MainActivity extends Activity implements OnClickListener {
         mainView = findViewById(R.id.main);
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(this);
+        
+        baseballText1 = (TextView) findViewById(R.id.baseballtext);
+        homeTeamNameText1 = (TextView) findViewById(R.id.hometeamname);
+        awayTeamNameText1 = (TextView) findViewById(R.id.awayteamname);
+        stadiumText1 = (TextView) findViewById(R.id.stadium);
         
         matchIdList = new ArrayList<String>();
         spinner = (Spinner) findViewById(R.id.selectmatchspinner);
@@ -113,6 +121,10 @@ public class MainActivity extends Activity implements OnClickListener {
 			protected void onPostExecute(List<Match> result) {
 				// ui process
 				if (result != null) {
+					homeTeamNameText1.setText(result.get(0).getHomeTeamName());
+					awayTeamNameText1.setText(result.get(0).getAwayTeamName());
+					stadiumText1.setText(result.get(0).getMatchStadium());
+					
 					spinnerList.clear();
 					for (int i=0; i<result.size(); i++) {
 						matchIdList.add(result.get(i).getMatchId());
@@ -126,8 +138,8 @@ public class MainActivity extends Activity implements OnClickListener {
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
 								View view, int position, long id) {
-							Log.i("test", parent.getItemIdAtPosition(position) + "");
-							Log.i("test1", position + "");
+//							Log.i("test", parent.getItemIdAtPosition(position) + "");
+//							Log.i("test1", position + "");
 							switch (position) {
 							case 0:
 								matchId = matchIdList.get(0);
@@ -161,7 +173,7 @@ public class MainActivity extends Activity implements OnClickListener {
 						}
 					}
 				} else {
-					baseballText.setText("매치 정보 로딩 실패");
+					baseballText1.setText("매치 정보 로딩 실패");
 				}
 			}
 		}.execute();
