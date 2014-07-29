@@ -65,7 +65,6 @@ public class TextPollingView implements OnClickListener {
         outText = (TextView) titleView.findViewById(R.id.out);
         
         baseballText = (TextView) mainView.findViewById(R.id.baseballtext);
-//        baseballText.setMovementMethod(new ScrollingMovementMethod());
         allButton = (Button) mainView.findViewById(R.id.button);
         allButton.setOnClickListener(this);
         firstButton = (Button) mainView.findViewById(R.id.first);
@@ -222,7 +221,6 @@ public class TextPollingView implements OnClickListener {
 	private void setMatchPlayers(MatchPlayers matchPlayers) {
 		if (matchPlayers != null) {						
 			String firstBatter = matchPlayers.getFirstBatter();
-			Log.i("test", firstBatter.toString());
 			String secondBatter = matchPlayers.getSecondBatter();
 			String thirdBatter = matchPlayers.getThirdBatter();
 			

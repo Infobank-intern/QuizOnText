@@ -8,7 +8,7 @@
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#1fffffff" >
+        android:background="#af808080" >
         
         <TextView
             android:id="@+id/hometeamname"
@@ -18,7 +18,7 @@
             android:layout_marginTop="10dip"
             android:gravity="center_horizontal"
             android:textStyle="bold"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:textColor="#ffffff" />
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_marginTop="10dip"
             android:gravity="center_horizontal"
             android:textStyle="bold"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:textColor="#ffffff" />
         
         <TextView
@@ -149,17 +149,20 @@
     </RelativeLayout>
     
 	<RelativeLayout
-        android:id="@+id/main"
-        android:layout_width="fill_parent"
-        android:layout_height="400dip"
-        android:layout_below="@+id/title"
-        android:layout_marginTop="10dip" >
-	    
-	    <TextView 
-	        android:layout_width="fill_parent"
-	        android:layout_height="fill_parent"
-	        android:background="#1fffffff" />
+	    android:id="@+id/main"
+	    android:layout_width="fill_parent"
+	    android:layout_height="400dip"
+	    android:layout_below="@+id/title"
+	    android:layout_marginTop="10dip"
+	    android:background="#af808080" >
+
+
+
+	        <TextView
+	            android:id="@+id/baseballtext"
+	            android:layout_width="fill_parent"
+	            android:layout_height="fill_parent"
+	            android:padding="5dip" />
 	    
 	</RelativeLayout>
-    
 </RelativeLayout>

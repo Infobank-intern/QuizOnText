@@ -115,20 +115,17 @@ public class MainActivity extends Activity implements OnClickListener {
 				getMatchListReq.setAccessToken(ACCESS_TOKEN);
 				GetMatchListLink getMatchListLink = new GetMatchListLink(getMatchListReq);
 				GetMatchListRes matchListRes = getMatchListLink.linkage();
-				
-				
-				Log.i("matchListRes", matchListRes + "");
+
 				if (matchListRes != null) {
 					return matchListRes.getMatchInfoList();
 				}
-				Log.i("dsdf","adsf");
 				return null;
 			}
 
 			@Override
 			protected void onPostExecute(List<Match> result) {
 				// ui process
-				Log.i("result", result.toString());
+				Log.i("result", result+"");
 				if (Strings.isNotEmptyString(result.toString()) && result.size() > 0) {
 					homeTeamNameText.setText(result.get(0).getHomeTeamName());
 					awayTeamNameText.setText(result.get(0).getAwayTeamName());
@@ -147,8 +144,6 @@ public class MainActivity extends Activity implements OnClickListener {
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
 								View view, int position, long id) {
-//							Log.i("test", parent.getItemIdAtPosition(position) + "");
-//							Log.i("test1", position + "");
 							switch (position) {
 							case 0:
 								matchId = matchIdList.get(0);
@@ -170,7 +165,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
 						@Override
 						public void onNothingSelected(AdapterView<?> arg0) {
-							// TODO Auto-generated method stub
 						}
 					});
 					
