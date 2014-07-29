@@ -50,7 +50,7 @@ public class TextPollingView implements OnClickListener {
     private ImageView base3ImageView;
     
     private String matchId;
-    private int inning;
+    protected int inning;
     private int count;
     
 	public TextPollingView(View titleView, View mainView) {
@@ -113,13 +113,11 @@ public class TextPollingView implements OnClickListener {
 					baseballText.setText("");
 					StringBuilder sb = new StringBuilder();
 					
-					List<MatchBroadcast> broadcast = getMatchBroadcastRes.getBroadcast();	Log.i("broadcast", broadcast + "");
+					List<MatchBroadcast> broadcast = getMatchBroadcastRes.getBroadcast();
 					for (MatchBroadcast matchBroadcast : broadcast) {
 						if (matchBroadcast == null) {
 							continue;
 						}
-						Log.i("matchBroadcast", matchBroadcast + "");
-						Log.i("matchBroadcast.getBroadcast()", matchBroadcast.getBroadcast() + "");
 						sb.append(matchBroadcast.getBroadcast());
 					}
 					
@@ -128,10 +126,8 @@ public class TextPollingView implements OnClickListener {
 					
 					MatchPlayers matchPlayers = getMatchBroadcastRes.getMatchPlayers();
 					setMatchPlayers(matchPlayers);
-//					Log.i("matchPlayers", matchPlayers.toString());
 					
 					List<MatchSummary> matchSummaryList = getMatchBroadcastRes.getMatchSummaryList();
-					Log.i("matchSummaryList", matchSummaryList.toString());
 					for (MatchSummary matchSummary : matchSummaryList) {
 						if (matchSummary == null) {
 							continue;
@@ -143,14 +139,12 @@ public class TextPollingView implements OnClickListener {
 							awayTeamNameText.setText(matchSummary.getAwayTeamName());
 							homeTeamPointText.setText(Integer.toString(matchSummary.getHomeTeamPoint()));
 							awayTeamPointText.setText(Integer.toString(matchSummary.getAwayTeamPoint()));
-//							homeTeamPointText.setText(String.valueOf(0));
-//							awayTeamPointText.setText(String.valueOf(0));
 							break;
 						}
 					}
 					baseballText.setText(sb.toString());
 				} else {
-					baseballText.setText("문자 중계 로딩 실패");
+					baseballText.setText("문자 중계 로딩 실패\n경기가 시작하였는지 확인해 주세요");
 				}
 			}
 		}.execute();
@@ -216,11 +210,10 @@ public class TextPollingView implements OnClickListener {
 	
 	private void setMatchDisplayBoard(MatchDisplayBoard matchDisplayBoard) {
 		if (matchDisplayBoard != null) {
-//			뭔가이상해..
 			String ball = matchDisplayBoard.getBall();
-			ballText.setText(ball);
+			strikeText.setText(ball);
 			String strike = matchDisplayBoard.getStrike();
-			strikeText.setText(strike);
+			ballText.setText(strike);
 			String out = matchDisplayBoard.getOut();
 			outText.setText(out);
 		}
@@ -228,27 +221,22 @@ public class TextPollingView implements OnClickListener {
 	
 	private void setMatchPlayers(MatchPlayers matchPlayers) {
 		if (matchPlayers != null) {						
-//			String batter = matchPlayers.getBatter();
-//			String pitcher = matchPlayers.getPitcher();
-//			Log.i("matchPlayers111", "Batter " + batter);
-//			Log.i("matchPlayers111", "Pitcher " + pitcher);
-			
 			String firstBatter = matchPlayers.getFirstBatter();
 			Log.i("test", firstBatter.toString());
 			String secondBatter = matchPlayers.getSecondBatter();
 			String thirdBatter = matchPlayers.getThirdBatter();
 			
-			if (Strings.isEmptyString(firstBatter)) {
+			if (Strings.isNotEmptyString(firstBatter)) {
 				base1ImageView.setVisibility(View.VISIBLE);
 			} else {
 				base1ImageView.setVisibility(View.INVISIBLE);
 			}
-			if (Strings.isEmptyString(secondBatter)) {
+			if (Strings.isNotEmptyString(secondBatter)) {
 				base2ImageView.setVisibility(View.VISIBLE);
 			} else {
 				base2ImageView.setVisibility(View.INVISIBLE);
 			}
-			if (Strings.isEmptyString(thirdBatter)) {
+			if (Strings.isNotEmptyString(thirdBatter)) {
 				base3ImageView.setVisibility(View.VISIBLE);
 			} else {
 				base3ImageView.setVisibility(View.INVISIBLE);
@@ -273,4 +261,8 @@ public class TextPollingView implements OnClickListener {
 		eighthButton.setTextColor(Color.WHITE);
 		ninthButton.setTextColor(Color.WHITE);
 	}
+	
+//	public Integer getInning() {
+//		return inning;
+//	}
 }
