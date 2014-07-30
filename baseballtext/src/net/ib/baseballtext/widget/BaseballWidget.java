@@ -24,8 +24,10 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.RemoteViews;
+import android.widget.RemoteViewsService;
+
+
 
 public class BaseballWidget extends AppWidgetProvider {
 	private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
@@ -34,13 +36,18 @@ public class BaseballWidget extends AppWidgetProvider {
 	private Timer timer;
 	private TimerTask timerTask;// = new TimerJob();
 	private int delay = 1000;
-	private int period = 5000;
+	private int period = 30000;
 	
 	// Data
     private String matchId;
     protected int inning;
     
     private RemoteViews views;
+
+	@Override
+	public void onEnabled(Context context) {
+		super.onEnabled(context);
+	}
 	
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -50,19 +57,22 @@ public class BaseballWidget extends AppWidgetProvider {
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 		
 		views = new RemoteViews(context.getPackageName(), R.layout.baseballwidget);
-		views.setOnClickPendingIntent(R.id.mywidget, pendingIntent);
+		views.setOnClickPendingIntent(R.id.title, pendingIntent);
 		
 		HttpLib.setTest(true);
+		
 		new SetData(views, appWidgetIds, appWidgetManager).execute();
 		timerTask = new TimerJob(views, appWidgetIds, appWidgetManager);
 		timer = new Timer();
 		timer.schedule(timerTask, delay, period);
+		
 		appWidgetManager.updateAppWidget(appWidgetIds, views);
 	}
 
-	@Override
-	public void onEnabled(Context context) {
-		super.onEnabled(context);
+	public static class BaseballWidgetService extends RemoteViewsService {
+		public RemoteViewsFactory onGetViewFactory(Intent intent) {
+			return new BaseballWidgetFactory(this.getApplicationContext(), intent);
+		}
 	}
 	
 	class TimerJob extends TimerTask {

@@ -148,21 +148,50 @@
      	
     </RelativeLayout>
     
-	<RelativeLayout
-	    android:id="@+id/main"
-	    android:layout_width="fill_parent"
-	    android:layout_height="400dip"
-	    android:layout_below="@+id/title"
-	    android:layout_marginTop="10dip"
-	    android:background="#af808080" >
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_width="fill_parent"
+        android:layout_height="270dip"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="3dp"
+        android:background="#af808080" >
+	
+        <FrameLayout 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-
-
-	        <TextView
+	        <ListView
 	            android:id="@+id/baseballtext"
 	            android:layout_width="fill_parent"
 	            android:layout_height="fill_parent"
-	            android:padding="5dip" />
-	    
-	</RelativeLayout>
-</RelativeLayout>
+	            android:padding="5dip" >
+	        </ListView>
+	        
+        </FrameLayout>
+    </RelativeLayout>
+    
+    <RelativeLayout 
+        android:id="@+id/subtitle"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/main"
+        android:background="#af808080"
+        android:layout_marginTop="3dp" >
+        
+        <Button 
+            android:id="@+id/selectmatchbutton"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:gravity="center_horizontal"
+            android:text="다른경기보기" />
+        
+        <ImageButton 
+            android:id="@+id/refreshbutton"
+         	android:layout_margin="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="35dp	"
+            android:layout_height="35dp"
+            android:background="@drawable/refresh" />
+        
+ 	</RelativeLayout>
+ </RelativeLayout>
