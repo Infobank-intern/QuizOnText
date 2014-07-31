@@ -21,8 +21,15 @@
                 android:resource="@xml/widget_configuration" />
             <intent-filter >
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="net.ib.baseballtext.widget.BaseballWidget.CLICK" />
             </intent-filter>
         </receiver>
+        
+        <service 
+            android:name="net.ib.baseballtext.widget.BaseballWidget$BaseballWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false" >
+       	</service>
         
         <activity
             android:name="net.ib.baseballtext.activity.MainActivity"

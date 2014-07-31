@@ -108,7 +108,8 @@ public class TextPollingView implements OnClickListener {
 			
 			@Override
 			protected void onPostExecute(GetMatchBroadcastRes getMatchBroadcastRes) {
-				if (getMatchBroadcastRes != null) {
+//				Log.i("getMatchBroadcastRes", getMatchBroadcastRes.toString());
+				if (getMatchBroadcastRes != null && getMatchBroadcastRes.getBroadcast().size()>0 ) {
 					baseballText.setText("");
 					StringBuilder sb = new StringBuilder();
 					
@@ -118,6 +119,7 @@ public class TextPollingView implements OnClickListener {
 							continue;
 						}
 						sb.append(matchBroadcast.getBroadcast());
+//						Log.i("matchBroadcast.getBroadcast()", matchBroadcast.getBroadcast());
 					}
 					
 					MatchDisplayBoard matchDisplayBoard = getMatchBroadcastRes.getMatchDisplayBoard();
@@ -132,6 +134,7 @@ public class TextPollingView implements OnClickListener {
 							continue;
 						}
 						if (matchSummary.getMatchId().equals(matchId)) {
+							Log.i("matchSummary", matchSummary.toString());
 							stadiumText.setText(matchSummary.getMatchStadium());
 							inningText.setText(matchSummary.getMatchPresent());
 							homeTeamNameText.setText(matchSummary.getHomeTeamName());
@@ -143,7 +146,7 @@ public class TextPollingView implements OnClickListener {
 					}
 					baseballText.setText(sb.toString());
 				} else {
-					baseballText.setText("문자 중계 로딩 실패\n경기가 시작하였는지 확인해 주세요");
+					baseballText.setText("경기가 시작하였는지 확인해 주세요");
 				}
 			}
 		}.execute();

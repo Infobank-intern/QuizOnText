@@ -40,7 +40,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	// Data
     private String matchId;
 	private List<String> spinnerList = new ArrayList<String>();
-	private List<String> matchIdList = new ArrayList<String>();
+	private List<Match> matchTempList = new ArrayList<Match>();
 	private ArrayAdapter<String> adapter;
 
 	// JOB
@@ -78,7 +78,7 @@ public class MainActivity extends Activity implements OnClickListener {
         homeTeamPointText = (TextView) findViewById(R.id.hometeampoint);
         awayTeamPointText = (TextView) findViewById(R.id.awayteampoint);
         
-        matchIdList = new ArrayList<String>();
+        matchTempList = new ArrayList<Match>();
         spinner = (Spinner) findViewById(R.id.selectmatchspinner);
         spinner.setPrompt("원하는 경기를 선택하세요");
         spinnerList = new ArrayList<String>();
@@ -125,7 +125,6 @@ public class MainActivity extends Activity implements OnClickListener {
 			@Override
 			protected void onPostExecute(List<Match> result) {
 				// ui process
-				Log.i("result", result+"");
 				if (Strings.isNotEmptyString(result.toString()) && result.size() > 0) {
 					homeTeamNameText.setText(result.get(0).getHomeTeamName());
 					awayTeamNameText.setText(result.get(0).getAwayTeamName());
@@ -133,7 +132,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					
 					spinnerList.clear();
 					for (int i=0; i<result.size(); i++) {
-						matchIdList.add(result.get(i).getMatchId());
+						matchTempList.add(result.get(i));
 						spinnerList.add(result.get(i).getHomeTeamName() + " vs " + result.get(i).getAwayTeamName());
 					}
 					
@@ -146,16 +145,28 @@ public class MainActivity extends Activity implements OnClickListener {
 								View view, int position, long id) {
 							switch (position) {
 							case 0:
-								matchId = matchIdList.get(0);
+								matchId = matchTempList.get(0).getMatchId();
+								homeTeamNameText.setText(matchTempList.get(0).getHomeTeamName());
+								awayTeamNameText.setText(matchTempList.get(0).getAwayTeamName());
+								stadiumText.setText(matchTempList.get(0).getMatchStadium());
 								break;
 							case 1:
-								matchId = matchIdList.get(1);
+								matchId = matchTempList.get(1).getMatchId();
+								homeTeamNameText.setText(matchTempList.get(1).getHomeTeamName());
+								awayTeamNameText.setText(matchTempList.get(1).getAwayTeamName());
+								stadiumText.setText(matchTempList.get(1).getMatchStadium());
 								break;
 							case 2:
-								matchId = matchIdList.get(2);
+								matchId = matchTempList.get(2).getMatchId();
+								homeTeamNameText.setText(matchTempList.get(2).getHomeTeamName());
+								awayTeamNameText.setText(matchTempList.get(2).getAwayTeamName());
+								stadiumText.setText(matchTempList.get(2).getMatchStadium());
 								break;
 							case 3:
-								matchId = matchIdList.get(3);
+								matchId = matchTempList.get(3).getMatchId();
+								homeTeamNameText.setText(matchTempList.get(3).getHomeTeamName());
+								awayTeamNameText.setText(matchTempList.get(3).getAwayTeamName());
+								stadiumText.setText(matchTempList.get(3).getMatchStadium());
 								break;
 							default:
 								break;
