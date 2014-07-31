@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:id="@+id/mywidget" >
+
+	<RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#af808080" >
+        
+        <TextView
+            android:id="@+id/hometeamname"
+            android:layout_width="80dip"
+            android:layout_height="40dip"
+            android:layout_marginLeft="20dip"
+            android:layout_marginTop="10dip"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/awayteamname"
+            android:layout_width="80dip"
+            android:layout_height="40dip"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dip"
+            android:layout_marginTop="10dip"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#ffffff" />
+        
+        <TextView
+            android:id="@+id/stadium"
+            android:layout_width="80dip"
+            android:layout_height="30dip"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dip"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#ffffff" />
+        
+        <TextView
+            android:id="@+id/inning"
+            android:layout_width="50dip"
+            android:layout_height="25dip"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/stadium"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#ffffff" />
+        
+        <TextView 
+            android:id="@+id/hometeampoint"
+            android:layout_width="20dip"
+            android:layout_height="40dip"
+            android:layout_below="@+id/hometeamname"
+            android:layout_marginTop="5dip"
+            android:layout_marginLeft="50dip"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="40sp"
+            android:textColor="#ffffff" />
+        
+        <TextView 
+            android:id="@+id/awayteampoint"
+            android:layout_width="20dip"
+            android:layout_height="40dip"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/hometeamname"
+            android:layout_marginTop="5dip"
+            android:layout_marginRight="50dip"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="40sp"
+            android:textColor="#ffffff" />
+        
+        <TextView 
+            android:id="@+id/strike"
+            android:layout_width="15dip"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/inning"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#ffffff" />
+        
+        <TextView 
+            android:id="@+id/STRIKE"
+            android:layout_width="15dip"
+            android:layout_height="15dip"
+            android:layout_below="@+id/inning"
+            android:layout_marginTop="5dip"
+            android:textStyle="italic"
+            android:textColor="#ffffff"
+            android:layout_toRightOf="@+id/strike"
+            
+            android:text="S" />
+        
+        <TextView 
+            android:id="@+id/ball"
+            android:layout_width="15dip"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/inning"
+            android:layout_toLeftOf="@+id/BALL"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#ffffff" />
+        
+         <TextView 
+            android:id="@+id/BALL"
+            android:layout_width="15dip"
+            android:layout_height="15dip"
+            android:layout_below="@+id/inning"
+            android:layout_marginTop="5dip"
+            android:layout_toLeftOf="@+id/strike"
+            android:textStyle="italic"
+            android:textColor="#ffffff"
+            android:text="B" />
+         
+        <TextView 
+            android:id="@+id/out"
+            android:layout_width="15dip"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/inning"
+            android:layout_toRightOf="@+id/STRIKE"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#ffffff" />
+        
+        <TextView 
+            android:id="@+id/OUT"
+            android:layout_width="15dip"
+            android:layout_height="15dip"
+            android:layout_below="@+id/inning"
+            android:layout_marginTop="5dip"
+            android:layout_toRightOf="@+id/out"
+            android:textStyle="italic"
+            android:textColor="#ffffff"
+            android:text="O" />
+     	
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_width="fill_parent"
+        android:layout_height="270dip"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="3dp"
+        android:background="#af808080" >
+	
+        <FrameLayout 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+	        <ListView
+	            android:id="@+id/baseballtext"
+	            android:layout_width="fill_parent"
+	            android:layout_height="fill_parent"
+	            android:padding="5dip" >
+	        </ListView>
+	        
+        </FrameLayout>
+    </RelativeLayout>
+    
+    <RelativeLayout 
+        android:id="@+id/subtitle"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/main"
+        android:background="#af808080"
+        android:layout_marginTop="3dp" >
+        
+        <Button 
+            android:id="@+id/selectmatchbutton"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:gravity="center_horizontal"
+            android:text="다른경기보기" />
+        
+        <ImageButton 
+            android:id="@+id/refreshbutton"
+         	android:layout_margin="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="35dp	"
+            android:layout_height="35dp"
+            android:background="@drawable/refresh" />
+        
+ 	</RelativeLayout>
+ </RelativeLayout>

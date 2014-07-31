@@ -228,17 +228,17 @@ public class TextPollingView implements OnClickListener {
 			String secondBatter = matchPlayers.getSecondBatter();
 			String thirdBatter = matchPlayers.getThirdBatter();
 			
-			if (Strings.isEmptyString(firstBatter)) {
+			if (Strings.isNotEmptyString(firstBatter)) {
 				base1ImageView.setVisibility(View.VISIBLE);
 			} else {
 				base1ImageView.setVisibility(View.INVISIBLE);
 			}
-			if (Strings.isEmptyString(secondBatter)) {
+			if (Strings.isNotEmptyString(secondBatter)) {
 				base2ImageView.setVisibility(View.VISIBLE);
 			} else {
 				base2ImageView.setVisibility(View.INVISIBLE);
 			}
-			if (Strings.isEmptyString(thirdBatter)) {
+			if (Strings.isNotEmptyString(thirdBatter)) {
 				base3ImageView.setVisibility(View.VISIBLE);
 			} else {
 				base3ImageView.setVisibility(View.INVISIBLE);
