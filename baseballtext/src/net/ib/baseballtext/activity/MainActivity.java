@@ -109,11 +109,9 @@ public class MainActivity extends Activity implements OnClickListener {
 				GetMatchListRes matchListRes = getMatchListLink.linkage();
 				
 				
-				Log.i("matchListRes", matchListRes + "");
 				if (matchListRes != null) {
 					return matchListRes.getMatchInfoList();
 				}
-				Log.i("dsdf","adsf");
 				return null;
 			}
 
@@ -138,8 +136,6 @@ public class MainActivity extends Activity implements OnClickListener {
 						@Override
 						public void onItemSelected(AdapterView<?> parent,
 								View view, int position, long id) {
-//							Log.i("test", parent.getItemIdAtPosition(position) + "");
-//							Log.i("test1", position + "");
 							switch (position) {
 							case 0:
 								matchId = matchIdList.get(0);

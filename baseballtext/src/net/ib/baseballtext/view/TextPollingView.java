@@ -65,7 +65,6 @@ public class TextPollingView implements OnClickListener {
         outText = (TextView) titleView.findViewById(R.id.out);
         
         baseballText = (TextView) mainView.findViewById(R.id.baseballtext);
-//        baseballText.setMovementMethod(new ScrollingMovementMethod());
         allButton = (Button) mainView.findViewById(R.id.button);
         allButton.setOnClickListener(this);
         firstButton = (Button) mainView.findViewById(R.id.first);
@@ -113,13 +112,11 @@ public class TextPollingView implements OnClickListener {
 					baseballText.setText("");
 					StringBuilder sb = new StringBuilder();
 					
-					List<MatchBroadcast> broadcast = getMatchBroadcastRes.getBroadcast();	Log.i("broadcast", broadcast + "");
+					List<MatchBroadcast> broadcast = getMatchBroadcastRes.getBroadcast();
 					for (MatchBroadcast matchBroadcast : broadcast) {
 						if (matchBroadcast == null) {
 							continue;
 						}
-						Log.i("matchBroadcast", matchBroadcast + "");
-						Log.i("matchBroadcast.getBroadcast()", matchBroadcast.getBroadcast() + "");
 						sb.append(matchBroadcast.getBroadcast());
 					}
 					
@@ -128,10 +125,8 @@ public class TextPollingView implements OnClickListener {
 					
 					MatchPlayers matchPlayers = getMatchBroadcastRes.getMatchPlayers();
 					setMatchPlayers(matchPlayers);
-//					Log.i("matchPlayers", matchPlayers.toString());
 					
 					List<MatchSummary> matchSummaryList = getMatchBroadcastRes.getMatchSummaryList();
-					Log.i("matchSummaryList", matchSummaryList.toString());
 					for (MatchSummary matchSummary : matchSummaryList) {
 						if (matchSummary == null) {
 							continue;
@@ -143,8 +138,6 @@ public class TextPollingView implements OnClickListener {
 							awayTeamNameText.setText(matchSummary.getAwayTeamName());
 							homeTeamPointText.setText(Integer.toString(matchSummary.getHomeTeamPoint()));
 							awayTeamPointText.setText(Integer.toString(matchSummary.getAwayTeamPoint()));
-//							homeTeamPointText.setText(String.valueOf(0));
-//							awayTeamPointText.setText(String.valueOf(0));
 							break;
 						}
 					}
@@ -218,9 +211,11 @@ public class TextPollingView implements OnClickListener {
 		if (matchDisplayBoard != null) {
 //			뭔가이상해..
 			String ball = matchDisplayBoard.getBall();
-			ballText.setText(ball);
+			Log.i("ball", ball);
+			strikeText.setText(ball);
 			String strike = matchDisplayBoard.getStrike();
-			strikeText.setText(strike);
+			Log.i("strike", strike);
+			ballText.setText(strike);
 			String out = matchDisplayBoard.getOut();
 			outText.setText(out);
 		}
@@ -228,11 +223,6 @@ public class TextPollingView implements OnClickListener {
 	
 	private void setMatchPlayers(MatchPlayers matchPlayers) {
 		if (matchPlayers != null) {						
-//			String batter = matchPlayers.getBatter();
-//			String pitcher = matchPlayers.getPitcher();
-//			Log.i("matchPlayers111", "Batter " + batter);
-//			Log.i("matchPlayers111", "Pitcher " + pitcher);
-			
 			String firstBatter = matchPlayers.getFirstBatter();
 			Log.i("test", firstBatter.toString());
 			String secondBatter = matchPlayers.getSecondBatter();
