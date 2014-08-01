@@ -50,8 +50,13 @@ public class TextPollingView implements OnClickListener {
     private ImageView base3ImageView;
     
     private String matchId;
+<<<<<<< HEAD
     protected int inning;
     private int presentInning;
+=======
+    private int inning;
+    private int count;
+>>>>>>> 705867d59445ecd4c463520aa04640312a461009
     
 	public TextPollingView(View titleView, View mainView) {
         homeTeamNameText = (TextView) titleView.findViewById(R.id.hometeamname);
@@ -144,8 +149,7 @@ public class TextPollingView implements OnClickListener {
 			
 			@Override
 			protected void onPostExecute(GetMatchBroadcastRes getMatchBroadcastRes) {
-//				Log.i("getMatchBroadcastRes", getMatchBroadcastRes.toString());
-				if (getMatchBroadcastRes != null && getMatchBroadcastRes.getBroadcast().size()>0 ) {
+				if (getMatchBroadcastRes != null) {
 					baseballText.setText("");
 					StringBuilder sb = new StringBuilder();
 					
@@ -180,7 +184,7 @@ public class TextPollingView implements OnClickListener {
 					}
 					baseballText.setText(sb.toString());
 				} else {
-					baseballText.setText("경기가 시작하였는지 확인해 주세요");
+					baseballText.setText("문자 중계 로딩 실패");
 				}
 			}
 		}.execute();
@@ -246,9 +250,12 @@ public class TextPollingView implements OnClickListener {
 	
 	private void setMatchDisplayBoard(MatchDisplayBoard matchDisplayBoard) {
 		if (matchDisplayBoard != null) {
+//			뭔가이상해..
 			String ball = matchDisplayBoard.getBall();
+			Log.i("ball", ball);
 			strikeText.setText(ball);
 			String strike = matchDisplayBoard.getStrike();
+			Log.i("strike", strike);
 			ballText.setText(strike);
 			String out = matchDisplayBoard.getOut();
 			outText.setText(out);
@@ -258,6 +265,7 @@ public class TextPollingView implements OnClickListener {
 	private void setMatchPlayers(MatchPlayers matchPlayers) {
 		if (matchPlayers != null) {						
 			String firstBatter = matchPlayers.getFirstBatter();
+			Log.i("test", firstBatter.toString());
 			String secondBatter = matchPlayers.getSecondBatter();
 			String thirdBatter = matchPlayers.getThirdBatter();
 			
