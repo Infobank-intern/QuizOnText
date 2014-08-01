@@ -154,7 +154,7 @@
         android:layout_height="270dip"
         android:layout_below="@+id/title"
         android:layout_marginTop="3dp"
-        android:background="#af808080" >
+        android:background="#af000000" >
 	
         <FrameLayout 
             android:layout_width="match_parent"

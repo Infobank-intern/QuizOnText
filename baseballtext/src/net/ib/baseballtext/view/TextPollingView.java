@@ -51,7 +51,7 @@ public class TextPollingView implements OnClickListener {
     
     private String matchId;
     protected int inning;
-    private int count;
+    private int presentInning;
     
 	public TextPollingView(View titleView, View mainView) {
         homeTeamNameText = (TextView) titleView.findViewById(R.id.hometeamname);
@@ -92,6 +92,42 @@ public class TextPollingView implements OnClickListener {
         base3ImageView = (ImageView) mainView.findViewById(R.id.base3);
 	}
 	
+	public int getPresentInning(final String matchId) {
+		this.matchId = matchId; 
+		new AsyncTask<Void, Void, GetMatchBroadcastRes>() {
+			@Override
+			protected GetMatchBroadcastRes doInBackground(Void... param) {
+				GetMatchBroadcastReq getMatchBroadcastReq = new GetMatchBroadcastReq();
+				getMatchBroadcastReq.setMatchId(matchId);
+				if (inning != 0) {
+					getMatchBroadcastReq.setInning(Integer.valueOf(inning));
+				}
+				GetMatchBroadcastLink getMatchBroadcastLink = new GetMatchBroadcastLink(getMatchBroadcastReq);
+				return getMatchBroadcastLink.linkage();
+			}
+			
+			@Override
+			protected void onPostExecute(GetMatchBroadcastRes getMatchBroadcastRes) {
+				if (getMatchBroadcastRes != null && getMatchBroadcastRes.getBroadcast().size()>0 ) {
+					List<MatchSummary> matchSummaryList = getMatchBroadcastRes.getMatchSummaryList();
+					for (MatchSummary matchSummary : matchSummaryList) {
+						if (matchSummary == null) {
+							continue;
+						}
+						if (matchSummary.getMatchId().equals(matchId)) {
+							presentInning = matchSummary.getInning();
+							break;
+						}
+					}
+				} else {
+					presentInning = 0;
+				}
+			}
+		}.execute();
+		return presentInning;
+	}
+	
+	
 	public void updateView(final String matchId) {
 		this.matchId = matchId; 
 		new AsyncTask<Void, Void, GetMatchBroadcastRes>() {
@@ -119,7 +155,6 @@ public class TextPollingView implements OnClickListener {
 							continue;
 						}
 						sb.append(matchBroadcast.getBroadcast());
-//						Log.i("matchBroadcast.getBroadcast()", matchBroadcast.getBroadcast());
 					}
 					
 					MatchDisplayBoard matchDisplayBoard = getMatchBroadcastRes.getMatchDisplayBoard();
@@ -134,7 +169,6 @@ public class TextPollingView implements OnClickListener {
 							continue;
 						}
 						if (matchSummary.getMatchId().equals(matchId)) {
-							Log.i("matchSummary", matchSummary.toString());
 							stadiumText.setText(matchSummary.getMatchStadium());
 							inningText.setText(matchSummary.getMatchPresent());
 							homeTeamNameText.setText(matchSummary.getHomeTeamName());
@@ -262,8 +296,4 @@ public class TextPollingView implements OnClickListener {
 		eighthButton.setTextColor(Color.WHITE);
 		ninthButton.setTextColor(Color.WHITE);
 	}
-	
-//	public Integer getInning() {
-//		return inning;
-//	}
 }

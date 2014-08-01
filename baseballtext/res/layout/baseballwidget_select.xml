@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:layout_gravity="center" >
+    
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" 
+        android:layout_marginTop="100dp"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        android:text="원하는 경기를 선택해 주세요"/>
+    
+    <TextView 
+        android:id="@+id/firstgame"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:textSize="15sp"
+        android:padding="10dp"
+        android:gravity="center" />
+    
+    <TextView 
+        android:id="@+id/secondgame"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:padding="10dp"
+        android:gravity="center" />
+    
+    <TextView 
+        android:id="@+id/thirdgame"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:padding="10dp"
+        android:gravity="center" />
+    
+    <TextView 
+        android:id="@+id/fourthgame"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:padding="10dp"
+        android:gravity="center" />
+    
+</LinearLayout>

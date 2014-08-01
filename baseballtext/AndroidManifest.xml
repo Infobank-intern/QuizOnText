@@ -5,6 +5,7 @@
     android:versionName="1.0" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    
     <uses-sdk
         android:minSdkVersion="12"
         android:targetSdkVersion="16" />
@@ -21,7 +22,8 @@
                 android:resource="@xml/widget_configuration" />
             <intent-filter >
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="net.ib.baseballtext.widget.BaseballWidget.CLICK" />
+                <action android:name="net.ib.baseballtext.widget.BaseballWidget.ACTION_CLICK" />
+                <action android:name="net.ib.baseballtext.widget.BaseballWidget.ACTION_REFRESH" />
             </intent-filter>
         </receiver>
         
@@ -36,8 +38,14 @@
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="net.ib.baseballtext.widget.BaseballWidgetSelect"
+            android:label="BaseballWidgetSelect" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
     </application>

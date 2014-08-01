@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.ib.baseballtext.R;
-import net.ib.baseballtext.widget.BaseballWidget.SetData;
+import net.ib.quizon.domain.match.Match;
 import net.ib.quizon.domain.match.MatchBroadcast;
 import net.ib.quizon.domain.match.MatchSummary;
 import android.appwidget.AppWidgetManager;
@@ -17,32 +17,20 @@ import android.widget.RemoteViewsService.RemoteViewsFactory;
 
 public class BaseballWidgetFactory implements RemoteViewsFactory {
 	
-	private BaseballWidget baseballWidget;
 	private Context mContext;
 	private int mAppWidgetId;
 	private List<String> baseballTextList = new ArrayList<String>();
-	private MatchSummary matchSummary;
-	private List<MatchBroadcast> broadcast;
-	
-	
+	private String text;
 	
 	public BaseballWidgetFactory(Context context, Intent intent) {
 		mContext = context;
 		mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+		text = intent.getStringExtra("text");
 	}
 	
 	@Override
 	public void onCreate() {
-//		matchSummary = baseballWidget.getMatchSummary();
-		
-//		baseballWidget = new BaseballWidget(baseballTextList);
-//
-//		broadcast = baseballWidget.getTemp();
-//		matchSummary = baseballWidget.getMatchSummary();
-		
-		baseballTextList.add("1111");
-		baseballTextList.add("2222");
-		baseballTextList.add("3333");
+		baseballTextList.add(text);
 	}
 	
 	@Override

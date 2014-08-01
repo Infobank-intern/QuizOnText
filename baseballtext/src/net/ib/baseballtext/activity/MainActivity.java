@@ -171,6 +171,7 @@ public class MainActivity extends Activity implements OnClickListener {
 							default:
 								break;
 							}
+							pollingView.getPresentInning(matchId);
 							pollingView.updateView(matchId);
 						}
 
