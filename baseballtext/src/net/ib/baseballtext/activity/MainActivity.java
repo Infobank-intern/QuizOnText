@@ -116,7 +116,6 @@ public class MainActivity extends Activity implements OnClickListener {
 				GetMatchListLink getMatchListLink = new GetMatchListLink(getMatchListReq);
 				GetMatchListRes matchListRes = getMatchListLink.linkage();
 				
-				
 				if (matchListRes != null) {
 					return matchListRes.getMatchInfoList();
 				}

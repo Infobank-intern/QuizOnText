@@ -24,6 +24,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 
@@ -55,6 +56,11 @@ public class BaseballWidgetSelect extends Activity implements OnClickListener {
         secondGameText = (TextView) findViewById(R.id.secondgame);
         thirdGameText = (TextView) findViewById(R.id.thirdgame);
         fourthGameText = (TextView) findViewById(R.id.fourthgame);
+        
+        firstGameText.setOnClickListener(this);
+        secondGameText.setOnClickListener(this);
+        thirdGameText.setOnClickListener(this);
+        fourthGameText.setOnClickListener(this);
         
         setResult(RESULT_CANCELED);
         
@@ -125,15 +131,42 @@ public class BaseballWidgetSelect extends Activity implements OnClickListener {
 			editor.commit();
 			
 			Context con = BaseballWidgetSelect.this;
+			BaseballWidget.UpdateWidget(con, AppWidgetManager.getInstance(con), mId);
 			
-			
+			Intent intent = new Intent();
+			intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mId);
+			setResult(RESULT_OK, intent);
+			finish();
 			break;
 
 		case R.id.secondgame:
-
+			SharedPreferences prefs1 = getSharedPreferences(PREF, 0);
+			SharedPreferences.Editor editor1 = prefs1.edit();
+			editor1.putInt("select_" + mId, 1);
+			editor1.commit();
+			
+			Context con1 = BaseballWidgetSelect.this;
+			BaseballWidget.UpdateWidget(con1, AppWidgetManager.getInstance(con1), mId);
+			
+			Intent intent1 = new Intent();
+			intent1.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mId);
+			setResult(RESULT_OK, intent1);
+			finish();
 			break;
 
 		case R.id.thirdgame:
+			SharedPreferences prefs2 = getSharedPreferences(PREF, 0);
+			SharedPreferences.Editor editor2 = prefs2.edit();
+			editor2.putInt("select_" + mId, 2);
+			editor2.commit();
+			
+			Context con2 = BaseballWidgetSelect.this;
+			BaseballWidget.UpdateWidget(con2, AppWidgetManager.getInstance(con2), mId);
+			
+			Intent intent2 = new Intent();
+			intent2.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mId);
+			setResult(RESULT_OK, intent2);
+			finish();
 
 			break;
 
