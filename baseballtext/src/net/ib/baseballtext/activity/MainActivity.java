@@ -28,8 +28,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements OnClickListener {
-//	private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
-	private final String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
+	private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
+//	private final String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
     
 	private Timer timer;
 	private TimerTask timerTask = new TimerJob();
@@ -39,17 +39,21 @@ public class MainActivity extends Activity implements OnClickListener {
 	// Data
     private String matchId;
 	private List<String> spinnerList = new ArrayList<String>();
-	private List<String> matchIdList = new ArrayList<String>();
-
+	private List<Match> matchTempList = new ArrayList<Match>();
+	private ArrayAdapter<String> adapter;
+	
 	// JOB
 	private TextPollingView pollingView;
 	
 	// UI
 	private Spinner spinner;
-    private TextView baseballText1;
-    private TextView homeTeamNameText1;
-    private TextView awayTeamNameText1;
-    private TextView stadiumText1;
+	private TextView baseballText;
+    private TextView homeTeamNameText;
+    private TextView awayTeamNameText;
+    private TextView stadiumText;
+    private TextView inningText;
+    private TextView homeTeamPointText;
+    private TextView awayTeamPointText;
     
     private View titleView;
     private View mainView;
@@ -65,12 +69,16 @@ public class MainActivity extends Activity implements OnClickListener {
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(this);
         
-        baseballText1 = (TextView) findViewById(R.id.baseballtext);
-        homeTeamNameText1 = (TextView) findViewById(R.id.hometeamname);
-        awayTeamNameText1 = (TextView) findViewById(R.id.awayteamname);
-        stadiumText1 = (TextView) findViewById(R.id.stadium);
+        baseballText = (TextView) findViewById(R.id.baseballtext);
+        homeTeamNameText = (TextView) findViewById(R.id.hometeamname);
+        awayTeamNameText = (TextView) findViewById(R.id.awayteamname);
+        stadiumText = (TextView) findViewById(R.id.stadium);
+        inningText = (TextView) findViewById(R.id.inning);
+        homeTeamPointText = (TextView) findViewById(R.id.hometeampoint);
+        awayTeamPointText = (TextView) findViewById(R.id.awayteampoint);
         
-        matchIdList = new ArrayList<String>();
+        
+        matchTempList = new ArrayList<Match>();
         spinner = (Spinner) findViewById(R.id.selectmatchspinner);
         spinner.setPrompt("원하는 경기를 선택하세요");
         spinnerList = new ArrayList<String>();
@@ -81,7 +89,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-//		HttpLib.setTest(true);
+		HttpLib.setTest(true);
 		setData();
 		timerTask = new TimerJob();
 		timer = new Timer();
@@ -119,17 +127,17 @@ public class MainActivity extends Activity implements OnClickListener {
 			protected void onPostExecute(List<Match> result) {
 				// ui process
 				if (result != null) {
-					homeTeamNameText1.setText(result.get(0).getHomeTeamName());
-					awayTeamNameText1.setText(result.get(0).getAwayTeamName());
-					stadiumText1.setText(result.get(0).getMatchStadium());
+					homeTeamNameText.setText(result.get(0).getHomeTeamName());
+					awayTeamNameText.setText(result.get(0).getAwayTeamName());
+					stadiumText.setText(result.get(0).getMatchStadium());
 					
 					spinnerList.clear();
 					for (int i=0; i<result.size(); i++) {
-						matchIdList.add(result.get(i).getMatchId());
+						matchTempList.add(result.get(i));
 						spinnerList.add(result.get(i).getHomeTeamName() + " vs " + result.get(i).getAwayTeamName());
 					}
 					
-					ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.matchspinner, spinnerList);
+					adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.matchspinner, spinnerList);
 					spinner.setAdapter(adapter);
 					
 					spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -138,21 +146,33 @@ public class MainActivity extends Activity implements OnClickListener {
 								View view, int position, long id) {
 							switch (position) {
 							case 0:
-								matchId = matchIdList.get(0);
+								matchId = matchTempList.get(0).getMatchId();
+								homeTeamNameText.setText(matchTempList.get(0).getHomeTeamName());
+								awayTeamNameText.setText(matchTempList.get(0).getAwayTeamName());
+								stadiumText.setText(matchTempList.get(0).getMatchStadium());
 								break;
 							case 1:
-								matchId = matchIdList.get(1);
+								matchId = matchTempList.get(1).getMatchId();
+								homeTeamNameText.setText(matchTempList.get(1).getHomeTeamName());
+								awayTeamNameText.setText(matchTempList.get(1).getAwayTeamName());
+								stadiumText.setText(matchTempList.get(1).getMatchStadium());
 								break;
 							case 2:
-								matchId = matchIdList.get(2);
+								matchId = matchTempList.get(2).getMatchId();
+								homeTeamNameText.setText(matchTempList.get(2).getHomeTeamName());
+								awayTeamNameText.setText(matchTempList.get(2).getAwayTeamName());
+								stadiumText.setText(matchTempList.get(2).getMatchStadium());
 								break;
 							case 3:
-								matchId = matchIdList.get(3);
+								matchId = matchTempList.get(3).getMatchId();
+								homeTeamNameText.setText(matchTempList.get(3).getHomeTeamName());
+								awayTeamNameText.setText(matchTempList.get(3).getAwayTeamName());
+								stadiumText.setText(matchTempList.get(3).getMatchStadium());
 								break;
 							default:
 								break;
 							}
-							pollingView.getPresentInning(matchId);
+//							pollingView.getPresentInning(matchId);
 							pollingView.updateView(matchId);
 						}
 
@@ -170,7 +190,16 @@ public class MainActivity extends Activity implements OnClickListener {
 						}
 					}
 				} else {
-					baseballText1.setText("매치 정보 로딩 실패");
+					baseballText.setText("매치 정보 로딩 실패");
+					spinnerList.add("아직 경기가 열리지 않았습니다.");
+					adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.matchspinner, spinnerList);
+					spinner.setAdapter(adapter);
+					stadiumText.setText("-");
+					inningText.setText("-");
+					homeTeamNameText.setText("---");
+					awayTeamNameText.setText("---");
+					homeTeamPointText.setText("-");
+					awayTeamPointText.setText("-");
 				}
 			}
 		}.execute();
@@ -178,15 +207,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.button:
-			if (matchId != null) {
-				pollingView.updateView(matchId);
-			}
-			break;
-		default:
-			break;
-		}
 	}
 	
 	class TimerJob extends TimerTask {

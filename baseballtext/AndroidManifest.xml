@@ -13,7 +13,6 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/baseballtext_launcher"
-<<<<<<< HEAD
         android:label="@string/app_name" >
         
         <receiver 
@@ -34,10 +33,6 @@
             android:exported="false" >
        	</service>
         
-=======
-        android:label="@string/app_name"
-        >
->>>>>>> 705867d59445ecd4c463520aa04640312a461009
         <activity
             android:name="net.ib.baseballtext.activity.MainActivity"
             android:theme="@android:style/Theme.NoTitleBar" >

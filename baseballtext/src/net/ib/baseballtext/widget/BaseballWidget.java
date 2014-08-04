@@ -105,9 +105,9 @@ public class BaseballWidget extends AppWidgetProvider {
 		PendingIntent mainPendingIntent = PendingIntent.getActivity(context, 0, mainIntent, 0);
 		views.setOnClickPendingIntent(R.id.title, mainPendingIntent);
 		
-//		Intent subIntent = new Intent(context, MainActivity.class);
-//		PendingIntent subPendingIntent = PendingIntent.getActivity(context, 0, subIntent, 0);
-//		views.setOnClickPendingIntent(R.id.selectmatchbutton, subPendingIntent);
+		Intent subIntent = new Intent(context, BaseballWidgetSelect.class);
+		PendingIntent subPendingIntent = PendingIntent.getActivity(context, 0, subIntent, 0);
+		views.setOnClickPendingIntent(R.id.selectmatchbutton, subPendingIntent);
 		
 		appWidgetManager.updateAppWidget(appWidgetIds, views);
 

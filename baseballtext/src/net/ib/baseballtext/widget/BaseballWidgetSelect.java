@@ -13,10 +13,12 @@ import net.ib.quizon.api.match.GetMatchListRes;
 import net.ib.quizon.domain.match.Match;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -54,6 +56,8 @@ public class BaseballWidgetSelect extends Activity implements OnClickListener {
         thirdGameText = (TextView) findViewById(R.id.thirdgame);
         fourthGameText = (TextView) findViewById(R.id.fourthgame);
         
+        setResult(RESULT_CANCELED);
+        
         Intent intent = getIntent();
         mId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         SharedPreferences prefs = getSharedPreferences(PREF, 0);
@@ -84,10 +88,14 @@ public class BaseballWidgetSelect extends Activity implements OnClickListener {
 			protected void onPostExecute(List<Match> result) {
 				// ui process
 				if (Strings.isNotEmptyString(result.toString()) && result.size() > 0) {
-					firstGameText.setText(result.get(0).getHomeTeamName() + " vs " + result.get(0).getAwayTeamName());
-					secondGameText.setText(result.get(1).getHomeTeamName() + " vs " + result.get(1).getAwayTeamName());
-					thirdGameText.setText(result.get(2).getHomeTeamName() + " vs " + result.get(2).getAwayTeamName());
-					fourthGameText.setText(result.get(3).getHomeTeamName() + " vs " + result.get(3).getAwayTeamName());
+					if (result.size() >= 1)
+						firstGameText.setText(result.get(0).getHomeTeamName() + " vs " + result.get(0).getAwayTeamName());
+					if (result.size() >= 2)
+						secondGameText.setText(result.get(1).getHomeTeamName() + " vs " + result.get(1).getAwayTeamName());
+					if (result.size() >= 3)
+						thirdGameText.setText(result.get(2).getHomeTeamName() + " vs " + result.get(2).getAwayTeamName());
+					if (result.size() >= 4)
+						fourthGameText.setText(result.get(3).getHomeTeamName() + " vs " + result.get(3).getAwayTeamName());
 
 					for (Match match : result) {
 						match.getMatchStatus();
@@ -111,7 +119,14 @@ public class BaseballWidgetSelect extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.firstgame:
-
+			SharedPreferences prefs = getSharedPreferences(PREF, 0);
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putInt("select_" + mId, 0);
+			editor.commit();
+			
+			Context con = BaseballWidgetSelect.this;
+			
+			
 			break;
 
 		case R.id.secondgame:

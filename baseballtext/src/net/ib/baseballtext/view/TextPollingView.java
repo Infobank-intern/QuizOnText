@@ -3,9 +3,7 @@ package net.ib.baseballtext.view;
 import java.util.List;
 
 import kr.co.quizon.network.link.match.GetMatchBroadcastLink;
-
 import net.ib.baseballtext.R;
-import net.ib.baseballtext.R.id;
 import net.ib.baseballtext.util.Strings;
 import net.ib.quizon.api.match.GetMatchBroadcastReq;
 import net.ib.quizon.api.match.GetMatchBroadcastRes;
@@ -15,13 +13,16 @@ import net.ib.quizon.domain.match.MatchPlayers;
 import net.ib.quizon.domain.match.MatchSummary;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+
+
+
 
 public class TextPollingView implements OnClickListener {
     private TextView baseballText;
@@ -50,13 +51,8 @@ public class TextPollingView implements OnClickListener {
     private ImageView base3ImageView;
     
     private String matchId;
-<<<<<<< HEAD
-    protected int inning;
     private int presentInning;
-=======
-    private int inning;
-    private int count;
->>>>>>> 705867d59445ecd4c463520aa04640312a461009
+    protected int inning;
     
 	public TextPollingView(View titleView, View mainView) {
         homeTeamNameText = (TextView) titleView.findViewById(R.id.hometeamname);
@@ -97,40 +93,40 @@ public class TextPollingView implements OnClickListener {
         base3ImageView = (ImageView) mainView.findViewById(R.id.base3);
 	}
 	
-	public int getPresentInning(final String matchId) {
-		this.matchId = matchId; 
-		new AsyncTask<Void, Void, GetMatchBroadcastRes>() {
-			@Override
-			protected GetMatchBroadcastRes doInBackground(Void... param) {
-				GetMatchBroadcastReq getMatchBroadcastReq = new GetMatchBroadcastReq();
-				getMatchBroadcastReq.setMatchId(matchId);
-				if (inning != 0) {
-					getMatchBroadcastReq.setInning(Integer.valueOf(inning));
-				}
-				GetMatchBroadcastLink getMatchBroadcastLink = new GetMatchBroadcastLink(getMatchBroadcastReq);
-				return getMatchBroadcastLink.linkage();
-			}
-			
-			@Override
-			protected void onPostExecute(GetMatchBroadcastRes getMatchBroadcastRes) {
-				if (getMatchBroadcastRes != null && getMatchBroadcastRes.getBroadcast().size()>0 ) {
-					List<MatchSummary> matchSummaryList = getMatchBroadcastRes.getMatchSummaryList();
-					for (MatchSummary matchSummary : matchSummaryList) {
-						if (matchSummary == null) {
-							continue;
-						}
-						if (matchSummary.getMatchId().equals(matchId)) {
-							presentInning = matchSummary.getInning();
-							break;
-						}
-					}
-				} else {
-					presentInning = 0;
-				}
-			}
-		}.execute();
-		return presentInning;
-	}
+//	public int getPresentInning(final String matchId) {
+//		this.matchId = matchId; 
+//		new AsyncTask<Void, Void, GetMatchBroadcastRes>() {
+//			@Override
+//			protected GetMatchBroadcastRes doInBackground(Void... param) {
+//				GetMatchBroadcastReq getMatchBroadcastReq = new GetMatchBroadcastReq();
+//				getMatchBroadcastReq.setMatchId(matchId);
+//				if (inning != 0) {
+//					getMatchBroadcastReq.setInning(Integer.valueOf(inning));
+//				}
+//				GetMatchBroadcastLink getMatchBroadcastLink = new GetMatchBroadcastLink(getMatchBroadcastReq);
+//				return getMatchBroadcastLink.linkage();
+//			}
+//			
+//			@Override
+//			protected void onPostExecute(GetMatchBroadcastRes getMatchBroadcastRes) {
+//				if (getMatchBroadcastRes != null && getMatchBroadcastRes.getBroadcast().size()>0 ) {
+//					List<MatchSummary> matchSummaryList = getMatchBroadcastRes.getMatchSummaryList();
+//					for (MatchSummary matchSummary : matchSummaryList) {
+//						if (matchSummary == null) {
+//							continue;
+//						}
+//						if (matchSummary.getMatchId().equals(matchId)) {
+//							presentInning = matchSummary.getInning();
+//							break;
+//						}
+//					}
+//				} else {
+//					presentInning = 0;
+//				}
+//			}
+//		}.execute();
+//		return presentInning;
+//	}
 	
 	
 	public void updateView(final String matchId) {
@@ -250,7 +246,6 @@ public class TextPollingView implements OnClickListener {
 	
 	private void setMatchDisplayBoard(MatchDisplayBoard matchDisplayBoard) {
 		if (matchDisplayBoard != null) {
-//			뭔가이상해..
 			String ball = matchDisplayBoard.getBall();
 			Log.i("ball", ball);
 			strikeText.setText(ball);

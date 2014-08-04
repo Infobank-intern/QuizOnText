@@ -6,5 +6,4 @@
     android:resizeMode="vertical"
     android:minResizeWidth="250dp"
     android:minResizeHeight="110dp"
-    android:configure="net.ib.baseballtext.widget.BaseballWidgetSelect"
 />
