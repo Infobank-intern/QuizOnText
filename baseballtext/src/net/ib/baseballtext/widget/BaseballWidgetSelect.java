@@ -146,7 +146,7 @@ public class BaseballWidgetSelect extends Activity implements OnClickListener {
 			editor1.commit();
 			
 			Context con1 = BaseballWidgetSelect.this;
-			BaseballWidget.UpdateWidget(con1, AppWidgetManager.getInstance(con1), mId);
+//			BaseballWidget.UpdateWidget(con1, AppWidgetManager.getInstance(con1), mId);
 			
 			Intent intent1 = new Intent();
 			intent1.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mId);

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.ib.baseballtext"
-    android:versionCode="4"
+    android:versionCode="6"
     android:versionName="1.0" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     
     <uses-sdk
-        android:minSdkVersion="9"
+        android:minSdkVersion="11"
         android:targetSdkVersion="16" />
 
     <application
@@ -43,7 +43,8 @@
         </activity>
         <activity
             android:name="net.ib.baseballtext.widget.BaseballWidgetSelect"
-            android:label="BaseballWidgetSelect" >
+            android:theme="@android:style/Theme.NoTitleBar" 
+            android:label="경기 선택" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>

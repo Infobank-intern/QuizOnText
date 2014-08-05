@@ -40,7 +40,7 @@ import android.widget.Toast;
 public class BaseballWidget extends AppWidgetProvider {
 
 	private final static String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
-//	private final String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
+//	private final static String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
     
 	private static final String ACTION_CLICK = "CLICK";
 	private static final String ACTION_REFRESH = "REFRESH";
@@ -57,25 +57,16 @@ public class BaseballWidget extends AppWidgetProvider {
 	private int period = 30000;
 	
 	// Data
-    private static String matchId;// = "2011731b-37b7-4af2-a771-43d56092a9c6";
-   
+    private static String matchId;
+    private static String MATCHID = "2011731b-37b7-4af2-a771-43d56092a9c6";
+    
     protected static int inning;
     private static int selectId;
     
     private static RemoteViews views;
     private static RemoteViews selectViews;
-    private List<String> baseballTextList;
     private static List<Match> matchTempList = new ArrayList<Match>();
     
-//	public BaseballWidget() {
-//		super();
-//		// TODO Auto-generated constructor stub
-//	}
-//
-//	public BaseballWidget(List<String> baseballTextList) {
-//		this.baseballTextList = baseballTextList;
-//	}
-
 	@Override
 	public void onEnabled(Context context) {
 		super.onEnabled(context);
@@ -87,36 +78,36 @@ public class BaseballWidget extends AppWidgetProvider {
 		HttpLib.setTest(true);
 
 		for(int i=0; i<appWidgetIds.length; i++) {
-			Log.i("onupdate호출 몇번", "호출ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ");
+Log.i("OnUpdate", "호출");
 			UpdateWidget(context, appWidgetManager, appWidgetIds[i]);
 		}
 	}
 
 	static void UpdateWidget(final Context context, final AppWidgetManager appWidgetManager, final int appWidgetIds) {
-			RemoteViews remoteView = new RemoteViews(context.getPackageName(), R.layout.baseballwidget);
-			
-			// add refreshIntent
-			Intent refreshIntent = new Intent(context, BaseballWidget.class);
-			refreshIntent.setAction(ACTION_REFRESH);
-			refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds);
-			PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, appWidgetIds, refreshIntent, 0);
-			remoteView.setOnClickPendingIntent(R.id.refreshbutton, refreshPendingIntent);
-			
-			// add clickItent
-			Intent clickIntent = new Intent(context, BaseballWidget.class);
-			clickIntent.setAction(ACTION_CLICK);
-			clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds);
-			PendingIntent clickPendingIntent = PendingIntent.getBroadcast(context, appWidgetIds, clickIntent, 0);
-			remoteView.setOnClickPendingIntent(R.id.selectmatchbutton, clickPendingIntent);
+		RemoteViews remoteView = new RemoteViews(context.getPackageName(), R.layout.baseballwidget);
 
-			appWidgetManager.updateAppWidget(appWidgetIds, remoteView);
+		// add refreshIntent
+		Intent refreshIntent = new Intent(context, BaseballWidget.class);
+		refreshIntent.setAction(ACTION_REFRESH);
+		refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds);
+		PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, appWidgetIds, refreshIntent, 0);
+		remoteView.setOnClickPendingIntent(R.id.refreshbutton, refreshPendingIntent);
+
+		// add clickItent
+		Intent clickIntent = new Intent(context, BaseballWidget.class);
+		clickIntent.setAction(ACTION_CLICK);
+		clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds);
+		PendingIntent clickPendingIntent = PendingIntent.getBroadcast(context, appWidgetIds, clickIntent, 0);
+		remoteView.setOnClickPendingIntent(R.id.selectmatchbutton, clickPendingIntent);
+
+		appWidgetManager.updateAppWidget(appWidgetIds, remoteView);
 
 		views = new RemoteViews(context.getPackageName(), R.layout.baseballwidget);
-		
+
 		Intent mainIntent = new Intent(context, MainActivity.class);
 		PendingIntent mainPendingIntent = PendingIntent.getActivity(context, 0, mainIntent, 0);
 		views.setOnClickPendingIntent(R.id.title, mainPendingIntent);
-		
+
 		Intent subIntent = new Intent(context, BaseballWidgetSelect.class);
 		PendingIntent subPendingIntent = PendingIntent.getActivity(context, 0, subIntent, 0);
 		views.setOnClickPendingIntent(R.id.selectmatchbutton, subPendingIntent);
@@ -143,29 +134,8 @@ public class BaseballWidget extends AppWidgetProvider {
 		
 		appWidgetManager.updateAppWidget(appWidgetIds, selectViews);
 		
-		SharedPreferences prefs = context.getSharedPreferences(PREF, 0);
-		selectId = prefs.getInt("select_" + appWidgetIds, 0);
-		Log.i("selectId.this", selectId + "");
-		Log.i("matchTempList.this", matchTempList.toString());
-		//처음에 matchTempList에 왜 []이거가 들어가지???????????????????
-		if (Strings.isNotEmptyString(matchId) && matchId.length() > 0) {
-			matchId = matchTempList.get(selectId).getMatchId();
-			Log.i("matchId.this", matchId);
-		}
-		
-		
-		
-		
-		
-		
 		new SetData(views, context, appWidgetIds, appWidgetManager).execute();
-//		try {
-//			Thread.sleep(5000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		UpdateView(matchId, context, appWidgetManager, appWidgetIds);
+//		UpdateView(matchId, context, appWidgetManager, appWidgetIds);
 		
 //		super.onUpdate(context, appWidgetManager, appWidgetIds);
 	}
@@ -175,31 +145,31 @@ public class BaseballWidget extends AppWidgetProvider {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		String action = intent.getAction();
-		Toast.makeText(context, action, Toast.LENGTH_SHORT).show();
+//		Toast.makeText(context, action, Toast.LENGTH_SHORT).show();
 		
-//		if(action.equals("android.appwidget.action.APPWIDGET_UPDATE"))
-//	    {
-//	      Log.w(TAG, "android.appwidget.action.APPWIDGET_UPDATE");
-//	      removePreviousAlarm();
-//	 
-//	      long firstTime = System.currentTimeMillis() + WIDGET_UPDATE_INTERVAL;
-//	      mSender = PendingIntent.getBroadcast(context, 0, intent, 0);
-//	      mManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-//	      mManager.set(AlarmManager.RTC, firstTime, mSender);
-//	    }
-//	    // 위젯 제거 인텐트를 수신했을 때
-//	    else if(action.equals("android.appwidget.action.APPWIDGET_DISABLED"))
-//	    {
-//	      Log.w(TAG, "android.appwidget.action.APPWIDGET_DISABLED");
-//	      removePreviousAlarm();
-//	    }
+		if(action.equals("android.appwidget.action.APPWIDGET_UPDATE"))
+	    {
+	      Log.w(TAG, "android.appwidget.action.APPWIDGET_UPDATE");
+	      removePreviousAlarm();
+	 
+	      long firstTime = System.currentTimeMillis() + WIDGET_UPDATE_INTERVAL;
+	      mSender = PendingIntent.getBroadcast(context, 0, intent, 0);
+	      mManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+	      mManager.set(AlarmManager.RTC, firstTime, mSender);
+	    }
+	    // 위젯 제거 인텐트를 수신했을 때
+	    else if(action.equals("android.appwidget.action.APPWIDGET_DISABLED"))
+	    {
+	      Log.w(TAG, "android.appwidget.action.APPWIDGET_DISABLED");
+	      removePreviousAlarm();
+	    }
 		
 		  // RENEW
 		if (action != null && action.equals(ACTION_CLICK)) {
-			Toast.makeText(context, "ACTION_CLICK", Toast.LENGTH_SHORT).show();
+//			Toast.makeText(context, "ACTION_CLICK", Toast.LENGTH_SHORT).show();
 			return;
 		} else if (action != null && action.equals(ACTION_REFRESH)) {
-			Toast.makeText(context, "ACTION_REFRESH", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "준비중 입니다.", Toast.LENGTH_SHORT).show();
 			
 			return;
 		}
@@ -232,7 +202,7 @@ public class BaseballWidget extends AppWidgetProvider {
 	        this.context = context;
 	        this.appWidgetIds = appWidgetIds;
 	        this.appWidgetManager = appWidgetManager;      
-	        Log.i("setData", "setData 호출");
+Log.i("setData생성자", "setData 호출");
 	    }
 		
 		@Override
@@ -252,19 +222,35 @@ public class BaseballWidget extends AppWidgetProvider {
 		@Override
 		protected void onPostExecute(List<Match> result) {
 			// ui process
-			Log.i("result.this", result.toString());
+Log.i("setData_postExecute_result.this", result.toString());
+
+
+			SharedPreferences prefs = context.getSharedPreferences(PREF, 0);
+			selectId = prefs.getInt("select_" + appWidgetIds, 0);
+Log.i("setData_postExecute_이거야_selectId", String.valueOf(selectId));
+
 			if (Strings.isNotEmptyString(result.toString()) && result.size()>0) {
-				views.setTextViewText(R.id.hometeamname, result.get(0).getHomeTeamName());
-				views.setTextViewText(R.id.awayteamname, result.get(0).getAwayTeamName());
-				views.setTextViewText(R.id.stadium, result.get(0).getMatchStadium());
-				
 				for (int i=0; i<result.size(); i++) {
 					matchTempList.add(result.get(i));
 				}
+
+					matchId = matchTempList.get(selectId).getMatchId();
+Log.i("setData_postExecute_이거야_matchId", matchId);
+				
+				views.setTextViewText(R.id.hometeamname, result.get(selectId).getHomeTeamName());
+				views.setTextViewText(R.id.awayteamname, result.get(selectId).getAwayTeamName());
+				views.setTextViewText(R.id.stadium, result.get(selectId).getMatchStadium());
+
+Log.i("setData_postExecute_UpdateView 호출", "setData의 UpdateView 호출");
 				
 
-				//				matchId = matchTempList.get(selectId).getMatchId();
+				
 				UpdateView(matchId, context, appWidgetManager, appWidgetIds);
+//				UpdateView(MATCHID, context, appWidgetManager, appWidgetIds);
+				
+				
+				
+				
 				
 				for (Match match : result) {
 					match.getMatchStatus();
@@ -273,8 +259,7 @@ public class BaseballWidget extends AppWidgetProvider {
 						break;
 					}
 				}
-				Log.i("matchidthisthis", matchId);
-				Log.i("setData_postExecute", "setData이건언제");
+Log.i("setDate_postExecute_matchidthisthis", matchId);
 			} else {
 //				views.setTextViewText(R.id.baseballtext, "매치 정보 로딩 실패\n아직 경기가 열리지 않았습니다.");
 //				baseballTextList.add("매치 정보 로딩 실패\n아직 경기가 열리지 않았습니다.");
@@ -290,13 +275,14 @@ public class BaseballWidget extends AppWidgetProvider {
 	}
 	
 	public static void UpdateView(final String matchId, final Context context, final AppWidgetManager appWidgetManager, final int appWidgetIds) {
-		Log.i("UpdateView", "UpdateView 호출시작");
+Log.i("UpdateView", "UpdateView 호출시작");
 		
 		new AsyncTask<Void, Void, GetMatchBroadcastRes>() {
 			@Override
 			protected GetMatchBroadcastRes doInBackground(Void... params) {
 				GetMatchBroadcastReq getMatchBroadcastReq = new GetMatchBroadcastReq();
 				getMatchBroadcastReq.setMatchId(matchId);
+Log.i("updateView_doinBackground_matchId", matchId);
 				if (inning != 0) {
 					getMatchBroadcastReq.setInning(Integer.valueOf(inning));
 				}
@@ -306,7 +292,6 @@ public class BaseballWidget extends AppWidgetProvider {
 
 			@Override
 			protected void onPostExecute(GetMatchBroadcastRes getMatchBroadcastRes) {
-//				Toast.makeText(BaseballWidget.this, getMatchBroadcastRes + "", Toast.LENGTH_SHORT).show();
 				if (getMatchBroadcastRes != null) {
 					StringBuffer sb = new StringBuffer();
 					List<MatchBroadcast> broadcast = getMatchBroadcastRes.getBroadcast();
@@ -325,16 +310,17 @@ public class BaseballWidget extends AppWidgetProvider {
 						if (matchSummary == null) {
 							continue;
 						}
-						Log.i("비교   matchSummary.getMatchId()", matchSummary.getMatchId());
-						Log.i("비교   matchId", matchId);
+Log.i("비교   matchSummary.getMatchId()", matchSummary.getMatchId());
+Log.i("비교   matchId", matchId);
 						if (matchSummary.getMatchId().equals(matchId)) {
 							views.setTextViewText(R.id.stadium, matchSummary.getMatchStadium());
 							views.setTextViewText(R.id.inning, matchSummary.getMatchPresent());
 							views.setTextViewText(R.id.hometeamname, matchSummary.getHomeTeamName());
+Log.i("나와야할팀이름", matchSummary.getHomeTeamName());
 							views.setTextViewText(R.id.awayteamname, matchSummary.getAwayTeamName());
 							views.setTextViewText(R.id.hometeampoint, String.valueOf(matchSummary.getHomeTeamPoint()));
 							views.setTextViewText(R.id.awayteampoint, String.valueOf(matchSummary.getAwayTeamPoint()));
-							Log.i("updateView_postExecute", "views.setTextViewText");
+Log.i("updateView_postExecute", "views.setTextViewText");
 							break;
 						}
 					}
@@ -343,6 +329,7 @@ public class BaseballWidget extends AppWidgetProvider {
 						Intent listviewIntent = new Intent(context, BaseballWidgetService.class);
 						listviewIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds);
 						listviewIntent.putExtra("text", sb.toString());
+Log.i("나와야할내용", sb.toString());
 
 						rv.setRemoteAdapter(R.id.baseballtext, listviewIntent);
 						appWidgetManager.updateAppWidget(appWidgetIds, rv);
@@ -355,10 +342,10 @@ public class BaseballWidget extends AppWidgetProvider {
 						listviewIntent.putExtra("Data", "문자 중계 로딩 실패\n경기가 시작하였는지 확인해 주세요");
 
 						rv.setRemoteAdapter(R.id.baseballtext, listviewIntent);
-						Log.i("그럼 이건 언제???", "그럼 이건 언제???");
+//Log.i("그럼 이건 언제???", "그럼 이건 언제???");
 						appWidgetManager.updateAppWidget(appWidgetIds, rv);
 				}
-				Log.i("UpdateView", "UpdateView 호출끝끝끝끝");
+Log.i("UpdateView", "UpdateView 호출끝끝끝끝");
 				appWidgetManager.updateAppWidget(appWidgetIds, views);
 			}
 		}.execute();

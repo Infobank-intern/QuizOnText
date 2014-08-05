@@ -182,8 +182,9 @@
             android:id="@+id/selectmatchbutton"
             android:layout_width="120dp"
             android:layout_height="40dp"
-            android:gravity="center_horizontal"
-            android:text="다른경기보기" />
+            android:gravity="center"
+            android:text="다른경기보기"
+            android:layout_centerVertical="true" />
         
         <ImageButton 
             android:id="@+id/refreshbutton"
@@ -191,7 +192,8 @@
             android:layout_alignParentRight="true"
             android:layout_width="35dp	"
             android:layout_height="35dp"
-            android:background="@drawable/refresh" />
+            android:background="@drawable/refresh"
+            android:layout_centerVertical="true" />
         
  	</RelativeLayout>
  </RelativeLayout>
