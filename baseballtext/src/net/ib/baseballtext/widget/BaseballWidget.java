@@ -44,6 +44,9 @@ public class BaseballWidget extends AppWidgetProvider {
     
 	private static final String ACTION_CLICK = "CLICK";
 	private static final String ACTION_REFRESH = "REFRESH";
+	
+	private final String ACTION_THIRD = "THIRDGAME";
+	
 	private static final String PREF = "BaseballWidgetSelect";
 
 	private static final String TAG = "HelloWidgetProvider";
@@ -61,7 +64,8 @@ public class BaseballWidget extends AppWidgetProvider {
     private static String MATCHID = "2011731b-37b7-4af2-a771-43d56092a9c6";
     
     protected static int inning;
-    private static int selectId;
+    private static int selectId = 0;
+    private static int mId;
     
     private static RemoteViews views;
     private static RemoteViews selectViews;
@@ -99,40 +103,44 @@ Log.i("OnUpdate", "호출");
 		clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds);
 		PendingIntent clickPendingIntent = PendingIntent.getBroadcast(context, appWidgetIds, clickIntent, 0);
 		remoteView.setOnClickPendingIntent(R.id.selectmatchbutton, clickPendingIntent);
-
+		
+		//updateAppWidget
 		appWidgetManager.updateAppWidget(appWidgetIds, remoteView);
 
 		views = new RemoteViews(context.getPackageName(), R.layout.baseballwidget);
-
+		
+		//상단레이아웃 MainActivity로 전환
 		Intent mainIntent = new Intent(context, MainActivity.class);
 		PendingIntent mainPendingIntent = PendingIntent.getActivity(context, 0, mainIntent, 0);
 		views.setOnClickPendingIntent(R.id.title, mainPendingIntent);
-
+		
+		//하단레이아웃 MainActivity로 전환
 		Intent subIntent = new Intent(context, BaseballWidgetSelect.class);
 		PendingIntent subPendingIntent = PendingIntent.getActivity(context, 0, subIntent, 0);
 		views.setOnClickPendingIntent(R.id.selectmatchbutton, subPendingIntent);
 		
+		//updateAppWidget
 		appWidgetManager.updateAppWidget(appWidgetIds, views);
 		
-		selectViews = new RemoteViews(context.getPackageName(), R.layout.baseballwidget_select);
-		
-		Intent firstGameIntent = new Intent(context, BaseballWidget.class);
-		PendingIntent firstGamePendingIntent = PendingIntent.getActivity(context, 0, firstGameIntent, 0);
-		selectViews.setOnClickPendingIntent(R.id.firstgame, firstGamePendingIntent);
-		
-		Intent secondGameIntent = new Intent(context, BaseballWidget.class);
-		PendingIntent secondGamePendingIntent = PendingIntent.getActivity(context, 0, secondGameIntent, 0);
-		selectViews.setOnClickPendingIntent(R.id.secondgame, secondGamePendingIntent);
-		
-		Intent thirdGameIntent = new Intent(context, BaseballWidget.class);
-		PendingIntent thirdGamePendingIntent = PendingIntent.getActivity(context, 0, thirdGameIntent, 0);
-		selectViews.setOnClickPendingIntent(R.id.thirdgame, thirdGamePendingIntent);
-		
-		Intent fourthGameIntent = new Intent(context, BaseballWidget.class);
-		PendingIntent fourthGamePendingIntent = PendingIntent.getActivity(context, 0, fourthGameIntent, 0);
-		selectViews.setOnClickPendingIntent(R.id.fourthgame, fourthGamePendingIntent);
-		
-		appWidgetManager.updateAppWidget(appWidgetIds, selectViews);
+//		selectViews = new RemoteViews(context.getPackageName(), R.layout.baseballwidget_select);
+//		
+//		Intent firstGameIntent = new Intent(context, BaseballWidget.class);
+//		PendingIntent firstGamePendingIntent = PendingIntent.getActivity(context, 0, firstGameIntent, 0);
+//		selectViews.setOnClickPendingIntent(R.id.firstgame, firstGamePendingIntent);
+//		
+//		Intent secondGameIntent = new Intent(context, BaseballWidget.class);
+//		PendingIntent secondGamePendingIntent = PendingIntent.getActivity(context, 0, secondGameIntent, 0);
+//		selectViews.setOnClickPendingIntent(R.id.secondgame, secondGamePendingIntent);
+//		
+//		Intent thirdGameIntent = new Intent(context, BaseballWidget.class);
+//		PendingIntent thirdGamePendingIntent = PendingIntent.getActivity(context, 0, thirdGameIntent, 0);
+//		selectViews.setOnClickPendingIntent(R.id.thirdgame, thirdGamePendingIntent);
+//		
+//		Intent fourthGameIntent = new Intent(context, BaseballWidget.class);
+//		PendingIntent fourthGamePendingIntent = PendingIntent.getActivity(context, 0, fourthGameIntent, 0);
+//		selectViews.setOnClickPendingIntent(R.id.fourthgame, fourthGamePendingIntent);
+//		
+//		appWidgetManager.updateAppWidget(appWidgetIds, selectViews);
 		
 		new SetData(views, context, appWidgetIds, appWidgetManager).execute();
 //		UpdateView(matchId, context, appWidgetManager, appWidgetIds);
@@ -142,10 +150,26 @@ Log.i("OnUpdate", "호출");
 
 	
 	
-	@Override
-	public void onReceive(Context context, Intent intent) {
+	public void onReceive(Context context, Intent intent, AppWidgetManager appWidgetManager) {
 		String action = intent.getAction();
+		mId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
 //		Toast.makeText(context, action, Toast.LENGTH_SHORT).show();
+		
+		  // RENEW
+		if (action != null && action.equals(ACTION_CLICK)) {
+//			Toast.makeText(context, "ACTION_CLICK", Toast.LENGTH_SHORT).show();
+			return;
+		} else if (action != null && action.equals(ACTION_REFRESH)) {
+			Toast.makeText(context, "준비중 입니다.", Toast.LENGTH_SHORT).show();
+			
+			return;
+		}
+		
+		if (action != null && action.equals(ACTION_THIRD)) {
+			Log.i("onReceive", "ACTION_THIRD");
+			selectId = intent.getIntExtra("selectGame", 0);
+			new SetData(views, context, mId, appWidgetManager).execute();
+		}
 		
 		if(action.equals("android.appwidget.action.APPWIDGET_UPDATE"))
 	    {
@@ -164,15 +188,6 @@ Log.i("OnUpdate", "호출");
 	      removePreviousAlarm();
 	    }
 		
-		  // RENEW
-		if (action != null && action.equals(ACTION_CLICK)) {
-//			Toast.makeText(context, "ACTION_CLICK", Toast.LENGTH_SHORT).show();
-			return;
-		} else if (action != null && action.equals(ACTION_REFRESH)) {
-			Toast.makeText(context, "준비중 입니다.", Toast.LENGTH_SHORT).show();
-			
-			return;
-		}
 		super.onReceive(context, intent);
 	}
 
@@ -225,8 +240,8 @@ Log.i("setData생성자", "setData 호출");
 Log.i("setData_postExecute_result.this", result.toString());
 
 
-			SharedPreferences prefs = context.getSharedPreferences(PREF, 0);
-			selectId = prefs.getInt("select_" + appWidgetIds, 0);
+//			SharedPreferences prefs = context.getSharedPreferences(PREF, 0);
+//			selectId = prefs.getInt("select_" + appWidgetIds, 0);
 Log.i("setData_postExecute_이거야_selectId", String.valueOf(selectId));
 
 			if (Strings.isNotEmptyString(result.toString()) && result.size()>0) {

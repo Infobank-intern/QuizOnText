@@ -3,6 +3,7 @@ package net.ib.baseballtext.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.ib.baseballtext.widget.BaseballWidget;
 import kr.co.quizon.network.HttpLib;
 import kr.co.quizon.network.link.match.GetMatchListLink;
 import net.ib.baseballtext.R;
@@ -12,6 +13,7 @@ import net.ib.quizon.api.match.GetMatchListReq;
 import net.ib.quizon.api.match.GetMatchListRes;
 import net.ib.quizon.domain.match.Match;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +25,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -32,10 +35,14 @@ public class BaseballWidgetSelect extends Activity implements OnClickListener {
 	private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
 //	private final String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
 	
+	private final String ACTION_THIRD = "THIRDGAME";
+	
 	private TextView firstGameText;
 	private TextView secondGameText;
 	private TextView thirdGameText;
 	private TextView fourthGameText;
+	
+	private RemoteViews remoteViews;
 	
 	private String matchId;
 	private List<String> matchIdList;
@@ -155,18 +162,33 @@ public class BaseballWidgetSelect extends Activity implements OnClickListener {
 			break;
 
 		case R.id.thirdgame:
-			SharedPreferences prefs2 = getSharedPreferences(PREF, 0);
-			SharedPreferences.Editor editor2 = prefs2.edit();
-			editor2.putInt("select_" + mId, 2);
-			editor2.commit();
 			
-			Context con2 = BaseballWidgetSelect.this;
-			BaseballWidget.UpdateWidget(con2, AppWidgetManager.getInstance(con2), mId);
-			
-			Intent intent2 = new Intent();
-			intent2.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mId);
-			setResult(RESULT_OK, intent2);
+			Log.i("case R.id.thirdgame", "ACTION_THIRD");
+			Context context = BaseballWidgetSelect.this;
+				
+			remoteViews = new RemoteViews(context.getPackageName(), R.layout.baseballwidget_select);
+			Intent gameIntent = new Intent(context, BaseballWidget.class);
+			gameIntent.setAction(ACTION_THIRD);
+			gameIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mId);
+			gameIntent.putExtra("selectGame", 2);
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, mId, gameIntent, 0);
+			remoteViews.setOnClickPendingIntent(R.id.thirdgame, pendingIntent);
+//뭐지뭐지  		appWidgetManager.updateAppWidget(mId, remoteViews);
+			setResult(RESULT_OK, gameIntent);
 			finish();
+			
+//			SharedPreferences prefs2 = getSharedPreferences(PREF, 0);
+//			SharedPreferences.Editor editor2 = prefs2.edit();
+//			editor2.putInt("select_" + mId, 2);
+//			editor2.commit();
+//			
+//			Context con2 = BaseballWidgetSelect.this;
+//			BaseballWidget.UpdateWidget(con2, AppWidgetManager.getInstance(con2), mId);
+//			
+//			Intent intent2 = new Intent();
+//			intent2.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mId);
+//			setResult(RESULT_OK, intent2);
+//			finish();
 
 			break;
 
