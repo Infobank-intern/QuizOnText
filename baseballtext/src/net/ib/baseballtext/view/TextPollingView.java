@@ -145,7 +145,8 @@ public class TextPollingView implements OnClickListener {
 			
 			@Override
 			protected void onPostExecute(GetMatchBroadcastRes getMatchBroadcastRes) {
-				if (getMatchBroadcastRes != null) {
+				Log.i("getMatchBroadcastRes", getMatchBroadcastRes + "");
+				if (getMatchBroadcastRes != null && getMatchBroadcastRes.getBroadcast().size() > 0) {
 					baseballText.setText("");
 					StringBuilder sb = new StringBuilder();
 					
@@ -180,7 +181,11 @@ public class TextPollingView implements OnClickListener {
 					}
 					baseballText.setText(sb.toString());
 				} else {
-					baseballText.setText("문자 중계 로딩 실패");
+//					Log.i("00000000000000000", getMatchBroadcastRes.getMatchSummaryList().get(0).getMatchStatus() + "");
+//					Log.i("00000000000000000", getMatchBroadcastRes.getMatchSummaryList().get(1).getMatchStatus() + "");
+//					Log.i("00000000000000000", getMatchBroadcastRes.getMatchSummaryList().get(2).getMatchStatus() + "");
+//					Log.i("00000000000000000", getMatchBroadcastRes.getMatchSummaryList().get(3).getMatchStatus() + "");
+					baseballText.setText("경기 시작 전 입니다. 경기 시간을 확인해 주세요");
 				}
 			}
 		}.execute();

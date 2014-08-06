@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="4"
+        android:showWeekNumber="false"
         android:weekSeparatorLineColor="#ffff00"
         />
 
@@ -17,97 +18,294 @@
         android:layout_weight="1" >
 
         <RelativeLayout
-            android:layout_width="240dip"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             >
 
             <TextView
-                android:id="@+id/hometeamnamecalendar"
-                android:layout_width="80dip"
+                android:id="@+id/firsthometeamnamecalendar"
+                android:layout_width="90dip"
                 android:layout_height="fill_parent"
                 android:gravity="center"
-                android:text="abc" />
+                android:textSize="25sp"  />
 
             <TextView
-                android:id="@+id/hometeampointcalendar"
-                android:layout_width="20dip"
+                android:id="@+id/firstcolon"
+                android:layout_width="30dip"
                 android:layout_height="fill_parent"
-                android:layout_toRightOf="@+id/hometeamnamecalendar"
+                android:layout_toRightOf="@+id/firsthometeamnamecalendar"
                 android:gravity="center"
-                android:text="abc" />
+                android:text="VS"
+                android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/colon"
-                android:layout_width="10dip"
+                android:id="@+id/firstawayteamnamecalendar"
+                android:layout_width="90dip"
                 android:layout_height="fill_parent"
-                android:layout_toRightOf="@+id/hometeampointcalendar"
+                android:layout_toRightOf="@+id/firstcolon"
                 android:gravity="center"
-                android:text=":" />
-
-            <TextView
-                android:id="@+id/awayteampointcalendar"
-                android:layout_width="20dip"
-                android:layout_height="fill_parent"
-                android:layout_toRightOf="@+id/colon"
-                android:gravity="center"
-                android:text="abc" />
-
-            <TextView
-                android:id="@+id/awayteamnamecalendar"
-                android:layout_width="80dip"
-                android:layout_height="fill_parent"
-                android:layout_toRightOf="@+id/awayteampointcalendar"
-                android:gravity="center"
-                android:text="abc" />
+                android:textSize="25sp"  />
         </RelativeLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="70dip"
             android:layout_height="fill_parent"
             android:gravity="center"
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/firstmatchTimecalendar"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+                android:paddingTop="15dip"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="abc" />
+                android:textSize="20sp"  />
 
             <TextView
+                android:id="@+id/firstmatchStadiumcalendar"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+                android:paddingBottom="15dip"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="abc" />
+                android:layout_gravity="center"
+                android:textSize="15sp"  />
         </LinearLayout>
 
         <Button
-            android:layout_width="90dip"
+            android:id="@+id/firstmatchbutton"
+            android:layout_width="75dip"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dip"
             android:gravity="center"
             android:layout_gravity="center"
             android:text="문자중계"
-            android:textSize="20sp" />
+            android:textSize="17sp" >
+        </Button>
+        
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0px"
         android:layout_weight="1" >
+        
+         <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/secondhometeamnamecalendar"
+                android:layout_width="90dip"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:textSize="25sp"  />
+
+            <TextView
+                android:id="@+id/secondcolon"
+                android:layout_width="30dip"
+                android:layout_height="fill_parent"
+                android:layout_toRightOf="@+id/secondhometeamnamecalendar"
+                android:gravity="center"
+                android:text="VS"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/secondawayteamnamecalendar"
+                android:layout_width="90dip"
+                android:layout_height="fill_parent"
+                android:layout_toRightOf="@+id/secondcolon"
+                android:gravity="center"
+                android:textSize="25sp"  />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="70dip"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/secondmatchTimecalendar"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingTop="15dip"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="20sp"  />
+
+            <TextView
+                android:id="@+id/secondmatchStadiumcalendar"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingBottom="15dip"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textSize="15sp"  />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/secondmatchbutton"
+            android:layout_width="75dip"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dip"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="문자중계"
+            android:textSize="17sp" >
+        </Button>
+        
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0px"
         android:layout_weight="1" >
+               
+         <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/thirdhometeamnamecalendar"
+                android:layout_width="90dip"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:textSize="25sp"  />
+
+            <TextView
+                android:id="@+id/thirdcolon"
+                android:layout_width="30dip"
+                android:layout_height="fill_parent"
+                android:layout_toRightOf="@+id/thirdhometeamnamecalendar"
+                android:gravity="center"
+                android:text="VS"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/thirdawayteamnamecalendar"
+                android:layout_width="90dip"
+                android:layout_height="fill_parent"
+                android:layout_toRightOf="@+id/thirdcolon"
+                android:gravity="center"
+                android:textSize="25sp"  />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="70dip"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/thirdmatchTimecalendar"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingTop="15dip"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="20sp"  />
+
+            <TextView
+                android:id="@+id/thirdmatchStadiumcalendar"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingBottom="15dip"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textSize="15sp"  />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/thirdmatchbutton"
+            android:layout_width="75dip"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dip"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="문자중계"
+            android:textSize="17sp" >
+        </Button>
+        
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0px"
         android:layout_weight="1" >
+               
+         <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/fourthhometeamnamecalendar"
+                android:layout_width="90dip"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:textSize="25sp"  />
+
+            <TextView
+                android:id="@+id/fourthcolon"
+                android:layout_width="30dip"
+                android:layout_height="fill_parent"
+                android:layout_toRightOf="@+id/fourthhometeamnamecalendar"
+                android:gravity="center"
+                android:text="VS"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/fourthawayteamnamecalendar"
+                android:layout_width="90dip"
+                android:layout_height="fill_parent"
+                android:layout_toRightOf="@+id/fourthcolon"
+                android:gravity="center"
+                android:textSize="25sp"  />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="70dip"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/fourthmatchTimecalendar"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingTop="15dip"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="20sp"  />
+
+            <TextView
+                android:id="@+id/fourthmatchStadiumcalendar"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingBottom="15dip"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textSize="15sp"  />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/fourthmatchbutton"
+            android:layout_width="75dip"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dip"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="문자중계"
+            android:textSize="17sp" >
+        </Button>
+        
     </LinearLayout>
 
 </LinearLayout>

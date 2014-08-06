@@ -41,6 +41,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private List<String> spinnerList = new ArrayList<String>();
 	private List<Match> matchTempList = new ArrayList<Match>();
 	private ArrayAdapter<String> adapter;
+	private int inning;
 	
 	// JOB
 	private TextPollingView pollingView;
@@ -124,6 +125,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 			@Override
 			protected void onPostExecute(List<Match> result) {
+				Log.i("result", result + "");
 				// ui process
 				if (result != null) {
 					homeTeamNameText.setText(result.get(0).getHomeTeamName());
@@ -171,7 +173,8 @@ public class MainActivity extends Activity implements OnClickListener {
 							default:
 								break;
 							}
-//							pollingView.getPresentInning(matchId);
+//							inning = pollingView.getPresentInning(matchId);
+//							Log.i("inning", String.valueOf(inning));
 							pollingView.updateView(matchId);
 						}
 

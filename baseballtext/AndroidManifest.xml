@@ -34,7 +34,7 @@
        	</service>
         
         <activity
-            android:name="net.ib.baseballtext.activity.CalendarActivity"
+            android:name="net.ib.baseballtext.activity.MainActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
