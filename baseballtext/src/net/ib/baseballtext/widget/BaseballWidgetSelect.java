@@ -15,6 +15,7 @@ import net.ib.quizon.domain.match.Match;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,20 +36,22 @@ public class BaseballWidgetSelect extends Activity implements OnClickListener {
 	private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
 //	private final String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
 	
-	private final String ACTION_THIRD = "THIRDGAME";
+	private final String ACTION_SELECT = "GAME";
 	
 	private TextView firstGameText;
 	private TextView secondGameText;
 	private TextView thirdGameText;
 	private TextView fourthGameText;
 	
-	private RemoteViews remoteViews;
-	
 	private String matchId;
 	private List<String> matchIdList;
 	
-	final static String PREF = "BaseballWidgetSelect";
-	private int mId;
+	private Context context;
+	private AppWidgetManager appWidgetManager;
+	private ComponentName provider;
+	private int[] ids;
+	private Intent gameIntent;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,13 +72,11 @@ public class BaseballWidgetSelect extends Activity implements OnClickListener {
         thirdGameText.setOnClickListener(this);
         fourthGameText.setOnClickListener(this);
         
-        setResult(RESULT_CANCELED);
+        context = this;
+		appWidgetManager = AppWidgetManager.getInstance(context);
+		provider = new ComponentName("net.ib.baseballtext.widget", "net.ib.baseballtext.widget.BaseballWidget");
+		ids = appWidgetManager.getAppWidgetIds(provider);
         
-        Intent intent = getIntent();
-        mId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-        SharedPreferences prefs = getSharedPreferences(PREF, 0);
-        
-        //
         setData();
 	}
 
@@ -94,9 +95,7 @@ public class BaseballWidgetSelect extends Activity implements OnClickListener {
 				}
 				return null;
 			}
-// 매치아이디 받았고..   뭐해야되지??   어떻게 넘겨줘?  음................................아아아
-// 처음 바로 이화면 나오는데, 그것도 좀 이상해..  인텐트로는 못넘기나?
-// 앱, 처음 이닝으로 안나와 왜지??????
+
 			@Override
 			protected void onPostExecute(List<Match> result) {
 				// ui process
@@ -132,63 +131,25 @@ public class BaseballWidgetSelect extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.firstgame:
-			SharedPreferences prefs = getSharedPreferences(PREF, 0);
-			SharedPreferences.Editor editor = prefs.edit();
-			editor.putInt("select_" + mId, 0);
-			editor.commit();
-			
-			Context con = BaseballWidgetSelect.this;
-			BaseballWidget.UpdateWidget(con, AppWidgetManager.getInstance(con), mId);
-			
-			Intent intent = new Intent();
-			intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mId);
-			setResult(RESULT_OK, intent);
-			finish();
+			gameIntent = new Intent(this, BaseballWidget.class);
+			gameIntent.setAction(ACTION_SELECT);
+			gameIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+			gameIntent.putExtra("selectGame", 0);
+			sendBroadcast(gameIntent);
 			break;
 
 		case R.id.secondgame:
-			SharedPreferences prefs1 = getSharedPreferences(PREF, 0);
-			SharedPreferences.Editor editor1 = prefs1.edit();
-			editor1.putInt("select_" + mId, 1);
-			editor1.commit();
 			
-			Context con1 = BaseballWidgetSelect.this;
-//			BaseballWidget.UpdateWidget(con1, AppWidgetManager.getInstance(con1), mId);
 			
-			Intent intent1 = new Intent();
-			intent1.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mId);
-			setResult(RESULT_OK, intent1);
-			finish();
+			gameIntent = new Intent(this, BaseballWidget.class);
+			gameIntent.setAction(ACTION_SELECT);
+			gameIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+			gameIntent.putExtra("selectGame", 1);
+			sendBroadcast(gameIntent);
+			
 			break;
 
 		case R.id.thirdgame:
-			
-			Log.i("case R.id.thirdgame", "ACTION_THIRD");
-			Context context = BaseballWidgetSelect.this;
-				
-			remoteViews = new RemoteViews(context.getPackageName(), R.layout.baseballwidget_select);
-			Intent gameIntent = new Intent(context, BaseballWidget.class);
-			gameIntent.setAction(ACTION_THIRD);
-			gameIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mId);
-			gameIntent.putExtra("selectGame", 2);
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, mId, gameIntent, 0);
-			remoteViews.setOnClickPendingIntent(R.id.thirdgame, pendingIntent);
-//뭐지뭐지  		appWidgetManager.updateAppWidget(mId, remoteViews);
-			setResult(RESULT_OK, gameIntent);
-			finish();
-			
-//			SharedPreferences prefs2 = getSharedPreferences(PREF, 0);
-//			SharedPreferences.Editor editor2 = prefs2.edit();
-//			editor2.putInt("select_" + mId, 2);
-//			editor2.commit();
-//			
-//			Context con2 = BaseballWidgetSelect.this;
-//			BaseballWidget.UpdateWidget(con2, AppWidgetManager.getInstance(con2), mId);
-//			
-//			Intent intent2 = new Intent();
-//			intent2.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mId);
-//			setResult(RESULT_OK, intent2);
-//			finish();
 
 			break;
 
@@ -199,5 +160,6 @@ public class BaseballWidgetSelect extends Activity implements OnClickListener {
 		default:
 			break;
 		}
+		finish();
 	}
 }

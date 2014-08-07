@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context="${relativePackage}.${activityClass}" >
+    
+    <TextView 
+        android:id="@+id/splashtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dip"
+        android:layout_centerHorizontal="true"
+        android:textSize="34sp"
+        android:textStyle="italic"
+        android:text="퀴즈온"/>
+    
+    <TextView 
+        android:id="@+id/splashsubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/splashtitle"
+        android:layout_marginTop="5dip"
+        android:layout_centerHorizontal="true"
+        android:textSize="35sp"
+        android:textStyle="italic"
+        android:text="문자 중계"/>
+    
+     <TextView 
+        android:id="@+id/splashcomment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dip"
+        android:layout_below="@+id/splashtitle"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        android:text="프로야구 문자중계를 편리하게 !"/>
+    
+</RelativeLayout>

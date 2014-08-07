@@ -3,10 +3,13 @@ package net.ib.baseballtext.view;
 import java.util.List;
 
 import kr.co.quizon.network.link.match.GetMatchBroadcastLink;
+import kr.co.quizon.network.link.match.GetMatchInfoLink;
 import net.ib.baseballtext.R;
 import net.ib.baseballtext.util.Strings;
 import net.ib.quizon.api.match.GetMatchBroadcastReq;
 import net.ib.quizon.api.match.GetMatchBroadcastRes;
+import net.ib.quizon.api.match.GetMatchInfoReq;
+import net.ib.quizon.api.match.GetMatchInfoRes;
 import net.ib.quizon.domain.match.MatchBroadcast;
 import net.ib.quizon.domain.match.MatchDisplayBoard;
 import net.ib.quizon.domain.match.MatchPlayers;
@@ -19,9 +22,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-
-
 
 
 public class TextPollingView implements OnClickListener {
@@ -52,7 +52,7 @@ public class TextPollingView implements OnClickListener {
     
     private String matchId;
     private int presentInning;
-    protected int inning;
+//    protected int inning;
     
 	public TextPollingView(View titleView, View mainView) {
         homeTeamNameText = (TextView) titleView.findViewById(R.id.hometeamname);
@@ -93,43 +93,48 @@ public class TextPollingView implements OnClickListener {
         base3ImageView = (ImageView) mainView.findViewById(R.id.base3);
 	}
 	
-//	public int getPresentInning(final String matchId) {
-//		this.matchId = matchId; 
-//		new AsyncTask<Void, Void, GetMatchBroadcastRes>() {
-//			@Override
-//			protected GetMatchBroadcastRes doInBackground(Void... param) {
-//				GetMatchBroadcastReq getMatchBroadcastReq = new GetMatchBroadcastReq();
-//				getMatchBroadcastReq.setMatchId(matchId);
-//				if (inning != 0) {
-//					getMatchBroadcastReq.setInning(Integer.valueOf(inning));
-//				}
-//				GetMatchBroadcastLink getMatchBroadcastLink = new GetMatchBroadcastLink(getMatchBroadcastReq);
-//				return getMatchBroadcastLink.linkage();
-//			}
-//			
-//			@Override
-//			protected void onPostExecute(GetMatchBroadcastRes getMatchBroadcastRes) {
-//				if (getMatchBroadcastRes != null && getMatchBroadcastRes.getBroadcast().size()>0 ) {
-//					List<MatchSummary> matchSummaryList = getMatchBroadcastRes.getMatchSummaryList();
-//					for (MatchSummary matchSummary : matchSummaryList) {
-//						if (matchSummary == null) {
-//							continue;
-//						}
-//						if (matchSummary.getMatchId().equals(matchId)) {
-//							presentInning = matchSummary.getInning();
-//							break;
-//						}
-//					}
-//				} else {
-//					presentInning = 0;
-//				}
-//			}
-//		}.execute();
-//		return presentInning;
-//	}
+	public void getPresentInning(final String matchId) {
+		this.matchId = matchId; 
+		new AsyncTask<Void, Void, GetMatchInfoRes>() {
+			@Override
+			protected GetMatchInfoRes doInBackground(Void... params) {
+				GetMatchInfoReq getMatchInfoReq = new GetMatchInfoReq();
+				getMatchInfoReq.setMatchId(matchId);
+				
+				GetMatchInfoLink getMatchInfoLink = new GetMatchInfoLink(getMatchInfoReq);
+				return getMatchInfoLink.linkage();
+			}
+			@Override
+			protected void onPostExecute(GetMatchInfoRes result) {
+				if (result != null && result.getMatchInfo() != null) {
+					presentInning = result.getMatchInfo().getInning();
+					if (presentInning == 1) {
+						setButtonColor(firstButton);
+					} else if (presentInning == 2) {
+						setButtonColor(secondButton);
+					} else if (presentInning == 3) {
+						setButtonColor(thirdButton);
+					} else if (presentInning == 4) {
+						setButtonColor(fourthButton);
+					} else if (presentInning == 5) {
+						setButtonColor(fifthButton);
+					} else if (presentInning == 6) {
+						setButtonColor(sixthButton);
+					} else if (presentInning == 7) {
+						setButtonColor(seventhButton);
+					} else if (presentInning == 8) {
+						setButtonColor(eighthButton);
+					} else if (presentInning == 9) {
+						setButtonColor(ninthButton);
+					}
+					updateView(matchId, presentInning);
+				}
+			}
+		}.execute();
+	}
 	
 	
-	public void updateView(final String matchId) {
+	public void updateView(final String matchId, final int inning) {
 		this.matchId = matchId; 
 		new AsyncTask<Void, Void, GetMatchBroadcastRes>() {
 			@Override
@@ -145,7 +150,6 @@ public class TextPollingView implements OnClickListener {
 			
 			@Override
 			protected void onPostExecute(GetMatchBroadcastRes getMatchBroadcastRes) {
-				Log.i("getMatchBroadcastRes", getMatchBroadcastRes + "");
 				if (getMatchBroadcastRes != null && getMatchBroadcastRes.getBroadcast().size() > 0) {
 					baseballText.setText("");
 					StringBuilder sb = new StringBuilder();
@@ -181,10 +185,6 @@ public class TextPollingView implements OnClickListener {
 					}
 					baseballText.setText(sb.toString());
 				} else {
-//					Log.i("00000000000000000", getMatchBroadcastRes.getMatchSummaryList().get(0).getMatchStatus() + "");
-//					Log.i("00000000000000000", getMatchBroadcastRes.getMatchSummaryList().get(1).getMatchStatus() + "");
-//					Log.i("00000000000000000", getMatchBroadcastRes.getMatchSummaryList().get(2).getMatchStatus() + "");
-//					Log.i("00000000000000000", getMatchBroadcastRes.getMatchSummaryList().get(3).getMatchStatus() + "");
 					baseballText.setText("경기 시작 전 입니다. 경기 시간을 확인해 주세요");
 				}
 			}
@@ -196,53 +196,53 @@ public class TextPollingView implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.button:
 			setButtonColor(allButton);
-			inning = 0;
-			updateView(matchId);
+//			inning = 0;
+			updateView(matchId, 0);
 			break;
 		case R.id.first:
 			setButtonColor(firstButton);
-			inning = 1;
-			updateView(matchId);
+//			inning = 1;
+			updateView(matchId, 1);
 			break;
 		case R.id.second:
 			setButtonColor(secondButton);
-			inning = 2;
-			updateView(matchId);
+//			inning = 2;
+			updateView(matchId, 2);
 			break;
 		case R.id.third:
 			setButtonColor(thirdButton);
-			inning = 3;
-			updateView(matchId);
+//			inning = 3;
+			updateView(matchId, 3);
 			break;
 		case R.id.fourth:
 			setButtonColor(fourthButton);
-			inning = 4;
-			updateView(matchId);
+//			inning = 4;
+			updateView(matchId, 4);
 			break;
 		case R.id.fifth:
 			setButtonColor(fifthButton);
-			inning = 5;
-			updateView(matchId);
+//			inning = 5;
+			updateView(matchId, 5);
 			break;
 		case R.id.sixth:
 			setButtonColor(sixthButton);
-			inning = 6;
-			updateView(matchId);
+//			inning = 6;
+			updateView(matchId, 6);
 			break;
 		case R.id.seventh:
 			setButtonColor(seventhButton);
-			inning = 7;
-			updateView(matchId);
+//			inning = 7;
+			updateView(matchId, 7);
 			break;
 		case R.id.eighth:
 			setButtonColor(eighthButton);
-			inning = 8;
-			updateView(matchId);
+//			inning = 8;
+			updateView(matchId, 8);
 			break;
 		case R.id.ninth:
 			setButtonColor(ninthButton);
-			inning = 9;
-			updateView(matchId);
+//			inning = 9;
+			updateView(matchId, 9);
 			break;
 		default:
 			break;
@@ -252,10 +252,10 @@ public class TextPollingView implements OnClickListener {
 	private void setMatchDisplayBoard(MatchDisplayBoard matchDisplayBoard) {
 		if (matchDisplayBoard != null) {
 			String ball = matchDisplayBoard.getBall();
-			Log.i("ball", ball);
+//			Log.i("ball", ball);
 			strikeText.setText(ball);
 			String strike = matchDisplayBoard.getStrike();
-			Log.i("strike", strike);
+//			Log.i("strike", strike);
 			ballText.setText(strike);
 			String out = matchDisplayBoard.getOut();
 			outText.setText(out);
@@ -265,7 +265,7 @@ public class TextPollingView implements OnClickListener {
 	private void setMatchPlayers(MatchPlayers matchPlayers) {
 		if (matchPlayers != null) {						
 			String firstBatter = matchPlayers.getFirstBatter();
-			Log.i("test", firstBatter.toString());
+//			Log.i("test", firstBatter.toString());
 			String secondBatter = matchPlayers.getSecondBatter();
 			String thirdBatter = matchPlayers.getThirdBatter();
 			

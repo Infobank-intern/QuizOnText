@@ -34,13 +34,24 @@
        	</service>
         
         <activity
-            android:name="net.ib.baseballtext.activity.MainActivity"
+            android:name="net.ib.baseballtext.activity.SplashActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+		<activity
+            android:name="net.ib.baseballtext.activity.CalendarActivity"
+        	android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>       
+       
+        <activity
+            android:name="net.ib.baseballtext.activity.MainActivity"
+        	android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        
         <activity
             android:name="net.ib.baseballtext.widget.BaseballWidgetSelect"
             android:theme="@android:style/Theme.NoTitleBar" 
@@ -49,6 +60,7 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
+        
     </application>
 
 </manifest>

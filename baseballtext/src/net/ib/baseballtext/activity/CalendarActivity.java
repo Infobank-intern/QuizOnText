@@ -10,18 +10,18 @@ import net.ib.quizon.api.match.GetMatchByMonthReq;
 import net.ib.quizon.api.match.GetMatchByMonthRes;
 import net.ib.quizon.domain.match.Match;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 
 
 public class CalendarActivity extends Activity implements OnClickListener {
@@ -59,6 +59,7 @@ public class CalendarActivity extends Activity implements OnClickListener {
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_calendar);
 
 		firstHomeTeamNameCalendarText = (TextView) findViewById(R.id.firsthometeamnamecalendar);
@@ -186,16 +187,25 @@ public class CalendarActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.firstmatchbutton:
+			intent = new Intent(CalendarActivity.this, MainActivity.class);
+			intent.putExtra("selectMatch", 0);
+			startActivity(intent);
 			
 			break;
 		case R.id.secondmatchbutton:
-
+			intent = new Intent(CalendarActivity.this, MainActivity.class);
+			intent.putExtra("selectMatch", 1);
+			startActivity(intent);
 			break;
 		case R.id.thirdmatchbutton:
-
+			intent = new Intent(CalendarActivity.this, MainActivity.class);
+			intent.putExtra("selectMatch", 2);
+			startActivity(intent);
 			break;
 		case R.id.fourthmatchbutton:
-
+			intent = new Intent(CalendarActivity.this, MainActivity.class);
+			intent.putExtra("selectMatch", 3);
+			startActivity(intent);
 			break;
 
 		default:
