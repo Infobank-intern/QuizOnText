@@ -127,6 +127,8 @@ public class BaseballWidgetSelect extends Activity implements OnClickListener {
 		}.execute();
 	}
 	
+	
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -139,8 +141,6 @@ public class BaseballWidgetSelect extends Activity implements OnClickListener {
 			break;
 
 		case R.id.secondgame:
-			
-			
 			gameIntent = new Intent(this, BaseballWidget.class);
 			gameIntent.setAction(ACTION_SELECT);
 			gameIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);

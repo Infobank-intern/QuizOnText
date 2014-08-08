@@ -23,13 +23,16 @@ public class BaseballWidgetFactory implements RemoteViewsFactory {
 	private String text;
 	
 	public BaseballWidgetFactory(Context context, Intent intent) {
+		Log.i("BaseballWidgetFactory", "생성자생성자");
 		mContext = context;
 		mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
 		text = intent.getStringExtra("text");
+		Log.i("BaseballWidgetFactory생성자", text);
 	}
 	
 	@Override
 	public void onCreate() {
+		Log.i("BaseballWidgetFactory ONCREATE", text);
 		baseballTextList.add(text);
 	}
 	
