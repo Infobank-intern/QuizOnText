@@ -48,6 +48,7 @@ public class BaseballWidgetFactory implements RemoteViewsFactory {
 
 	@Override
 	public RemoteViews getViewAt(int position) {
+		Log.e("factory", "getViewAt : " + position);
 		RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.textlist);
 		views.setTextViewText(R.id.text, baseballTextList.get(position));
 		return views;
