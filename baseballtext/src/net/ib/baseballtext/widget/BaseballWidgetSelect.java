@@ -33,8 +33,8 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 
 public class BaseballWidgetSelect extends Activity implements OnClickListener {
-	private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
-//	private final String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
+//	private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
+	private final String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
 	
 	private final String ACTION_SELECT = "GAME";
 	
@@ -58,7 +58,7 @@ public class BaseballWidgetSelect extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.baseballwidget_select);
         
-        HttpLib.setTest(true);
+//        HttpLib.setTest(true);
         
         matchIdList = new ArrayList<String>();
         
@@ -146,15 +146,22 @@ public class BaseballWidgetSelect extends Activity implements OnClickListener {
 			gameIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
 			gameIntent.putExtra("selectGame", 1);
 			sendBroadcast(gameIntent);
-			
 			break;
 
 		case R.id.thirdgame:
-
+			gameIntent = new Intent(this, BaseballWidget.class);
+			gameIntent.setAction(ACTION_SELECT);
+			gameIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+			gameIntent.putExtra("selectGame", 2);
+			sendBroadcast(gameIntent);
 			break;
 
 		case R.id.fourthgame:
-
+			gameIntent = new Intent(this, BaseballWidget.class);
+			gameIntent.setAction(ACTION_SELECT);
+			gameIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+			gameIntent.putExtra("selectGame", 3);
+			sendBroadcast(gameIntent);
 			break;
 
 		default:

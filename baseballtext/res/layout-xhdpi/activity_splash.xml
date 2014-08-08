@@ -13,6 +13,7 @@
         android:layout_centerHorizontal="true"
         android:textSize="34sp"
         android:textStyle="italic"
+        android:textColor="#6495ed"
         android:text="퀴즈온"/>
     
     <TextView 
@@ -24,6 +25,7 @@
         android:layout_centerHorizontal="true"
         android:textSize="35sp"
         android:textStyle="italic"
+        android:textColor="#4169e1"
         android:text="문자 중계"/>
     
      <TextView 
@@ -35,6 +37,7 @@
         android:layout_centerHorizontal="true"
         android:textSize="20sp"
         android:textStyle="italic"
+        android:textColor="#ff8c00"
         android:text="프로야구 문자중계를 편리하게 !"/>
     
 </RelativeLayout>

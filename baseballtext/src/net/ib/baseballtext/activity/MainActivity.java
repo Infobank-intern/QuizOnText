@@ -28,8 +28,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements OnClickListener {
-		private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
-//	private final String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
+//		private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
+	private final String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
 
 	private Timer timer;
 	private TimerTask timerTask = new TimerJob();
@@ -93,7 +93,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		HttpLib.setTest(true);
+//		HttpLib.setTest(true);
 		setData();
 		//		timerTask = new TimerJob();
 		//		timer = new Timer();

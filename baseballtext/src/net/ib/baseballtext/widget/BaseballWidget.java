@@ -41,8 +41,8 @@ import android.widget.Toast;
 
 public class BaseballWidget extends AppWidgetProvider {
 
-	private final static String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
-	//	private final static String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
+//	private final static String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
+		private final static String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
 
 	private static final String ACTION_CLICK = "CLICK";
 	private static final String ACTION_REFRESH = "REFRESH";
@@ -73,7 +73,7 @@ public class BaseballWidget extends AppWidgetProvider {
 	@Override
 	public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
 
-		HttpLib.setTest(true);
+//		HttpLib.setTest(true);
 
 		for(int i=0; i<appWidgetIds.length; i++) {
 			mId = appWidgetIds[0];
@@ -245,7 +245,7 @@ public class BaseballWidget extends AppWidgetProvider {
 			@Override
 			protected void onPostExecute(GetMatchBroadcastRes getMatchBroadcastRes) {
 				RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baseballwidget);
-				if (getMatchBroadcastRes != null) {
+				if (getMatchBroadcastRes != null && getMatchBroadcastRes.getBroadcast().size() > 0) {
 					StringBuffer sb = new StringBuffer();
 					List<MatchBroadcast> broadcast = getMatchBroadcastRes.getBroadcast();
 					for (MatchBroadcast matchBroadcast : broadcast) {
@@ -283,12 +283,12 @@ public class BaseballWidget extends AppWidgetProvider {
 					views.setRemoteAdapter(appWidgetIds, R.id.baseballtextwidget, listviewIntent);
 					//					appWidgetManager.updateAppWidget(appWidgetIds, rv);
 				} else {
-					views.setTextViewText(R.id.stadium, "---");
+//					views.setTextViewText(R.id.stadium, "---");
 					//					RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.baseballwidget);
 
 					Intent listviewIntent = new Intent(context, BaseballWidgetService.class);
 					listviewIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds);
-					listviewIntent.putExtra("Data", "문자 중계 로딩 실패\n경기가 시작하였는지 확인해 주세요");
+					listviewIntent.putExtra("text", "문자 중계 로딩 실패\n경기가 시작하였는지 확인해 주세요");
 
 					views.setTextViewText(R.id.text, "문자 중계 로딩 실패\n경기가 시작하였는지 확인해 주세요");
 					views.setRemoteAdapter(appWidgetIds, R.id.baseballtextwidget, listviewIntent);
