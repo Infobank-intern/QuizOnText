@@ -7,35 +7,36 @@
     
     <TextView 
         android:id="@+id/splashtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dip"
+        android:layout_height="40dip"
         android:layout_marginTop="100dip"
         android:layout_centerHorizontal="true"
-        android:textSize="34sp"
+        android:textSize="34dip"
         android:textStyle="italic"
         android:textColor="#6495ed"
         android:text="퀴즈온"/>
     
     <TextView 
         android:id="@+id/splashsubtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dip"
+        android:layout_height="50dip"
         android:layout_below="@+id/splashtitle"
         android:layout_marginTop="5dip"
         android:layout_centerHorizontal="true"
-        android:textSize="35sp"
+        android:textSize="35dip"
         android:textStyle="italic"
         android:textColor="#4169e1"
         android:text="문자 중계"/>
     
      <TextView 
         android:id="@+id/splashcomment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="30dip"
         android:layout_marginTop="300dip"
         android:layout_below="@+id/splashtitle"
         android:layout_centerHorizontal="true"
-        android:textSize="20sp"
+        android:gravity="center"
+        android:textSize="20dip"
         android:textStyle="italic"
         android:textColor="#ff8c00"
         android:text="프로야구 문자중계를 편리하게 !"/>

@@ -15,6 +15,7 @@ import net.ib.quizon.api.match.GetMatchListReq;
 import net.ib.quizon.api.match.GetMatchListRes;
 import net.ib.quizon.domain.match.Match;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,13 +29,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements OnClickListener {
-//		private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
-	private final String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
+	private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
+//	private final String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
 
 	private Timer timer;
 	private TimerTask timerTask = new TimerJob();
 	private int delay = 1000;
-	private int period = 5000;
+	private int period = 10000;
 
 	// Data
 	private String matchId;
@@ -93,20 +94,20 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-//		HttpLib.setTest(true);
+		HttpLib.setTest(true);
 		setData();
-		//		timerTask = new TimerJob();
-		//		timer = new Timer();
-//		timer.schedule(timerTask, delay, period);
+				timerTask = new TimerJob();
+				timer = new Timer();
+		timer.schedule(timerTask, delay, period);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-//		timerTask.cancel();
-//		timer.cancel();
-//		timerTask = null;
-//		timer = null;
+		timerTask.cancel();
+		timer.cancel();
+		timerTask = null;
+		timer = null;
 	}
 
 
@@ -180,14 +181,6 @@ public class MainActivity extends Activity implements OnClickListener {
 						public void onNothingSelected(AdapterView<?> arg0) {
 						}
 					});
-
-					//					for (Match match : result) {
-					//						match.getMatchStatus();
-					//						matchId = match.getMatchId();
-					//						if (matchId != null) {
-					//							break;
-					//						}
-					//					}
 				} else {
 					baseballText.setText("매치 정보 로딩 실패");
 					spinnerList.add("아직 경기가 열리지 않았습니다.");
@@ -211,6 +204,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	class TimerJob extends TimerTask {
 		@Override
 		public void run() {
+			inning = pollingView.getInning();
+			Log.i("inning", inning + "");
 			pollingView.updateView(matchId, inning);
 		}
 	}

@@ -52,7 +52,7 @@ public class TextPollingView implements OnClickListener {
     
     private String matchId;
     private int presentInning;
-//    protected int inning;
+    protected int inning;
     
 	public TextPollingView(View titleView, View mainView) {
         homeTeamNameText = (TextView) titleView.findViewById(R.id.hometeamname);
@@ -127,6 +127,7 @@ public class TextPollingView implements OnClickListener {
 					} else if (presentInning == 9) {
 						setButtonColor(ninthButton);
 					}
+					inning = presentInning;
 					updateView(matchId, presentInning);
 				}
 			}
@@ -153,7 +154,7 @@ public class TextPollingView implements OnClickListener {
 				if (getMatchBroadcastRes != null && getMatchBroadcastRes.getBroadcast().size() > 0) {
 					baseballText.setText("");
 					StringBuilder sb = new StringBuilder();
-					
+					Log.i("getMatchBroadcastRes.getBroadcast()",getMatchBroadcastRes.getBroadcast().toString());
 					List<MatchBroadcast> broadcast = getMatchBroadcastRes.getBroadcast();
 					for (MatchBroadcast matchBroadcast : broadcast) {
 						if (matchBroadcast == null) {
@@ -196,52 +197,52 @@ public class TextPollingView implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.button:
 			setButtonColor(allButton);
-//			inning = 0;
+			inning = 0;
 			updateView(matchId, 0);
 			break;
 		case R.id.first:
 			setButtonColor(firstButton);
-//			inning = 1;
+			inning = 1;
 			updateView(matchId, 1);
 			break;
 		case R.id.second:
 			setButtonColor(secondButton);
-//			inning = 2;
+			inning = 2;
 			updateView(matchId, 2);
 			break;
 		case R.id.third:
 			setButtonColor(thirdButton);
-//			inning = 3;
+			inning = 3;
 			updateView(matchId, 3);
 			break;
 		case R.id.fourth:
 			setButtonColor(fourthButton);
-//			inning = 4;
+			inning = 4;
 			updateView(matchId, 4);
 			break;
 		case R.id.fifth:
 			setButtonColor(fifthButton);
-//			inning = 5;
+			inning = 5;
 			updateView(matchId, 5);
 			break;
 		case R.id.sixth:
 			setButtonColor(sixthButton);
-//			inning = 6;
+			inning = 6;
 			updateView(matchId, 6);
 			break;
 		case R.id.seventh:
 			setButtonColor(seventhButton);
-//			inning = 7;
+			inning = 7;
 			updateView(matchId, 7);
 			break;
 		case R.id.eighth:
 			setButtonColor(eighthButton);
-//			inning = 8;
+			inning = 8;
 			updateView(matchId, 8);
 			break;
 		case R.id.ninth:
 			setButtonColor(ninthButton);
-//			inning = 9;
+			inning = 9;
 			updateView(matchId, 9);
 			break;
 		default:
@@ -303,5 +304,9 @@ public class TextPollingView implements OnClickListener {
 		seventhButton.setTextColor(Color.WHITE);
 		eighthButton.setTextColor(Color.WHITE);
 		ninthButton.setTextColor(Color.WHITE);
+	}
+	
+	public int getInning() {
+		return inning;
 	}
 }

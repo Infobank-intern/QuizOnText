@@ -10,6 +10,7 @@ import net.ib.quizon.api.match.GetMatchByMonthReq;
 import net.ib.quizon.api.match.GetMatchByMonthRes;
 import net.ib.quizon.domain.match.Match;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -26,7 +27,7 @@ import android.widget.Toast;
 
 public class CalendarActivity extends Activity implements OnClickListener {
 	private CalendarView calendar;
-	
+
 	private TextView firstHomeTeamNameCalendarText;
 	private TextView firstAwayTeamNameCalendarText;
 	private TextView firstMatchTimeText;
@@ -43,20 +44,22 @@ public class CalendarActivity extends Activity implements OnClickListener {
 	private TextView fourthAwayTeamNameCalendarText;
 	private TextView fourthMatchTimeText;
 	private TextView fourthMatchStadiumText;
-	
+
 	private Button firstMatchButton;
 	private Button secondMatchButton;
 	private Button thirdMatchButton;
 	private Button fourthMatchButton;
-	
+
 	private long currentTime;
 	private int currentMonth;
 	private int currentDate;
-	
+	private int selectedMonth;
+	private int selectedDate;
+
 	private Intent intent;
-	
+
 	private List<Match> matchList;
-	
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -66,22 +69,22 @@ public class CalendarActivity extends Activity implements OnClickListener {
 		firstAwayTeamNameCalendarText = (TextView) findViewById(R.id.firstawayteamnamecalendar);
 		firstMatchTimeText = (TextView) findViewById(R.id.firstmatchTimecalendar);
 		firstMatchStadiumText = (TextView) findViewById(R.id.firstmatchStadiumcalendar);
-		
+
 		secondHomeTeamNameCalendarText = (TextView) findViewById(R.id.secondhometeamnamecalendar);
 		secondAwayTeamNameCalendarText = (TextView) findViewById(R.id.secondawayteamnamecalendar);
 		secondMatchTimeText = (TextView) findViewById(R.id.secondmatchTimecalendar);
 		secondMatchStadiumText = (TextView) findViewById(R.id.secondmatchStadiumcalendar);
-		
+
 		thirdHomeTeamNameCalendarText = (TextView) findViewById(R.id.thirdhometeamnamecalendar);
 		thirdAwayTeamNameCalendarText = (TextView) findViewById(R.id.thirdawayteamnamecalendar);
 		thirdMatchTimeText = (TextView) findViewById(R.id.thirdmatchTimecalendar);
 		thirdMatchStadiumText = (TextView) findViewById(R.id.thirdmatchStadiumcalendar);
-		
+
 		fourthHomeTeamNameCalendarText = (TextView) findViewById(R.id.fourthhometeamnamecalendar);
 		fourthAwayTeamNameCalendarText = (TextView) findViewById(R.id.fourthawayteamnamecalendar);
 		fourthMatchTimeText = (TextView) findViewById(R.id.fourthmatchTimecalendar);
 		fourthMatchStadiumText = (TextView) findViewById(R.id.fourthmatchStadiumcalendar);
-		
+
 		firstMatchButton = (Button) findViewById(R.id.firstmatchbutton);
 		firstMatchButton.setOnClickListener(this);
 		secondMatchButton = (Button) findViewById(R.id.secondmatchbutton);
@@ -90,29 +93,33 @@ public class CalendarActivity extends Activity implements OnClickListener {
 		thirdMatchButton.setOnClickListener(this);
 		fourthMatchButton = (Button) findViewById(R.id.fourthmatchbutton);
 		fourthMatchButton.setOnClickListener(this);
-		
+
 		calendar = (CalendarView)findViewById(R.id.calendar);
 		matchList = new ArrayList<Match>();
-		
-//		Date temp = new Date(1407317400000L);	// 8/6
-//		Log.i("temp", temp +"");
-		
+
 		currentTime = System.currentTimeMillis();
-		
+
 		Date date = new Date(currentTime);
 		currentMonth = date.getMonth();
 		currentDate = date.getDate();
-		
-		
-		
+		selectedDate = currentDate;
+		selectedMonth = currentMonth;
+
+		new AlertDialog.Builder(this).setTitle("    ※ 안내 ※").setMessage("1. 달력을 통하여 경기일정을   확인하세요." +
+				"\n\n2. 날짜를 선택하면 그날의 문자 중계를 확인 할   수 있습니다." +
+				"\n\n3. 문자 중계 화면에서도 팀 선택을 할 수 있어요." +
+				"\n\n4. 문자 중계는 10초마다 자동 업데이트   됩니다." +
+				"\n\n5. 위젯을 통하여 스코어, 문자 중계를   볼 수 있습니다." +
+				"\n\n6. 위젯은 새로고침 버튼을 눌러   업데이트 된 기록을 받아 주세요.").setNegativeButton("안내 창 닫기", null).show();
+
 		setDate();
-		
+
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		int count = 0;
 		for (int i=0; i<matchList.size(); i++) {
 			Date matchDate = new Date(matchList.get(i).getMatchDate());
@@ -122,100 +129,143 @@ public class CalendarActivity extends Activity implements OnClickListener {
 				if (count == 1) {
 					firstHomeTeamNameCalendarText.setText(matchList.get(i).getHomeTeamName());
 					firstAwayTeamNameCalendarText.setText(matchList.get(i).getAwayTeamName());
-					firstMatchTimeText.setText(matchList.get(i).getMatchDescription().substring(4, 9));
+					firstMatchTimeText.setText(matchList.get(i).getMatchDescription().substring(4, 10));
 					firstMatchStadiumText.setText(matchList.get(i).getMatchStadium());
 				} else if (count == 2) {
 					secondHomeTeamNameCalendarText.setText(matchList.get(i).getHomeTeamName());
 					secondAwayTeamNameCalendarText.setText(matchList.get(i).getAwayTeamName());
-					secondMatchTimeText.setText(matchList.get(i).getMatchDescription().substring(4, 9));
+					secondMatchTimeText.setText(matchList.get(i).getMatchDescription().substring(4, 10));
 					secondMatchStadiumText.setText(matchList.get(i).getMatchStadium());
 				} else if (count == 3) {
 					thirdHomeTeamNameCalendarText.setText(matchList.get(i).getHomeTeamName());
 					thirdAwayTeamNameCalendarText.setText(matchList.get(i).getAwayTeamName());
-					thirdMatchTimeText.setText(matchList.get(i).getMatchDescription().substring(4, 9));
+					thirdMatchTimeText.setText(matchList.get(i).getMatchDescription().substring(4, 10));
 					thirdMatchStadiumText.setText(matchList.get(i).getMatchStadium());
 				} else if (count == 4) {
 					fourthHomeTeamNameCalendarText.setText(matchList.get(i).getHomeTeamName());
 					fourthAwayTeamNameCalendarText.setText(matchList.get(i).getAwayTeamName());
-					fourthMatchTimeText.setText(matchList.get(i).getMatchDescription().substring(4, 9));
+					fourthMatchTimeText.setText(matchList.get(i).getMatchDescription().substring(4, 10));
 					fourthMatchStadiumText.setText(matchList.get(i).getMatchStadium());
 				}
 			}
 		}
-		
+
 		calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 			public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
 				int count = 0;
-				for (int i=0; i<matchList.size(); i++) {
-					Date matchDate = new Date(matchList.get(i).getMatchDate());
-					Log.i("matchDate.getMonth()", String.valueOf(matchDate.getMonth()));
-					Log.i("month",month+ "");
-					Log.i("matchDate.getDate()", String.valueOf(matchDate.getDate() ));
-					Log.i("dayOfMonth", dayOfMonth + "");
-					if (matchDate.getMonth() == month && matchDate.getDate() == dayOfMonth) {
-						count ++ ;
-						Log.i("dayOfMonth",dayOfMonth+"" );
-						if (count == 1) {
-							firstHomeTeamNameCalendarText.setText("");
-							firstHomeTeamNameCalendarText.setText(matchList.get(i).getHomeTeamName());
-							firstAwayTeamNameCalendarText.setText(matchList.get(i).getAwayTeamName());
-							firstMatchTimeText.setText(matchList.get(i).getMatchDescription().substring(4, 9));
-							firstMatchStadiumText.setText(matchList.get(i).getMatchStadium());
-						} else if (count == 2) {
-							secondHomeTeamNameCalendarText.setText(matchList.get(i).getHomeTeamName());
-							secondAwayTeamNameCalendarText.setText(matchList.get(i).getAwayTeamName());
-							secondMatchTimeText.setText(matchList.get(i).getMatchDescription().substring(4, 9));
-							secondMatchStadiumText.setText(matchList.get(i).getMatchStadium());
-						} else if (count == 3) {
-							thirdHomeTeamNameCalendarText.setText(matchList.get(i).getHomeTeamName());
-							thirdAwayTeamNameCalendarText.setText(matchList.get(i).getAwayTeamName());
-							thirdMatchTimeText.setText(matchList.get(i).getMatchDescription().substring(4, 9));
-							thirdMatchStadiumText.setText(matchList.get(i).getMatchStadium());
-						} else if (count == 4) {
-							fourthHomeTeamNameCalendarText.setText(matchList.get(i).getHomeTeamName());
-							fourthAwayTeamNameCalendarText.setText(matchList.get(i).getAwayTeamName());
-							fourthMatchTimeText.setText(matchList.get(i).getMatchDescription().substring(4, 9));
-							fourthMatchStadiumText.setText(matchList.get(i).getMatchStadium());
-						}
+				int count1 = 0;
+				selectedDate = dayOfMonth;
+				selectedMonth = month;
+
+				Log.i("month", month + "");
+				Log.i("currentMonth", currentMonth + "");
+				Log.i("dayOfMonth", dayOfMonth + "");
+				Log.i("currentDate", currentDate +"");
+				if (month == currentMonth && dayOfMonth <= currentDate) {
+					for (int i=0; i<matchList.size(); i++) {
+						Date matchDate = new Date(matchList.get(i).getMatchDate());
+						if (matchDate.getMonth() == month && matchDate.getDate() == dayOfMonth) {
+							count ++ ;
+							if (count == 1) {
+								firstHomeTeamNameCalendarText.setText(matchList.get(i).getHomeTeamName());
+								firstAwayTeamNameCalendarText.setText(matchList.get(i).getAwayTeamName());
+								firstMatchTimeText.setText(matchList.get(i).getMatchDescription().substring(4, 10));
+								firstMatchStadiumText.setText(matchList.get(i).getMatchStadium());
+							} else if (count == 2) {
+								secondHomeTeamNameCalendarText.setText(matchList.get(i).getHomeTeamName());
+								secondAwayTeamNameCalendarText.setText(matchList.get(i).getAwayTeamName());
+								secondMatchTimeText.setText(matchList.get(i).getMatchDescription().substring(4, 10));
+								secondMatchStadiumText.setText(matchList.get(i).getMatchStadium());
+							} else if (count == 3) {
+								thirdHomeTeamNameCalendarText.setText(matchList.get(i).getHomeTeamName());
+								thirdAwayTeamNameCalendarText.setText(matchList.get(i).getAwayTeamName());
+								thirdMatchTimeText.setText(matchList.get(i).getMatchDescription().substring(4, 10));
+								thirdMatchStadiumText.setText(matchList.get(i).getMatchStadium());
+							} else if (count == 4) {
+								fourthHomeTeamNameCalendarText.setText(matchList.get(i).getHomeTeamName());
+								fourthAwayTeamNameCalendarText.setText(matchList.get(i).getAwayTeamName());
+								fourthMatchTimeText.setText(matchList.get(i).getMatchDescription().substring(4, 10));
+								fourthMatchStadiumText.setText(matchList.get(i).getMatchStadium());
+							}
+						} 
 					}
+				} else {
+					firstHomeTeamNameCalendarText.setText("---");
+					firstAwayTeamNameCalendarText.setText("---");
+					firstMatchTimeText.setText("--");
+					firstMatchStadiumText.setText("--");
+					secondHomeTeamNameCalendarText.setText("---");
+					secondAwayTeamNameCalendarText.setText("---");
+					secondMatchTimeText.setText("--");
+					secondMatchStadiumText.setText("--");
+					thirdHomeTeamNameCalendarText.setText("---");
+					thirdAwayTeamNameCalendarText.setText("---");
+					thirdMatchTimeText.setText("--");
+					thirdMatchStadiumText.setText("--");
+					fourthHomeTeamNameCalendarText.setText("---");
+					fourthAwayTeamNameCalendarText.setText("---");
+					fourthMatchTimeText.setText("--");
+					fourthMatchStadiumText.setText("--");
 				}
 			}
 		});
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.firstmatchbutton:
-			intent = new Intent(CalendarActivity.this, MainActivity.class);
-			intent.putExtra("selectMatch", 0);
-			startActivity(intent);
-			
+			if (selectedDate == currentDate && selectedMonth == currentMonth) {
+				intent = new Intent(CalendarActivity.this, MainActivity.class);
+				intent.putExtra("selectMatch", 0);
+				startActivity(intent);
+			} else if ((selectedDate < currentDate && selectedMonth == currentMonth) || (selectedMonth < currentMonth)) {
+				Toast.makeText(CalendarActivity.this, "지난 중계기록 보기는 준비중입니다.", Toast.LENGTH_SHORT).show();
+			} else if ((selectedDate > currentDate && selectedMonth == currentMonth) || (selectedMonth > currentMonth)) {
+				Toast.makeText(CalendarActivity.this, "열리지 않은 경기 입니다.", Toast.LENGTH_SHORT).show();
+			}
 			break;
 		case R.id.secondmatchbutton:
-			intent = new Intent(CalendarActivity.this, MainActivity.class);
-			intent.putExtra("selectMatch", 1);
-			startActivity(intent);
+			if (selectedDate == currentDate && selectedMonth == currentMonth) {
+				intent = new Intent(CalendarActivity.this, MainActivity.class);
+				intent.putExtra("selectMatch", 1);
+				startActivity(intent);
+			} else if ((selectedDate < currentDate && selectedMonth == currentMonth) || (selectedMonth < currentMonth)) {
+				Toast.makeText(CalendarActivity.this, "지난 중계기록 보기는 준비중입니다.", Toast.LENGTH_SHORT).show();
+			} else if ((selectedDate > currentDate && selectedMonth == currentMonth) || (selectedMonth > currentMonth)) {
+				Toast.makeText(CalendarActivity.this, "열리지 않은 경기 입니다.", Toast.LENGTH_SHORT).show();
+			}
 			break;
 		case R.id.thirdmatchbutton:
-			intent = new Intent(CalendarActivity.this, MainActivity.class);
-			intent.putExtra("selectMatch", 2);
-			startActivity(intent);
+			if (selectedDate == currentDate && selectedMonth == currentMonth) {
+				intent = new Intent(CalendarActivity.this, MainActivity.class);
+				intent.putExtra("selectMatch", 2);
+				startActivity(intent);
+			} else if ((selectedDate < currentDate && selectedMonth == currentMonth) || (selectedMonth < currentMonth)) {
+				Toast.makeText(CalendarActivity.this, "지난 중계기록 보기는 준비중입니다.", Toast.LENGTH_SHORT).show();
+			} else if ((selectedDate > currentDate && selectedMonth == currentMonth) || (selectedMonth > currentMonth)) {
+				Toast.makeText(CalendarActivity.this, "열리지 않은 경기 입니다.", Toast.LENGTH_SHORT).show();
+			}
 			break;
 		case R.id.fourthmatchbutton:
-			intent = new Intent(CalendarActivity.this, MainActivity.class);
-			intent.putExtra("selectMatch", 3);
-			startActivity(intent);
+			if (selectedDate == currentDate && selectedMonth == currentMonth) {
+				intent = new Intent(CalendarActivity.this, MainActivity.class);
+				intent.putExtra("selectMatch", 3);
+				startActivity(intent);
+			} else if ((selectedDate < currentDate && selectedMonth == currentMonth) || (selectedMonth < currentMonth)) {
+				Toast.makeText(CalendarActivity.this, "지난 중계기록 보기는 준비중입니다.", Toast.LENGTH_SHORT).show();
+			} else if ((selectedDate > currentDate && selectedMonth == currentMonth) || (selectedMonth > currentMonth)) {
+				Toast.makeText(CalendarActivity.this, "열리지 않은 경기 입니다.", Toast.LENGTH_SHORT).show();
+			}
 			break;
-
 		default:
 			break;
 		}
 	}
-	
+
 	private void setDate() {
 		new AsyncTask<Void, Void, List<Match>>() {
-			
+
 			@Override
 			protected List<Match> doInBackground(Void... params) {
 				// network process
@@ -223,7 +273,7 @@ public class CalendarActivity extends Activity implements OnClickListener {
 				getMatchByMonthReq.setMonth(currentMonth + 1);
 				GetMatchByMonthLink getMatchByMonthLink = new GetMatchByMonthLink(getMatchByMonthReq);
 				GetMatchByMonthRes matchByMonthRes = getMatchByMonthLink.linkage();
-				
+
 				if (matchByMonthRes != null) {
 					matchList = matchByMonthRes.getMatchList();
 					Log.i("matchList", matchList + "");
@@ -234,14 +284,7 @@ public class CalendarActivity extends Activity implements OnClickListener {
 
 			@Override
 			protected void onPostExecute(List<Match> result) {
-//				Log.i("result", result + "");
-				// ui process
 				if (result != null) {
-//					Log.i("result", result + "");
-//					Date temp = new Date(result.get(0).getMatchDate());
-//					Log.i("getMonth", String.valueOf(temp.getMonth()));
-//					matchList = result;
-					
 				} else {
 					matchList = null;
 				}

@@ -41,8 +41,8 @@ import android.widget.Toast;
 
 public class BaseballWidget extends AppWidgetProvider {
 
-//	private final static String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
-		private final static String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
+	private final static String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
+//		private final static String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
 
 	private static final String ACTION_CLICK = "CLICK";
 	private static final String ACTION_REFRESH = "REFRESH";
@@ -73,7 +73,7 @@ public class BaseballWidget extends AppWidgetProvider {
 	@Override
 	public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
 
-//		HttpLib.setTest(true);
+		HttpLib.setTest(true);
 
 		for(int i=0; i<appWidgetIds.length; i++) {
 			mId = appWidgetIds[0];

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:id="@+id/mywidget" >
+    android:id="@+id/mywidget"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-	<RelativeLayout
+    <RelativeLayout
         android:id="@+id/title"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="95dip"
         android:background="#af808080" >
-        
+
         <TextView
             android:id="@+id/hometeamname"
             android:layout_width="80dip"
             android:layout_height="40dip"
             android:layout_marginLeft="20dip"
             android:layout_marginTop="10dip"
-            android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#ffffff" />
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="15dip"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/awayteamname"
@@ -28,172 +28,172 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dip"
             android:layout_marginTop="10dip"
-            android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#ffffff" />
-        
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="15dip"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/stadium"
             android:layout_width="80dip"
             android:layout_height="30dip"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dip"
-            android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#ffffff" />
-        
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="20dip"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/inning"
             android:layout_width="50dip"
             android:layout_height="25dip"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/stadium"
-            android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#ffffff" />
-        
-        <TextView 
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="20dip"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/hometeampoint"
             android:layout_width="20dip"
             android:layout_height="40dip"
             android:layout_below="@+id/hometeamname"
-            android:layout_marginTop="5dip"
             android:layout_marginLeft="50dip"
-            android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:textSize="40sp"
-            android:textColor="#ffffff" />
-        
-        <TextView 
+            android:layout_marginTop="5dip"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="30dip"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/awayteampoint"
             android:layout_width="20dip"
             android:layout_height="40dip"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/hometeamname"
-            android:layout_marginTop="5dip"
             android:layout_marginRight="50dip"
-            android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:textSize="40sp"
-            android:textColor="#ffffff" />
-        
-        <TextView 
+            android:layout_marginTop="5dip"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="30dip"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/strike"
             android:layout_width="15dip"
             android:layout_height="wrap_content"
             android:layout_below="@+id/inning"
             android:layout_centerHorizontal="true"
-            android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#ffffff" />
-        
-        <TextView 
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="20dip"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/STRIKE"
             android:layout_width="15dip"
             android:layout_height="15dip"
             android:layout_below="@+id/inning"
             android:layout_marginTop="5dip"
-            android:textStyle="italic"
-            android:textColor="#ffffff"
             android:layout_toRightOf="@+id/strike"
-            
-            android:text="S" />
-        
-        <TextView 
+            android:text="S"
+            android:textColor="#7cfc00"
+            android:textSize="14dip"
+            android:textStyle="italic" />
+
+        <TextView
             android:id="@+id/ball"
             android:layout_width="15dip"
             android:layout_height="wrap_content"
             android:layout_below="@+id/inning"
             android:layout_toLeftOf="@+id/BALL"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#ffffff" />
-        
-         <TextView 
+            android:textColor="#ffffff"
+            android:textSize="20dip"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/BALL"
             android:layout_width="15dip"
             android:layout_height="15dip"
             android:layout_below="@+id/inning"
             android:layout_marginTop="5dip"
             android:layout_toLeftOf="@+id/strike"
-            android:textStyle="italic"
-            android:textColor="#ffffff"
-            android:text="B" />
-         
-        <TextView 
+            android:text="B"
+            android:textColor="#7cfc00"
+            android:textSize="14dip"
+            android:textStyle="italic" />
+
+        <TextView
             android:id="@+id/out"
             android:layout_width="15dip"
             android:layout_height="wrap_content"
             android:layout_below="@+id/inning"
             android:layout_toRightOf="@+id/STRIKE"
-            android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#ffffff" />
-        
-        <TextView 
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="20dip"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/OUT"
             android:layout_width="15dip"
             android:layout_height="15dip"
             android:layout_below="@+id/inning"
             android:layout_marginTop="5dip"
             android:layout_toRightOf="@+id/out"
-            android:textStyle="italic"
-            android:textColor="#ffffff"
-            android:text="O" />
-     	
+            android:text="O"
+            android:textColor="#7cfc00"
+            android:textSize="14dip"
+            android:textStyle="italic" />
     </RelativeLayout>
-    
+
+    <RelativeLayout
+        android:id="@+id/subtitle"
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="3dip"
+        android:background="#af000000" >
+
+        <Button
+            android:id="@+id/selectmatchbutton"
+            android:layout_width="140dip"
+            android:layout_height="40dip"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="다른경기보기" />
+
+        <ImageButton
+            android:id="@+id/refreshbutton"
+            android:layout_width="35dip	"
+            android:layout_height="35dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dip"
+            android:background="@drawable/refresh" />
+    </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/main"
         android:layout_width="fill_parent"
-        android:layout_height="270dip"
-        android:layout_below="@+id/title"
-        android:layout_marginTop="3dp"
+        android:layout_height="240dip"
+        android:layout_below="@+id/subtitle"
+        android:layout_marginTop="3dip"
         android:background="#af000000" >
-	
-        <FrameLayout 
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
 
-	        <ListView
-	            android:id="@+id/baseballtextwidget"
-	            android:layout_width="fill_parent"
-	            android:layout_height="fill_parent"
-	            android:padding="5dip" >
-	        </ListView>
-	        
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <ListView
+                android:id="@+id/baseballtextwidget"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:padding="5dip" >
+            </ListView>
         </FrameLayout>
     </RelativeLayout>
-    
-    <RelativeLayout 
-        android:id="@+id/subtitle"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/main"
-        android:background="#af808080"
-        android:layout_marginTop="3dp" >
-        
-        <Button 
-            android:id="@+id/selectmatchbutton"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:text="다른경기보기"
-            android:layout_centerVertical="true" />
-        
-        <ImageButton 
-            android:id="@+id/refreshbutton"
-         	android:layout_margin="5dp"
-            android:layout_alignParentRight="true"
-            android:layout_width="35dp	"
-            android:layout_height="35dp"
-            android:background="@drawable/refresh"
-            android:layout_centerVertical="true" />
-        
- 	</RelativeLayout>
- </RelativeLayout>
+
+</RelativeLayout>
