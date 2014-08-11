@@ -1,6 +1,7 @@
 package net.ib.baseballtext.activity;
 
 import net.ib.baseballtext.R;
+import net.ib.baseballtext.base.BaseActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +9,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.Window;
 
-public class SplashActivity extends Activity {
+public class SplashActivity extends BaseActivity {
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
