@@ -10,16 +10,21 @@ import kr.co.quizon.network.link.match.GetMatchListLink;
 import net.ib.baseballtext.R;
 import net.ib.baseballtext.R.id;
 import net.ib.baseballtext.R.layout;
+import net.ib.baseballtext.util.ViewHelper;
 import net.ib.baseballtext.view.TextPollingView;
 import net.ib.quizon.api.match.GetMatchListReq;
 import net.ib.quizon.api.match.GetMatchListRes;
 import net.ib.quizon.domain.match.Match;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -29,8 +34,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements OnClickListener {
-	private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
-//	private final String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
+//	private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
+	private final String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
+	
+	private ViewHelper mViewHelper;
 
 	private Timer timer;
 	private TimerTask timerTask = new TimerJob();
@@ -67,6 +74,11 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		mViewHelper = new ViewHelper(this);
+		View mainLayout = findViewById(R.id.main_layout);
+		mViewHelper.setGlobalSize((ViewGroup) mainLayout);
+		
 		titleView = findViewById(R.id.title);
 		mainView = findViewById(R.id.main);
 		button = (Button) findViewById(R.id.button);
@@ -94,7 +106,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		HttpLib.setTest(true);
+//		HttpLib.setTest(true);
 		setData();
 				timerTask = new TimerJob();
 				timer = new Timer();
@@ -110,6 +122,16 @@ public class MainActivity extends Activity implements OnClickListener {
 		timer = null;
 	}
 
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		long startTime = System.currentTimeMillis();
+		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+			Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
+			startActivity(intent);
+		}
+		Log.i("time", "during time(millis) : " +  (System.currentTimeMillis() - startTime));
+		return true;
+	}
 
 	private void setData() {
 		new AsyncTask<Void, Void, List<Match>>() {
@@ -173,8 +195,6 @@ public class MainActivity extends Activity implements OnClickListener {
 								break;
 							}
 							pollingView.getPresentInning(matchId);
-//							Log.i("inning", "2 : " + String.valueOf(inning));
-//							pollingView.updateView(matchId, inning);
 						}
 
 						@Override
@@ -205,7 +225,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		@Override
 		public void run() {
 			inning = pollingView.getInning();
-			Log.i("inning", inning + "");
 			pollingView.updateView(matchId, inning);
 		}
 	}

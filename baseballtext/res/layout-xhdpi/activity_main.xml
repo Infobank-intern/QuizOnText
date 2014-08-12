@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
@@ -94,7 +95,7 @@
         <TextView
             android:id="@+id/STRIKE"
             android:layout_width="15dip"
-            android:layout_height="15dip"
+            android:layout_height="20dip"
             android:layout_below="@+id/inning"
             android:layout_marginTop="5dip"
             android:layout_toRightOf="@+id/strike"
@@ -116,7 +117,7 @@
         <TextView
             android:id="@+id/BALL"
             android:layout_width="15dip"
-            android:layout_height="15dip"
+            android:layout_height="20dip"
             android:layout_below="@+id/inning"
             android:layout_marginTop="5dip"
             android:layout_toLeftOf="@+id/strike"
@@ -139,7 +140,7 @@
         <TextView
             android:id="@+id/OUT"
             android:layout_width="15dip"
-            android:layout_height="15dip"
+            android:layout_height="20dip"
             android:layout_below="@+id/inning"
             android:layout_marginTop="5dip"
             android:layout_toRightOf="@+id/out"

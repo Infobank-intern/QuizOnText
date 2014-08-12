@@ -154,7 +154,6 @@ public class TextPollingView implements OnClickListener {
 				if (getMatchBroadcastRes != null && getMatchBroadcastRes.getBroadcast().size() > 0) {
 					baseballText.setText("");
 					StringBuilder sb = new StringBuilder();
-					Log.i("getMatchBroadcastRes.getBroadcast()",getMatchBroadcastRes.getBroadcast().toString());
 					List<MatchBroadcast> broadcast = getMatchBroadcastRes.getBroadcast();
 					for (MatchBroadcast matchBroadcast : broadcast) {
 						if (matchBroadcast == null) {

@@ -1,32 +1,39 @@
 package net.ib.baseballtext.util;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.util.DisplayMetrics;
 
 public class ViewUtil {
 	private final static float defaultDpi = 2.0f;
-	private final static int defaultWidth = 1280;
-	private final static int defaultHeight = 720;
+	private final static int defaultWidth = 720;
+	private final static int defaultHeight = 1280;
 
-	private static Integer screenWidth;
-	private static Integer screenHeight;
+	private static Integer screenVerticalWidth;
+	private static Integer screenVerticalHeight;
+	private static Integer screenHorizontalWidth;
+	private static Integer screenHorizontalHeight;
 	private static Float dpi;
 	private static Float dpiRate;
-	private static Typeface godoM;
-	private static Typeface godoB;
 
+	public static int getDefaultWidth() {
+		return defaultWidth;
+	}
+	
+	public static int getDefaultHeight() {
+		return defaultHeight;
+	}
+	
 	/**
 	 * 화면 전체 너비 가져오기
 	 * 
 	 * @param context
 	 * @return
 	 */
-	public static int getScreenWidth(Context context) {
-		if (screenWidth == null) {
-			initWindowData(context);
+	public static int getScreenVerticalWidth(Context context) {
+		if (screenVerticalWidth == null) {
+			initVerticalWindowData(context);
 		}
-		return screenWidth;
+		return screenVerticalWidth;
 	}
 
 	/**
@@ -35,11 +42,37 @@ public class ViewUtil {
 	 * @param context
 	 * @return
 	 */
-	public static int getScreenHeight(Context context) {
-		if (screenHeight == null) {
-			initWindowData(context);
+	public static int getScreenVerticalHeight(Context context) {
+		if (screenVerticalHeight == null) {
+			initVerticalWindowData(context);
 		}
-		return screenHeight;
+		return screenVerticalHeight;
+	}
+
+	/**
+	 * 화면 전체 너비 가져오기
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static int getScreenHorizontalWidth(Context context) {
+		if (screenHorizontalWidth == null) {
+			initHorizontalWindowData(context);
+		}
+		return screenHorizontalWidth;
+	}
+	
+	/**
+	 * 화면 전체 높이 가져오기
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static int getScreenHorizontalHeight(Context context) {
+		if (screenHorizontalHeight == null) {
+			initHorizontalWindowData(context);
+		}
+		return screenHorizontalHeight;
 	}
 
 	/**
@@ -50,42 +83,25 @@ public class ViewUtil {
 	 */
 	public static float getDpi(Context context) {
 		if (dpi == null) {
-			initWindowData(context);
+			final DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+			dpi = displayMetrics.density;
 		}
 		return dpi;
 	}
-
+	
 	public static float getDpiRate(Context context) {
 		if (dpiRate == null) {
 			dpiRate = defaultDpi / getDpi(context);
 		}
 		return dpiRate;
 	}
+	
+	public static float getDefalutDip() {
+		return defaultDpi;
+	}
 
 	public static int getPixels(Context context, int dip) {
 		return (int) (dip * getDpi(context) + 0.5f);
-	}
-
-	public static Typeface getTypefaceGodoM(Context context) {
-		if (godoM == null) {
-			godoM = Typeface.createFromAsset(context.getAssets(),"fonts/GodoM.ttf");
-		}
-		return godoM;
-	}
-
-	public static Typeface getTypefaceGodoB(Context context) {
-		if (godoB == null) {
-			godoB = Typeface.createFromAsset(context.getAssets(), "fonts/GodoB.ttf");
-		}
-		return godoB;
-	}
-	
-	public static int getWidth(Context context, int dip) {
-		return getWidthSize(context, getPixels(context, dip));
-	}
-
-	public static int getWidthSize(Context context, int width) {
-		return getWidthSize(context, width, getScreenWidth(context));
 	}
 
 	public static int getWidthSize(Context context, int width, int screenWidth) {
@@ -96,14 +112,6 @@ public class ViewUtil {
 		return Math.round(dpiRate * width * screenWidth / defaultWidth);
 	}
 
-	public static int getHeight(Context context, int dip) {
-		return getHeightSize(context, getPixels(context, dip));
-	}
-	
-	public static int getHeightSize(Context context, int height) {
-		return getHeightSize(context, height, getScreenHeight(context));
-	}
-
 	public static int getHeightSize(Context context, int height, int screenHeight) {
 		return getHeightSize(getDpiRate(context), height, screenHeight);
 	}
@@ -112,21 +120,18 @@ public class ViewUtil {
 		return Math.round(dpiRate * height * screenHeight / defaultHeight);
 	}
 
-	private synchronized static void initWindowData(Context context) {
-		if (screenHeight == null && screenWidth == null && dpi == null) {
-			// final WindowManager windowManager = (WindowManager)
-			// context.getSystemService(Context.WINDOW_SERVICE);
-			// final Display display = windowManager.getDefaultDisplay();
-			// screenHeight = display.getHeight();
-			// screenWidth = display.getWidth();
-			// final DisplayMetrics displayMetrics = new DisplayMetrics();
-			// display.getMetrics(displayMetrics);
-			// dpi = displayMetrics.density;
-
+	private synchronized static void initVerticalWindowData(Context context) {
+		if (screenVerticalHeight == null && screenVerticalWidth == null) {
 			final DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-			dpi = displayMetrics.density;
-			screenWidth = displayMetrics.widthPixels;
-			screenHeight = displayMetrics.heightPixels;
+			screenVerticalWidth = displayMetrics.widthPixels;
+			screenVerticalHeight = displayMetrics.heightPixels;
+		}
+	}
+	private synchronized static void initHorizontalWindowData(Context context) {
+		if (screenHorizontalHeight == null && screenHorizontalWidth == null) {
+			final DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+			screenHorizontalWidth = displayMetrics.widthPixels;
+			screenHorizontalHeight = displayMetrics.heightPixels;
 		}
 	}
 }
