@@ -23,17 +23,20 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class MainActivity extends Activity implements OnClickListener {
+public class MainActivity extends Activity implements OnTouchListener {
 //	private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
 	private final String ACCESS_TOKEN = "35fa9897-c723-44a7-a562-bcabd76b2fc0"; // release
 	
@@ -51,6 +54,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private ArrayAdapter<String> adapter;
 	private int inning;
 	private int selectMatch;
+	private float pressedX;
 
 	// JOB
 	private TextPollingView pollingView;
@@ -64,6 +68,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private TextView inningText;
 	private TextView homeTeamPointText;
 	private TextView awayTeamPointText;
+	private ScrollView baseballTextScroll;
 
 	private View titleView;
 	private View mainView;
@@ -81,8 +86,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		
 		titleView = findViewById(R.id.title);
 		mainView = findViewById(R.id.main);
-		button = (Button) findViewById(R.id.button);
-		button.setOnClickListener(this);
+//		button = (Button) findViewById(R.id.button);
+//		button.setOnClickListener(this);
 
 		baseballText = (TextView) findViewById(R.id.baseballtext);
 		homeTeamNameText = (TextView) findViewById(R.id.hometeamname);
@@ -91,7 +96,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		inningText = (TextView) findViewById(R.id.inning);
 		homeTeamPointText = (TextView) findViewById(R.id.hometeampoint);
 		awayTeamPointText = (TextView) findViewById(R.id.awayteampoint);
-
+		baseballTextScroll = (ScrollView) findViewById(R.id.baseballtextScroll);
 
 		matchTempList = new ArrayList<Match>();
 		spinner = (Spinner) findViewById(R.id.selectmatchspinner);
@@ -101,6 +106,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		pollingView = new TextPollingView(titleView, mainView);
 
 		selectMatch = getIntent().getIntExtra("selectMatch", 0);
+		
+		baseballTextScroll.setOnTouchListener(this);
 	}
 
 	@Override
@@ -123,14 +130,10 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
-		long startTime = System.currentTimeMillis();
-		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-			Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
-			startActivity(intent);
-		}
-		Log.i("time", "during time(millis) : " +  (System.currentTimeMillis() - startTime));
-		return true;
+	public void onBackPressed() {
+		Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
+		startActivity(intent);
+		finish();
 	}
 
 	private void setData() {
@@ -218,8 +221,46 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
-	public void onClick(View v) {
+	public boolean onTouchEvent(MotionEvent event) {
+		float distance = 0;
+
+		switch(event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+
+			// 손가락을 touch 했을 떄 x 좌표값 저장
+			pressedX = event.getX();
+			break;
+		case MotionEvent.ACTION_UP:
+			// 손가락을 떼었을 때 저장해놓은 x좌표와의 거리 비교
+			distance = pressedX - event.getX();
+			break;
+		}
+
+		// 해당 거리가 100이 되지 않으면 이벤트 처리 하지 않는다.
+		if (Math.abs(distance) < 100) {
+			return false;	
+		}
+
+		Intent intent = new Intent(MainActivity.this, MainActivity.class);
+		if (distance > 0) {
+			// 손가락을 왼쪽으로 움직였으면 오른쪽 화면이 나타나야 한다.
+			intent.putExtra("selectMatch", (selectMatch+1)%4 );
+		} else {
+			// 손가락을 오른쪽으로 움직였으면 왼쪽 화면이 나타나야 한다.
+			if (selectMatch == 0) {
+				selectMatch = 3;
+				intent.putExtra("selectMatch", selectMatch);
+			} else {
+				intent.putExtra("selectMatch", (selectMatch-1));
+			}
+		}
+		startActivity(intent);
+
+		finish(); // finish 해주지 않으면 activity가 계속 쌓인다. 
+
+		return true;
 	}
+
 
 	class TimerJob extends TimerTask {
 		@Override
@@ -227,5 +268,45 @@ public class MainActivity extends Activity implements OnClickListener {
 			inning = pollingView.getInning();
 			pollingView.updateView(matchId, inning);
 		}
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		float distance = 0;
+		
+		switch(event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			// 손가락을 touch 했을 떄 x 좌표값 저장
+			pressedX = event.getX();
+			break;
+		case MotionEvent.ACTION_UP:
+			// 손가락을 떼었을 때 저장해놓은 x좌표와의 거리 비교
+			distance = pressedX - event.getX();
+			break;
+		}
+
+		// 해당 거리가 100이 되지 않으면 이벤트 처리 하지 않는다.
+		if (Math.abs(distance) < 100) {
+			return false;	
+		}
+
+		Intent intent = new Intent(MainActivity.this, MainActivity.class);
+		if (distance > 0) {
+			// 손가락을 왼쪽으로 움직였으면 오른쪽 화면이 나타나야 한다.
+			intent.putExtra("selectMatch", (selectMatch+1)%4 );
+		} else {
+			// 손가락을 오른쪽으로 움직였으면 왼쪽 화면이 나타나야 한다.
+			if (selectMatch == 0) {
+				selectMatch = 3;
+				intent.putExtra("selectMatch", selectMatch);
+			} else {
+				intent.putExtra("selectMatch", (selectMatch-1));
+			}
+		}
+		startActivity(intent);
+
+		finish(); // finish 해주지 않으면 activity가 계속 쌓인다. 
+
+		return true;
 	}
 }

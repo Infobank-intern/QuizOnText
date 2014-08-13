@@ -27,40 +27,41 @@ import android.view.Window;
 
 public class SplashActivity extends Activity {
 	private ViewHelper mViewHelper;
-	
+
 	private long currentTime;
 	private int currentMonth;
 	private int currentDate;
-	
+
 	private List<Match> matchList;
 	private List<Match>	currentMatchList;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_splash);
-		
+
 		mViewHelper = new ViewHelper(this);
 		View splashLayout = findViewById(R.id.splash_layout);
 		mViewHelper.setGlobalSize((ViewGroup) splashLayout);
-		
+
 		matchList = new ArrayList<Match>();
 		currentMatchList = new ArrayList<Match>();
-		
+
 		final SharedPreferences pref = getSharedPreferences("Pref1", 0);
 		final Editor prefEdit = pref.edit();
-		
-		final CharSequence[] teamName = {"SAMSUNG LIONS", "DOSAN BEARS", "LG TWINS", "NEXEN HEROES",
-										 "LOTTE GIANTS", "SK WYVERNS", "NC DINOS", "KIA TIGERS", "HANHWA EAGLES"};
-		
+
+		final CharSequence[] teamName = {"SAMSUNG LIONS", "DOOSAN BEARS", "LG TWINS", "NEXEN HEROES",
+				"LOTTE GIANTS", "SK WYVERNS", "NC DINOS", "KIA TIGERS", "HANWHA EAGLES"};
+
 		currentTime = System.currentTimeMillis();
 		Date date = new Date(currentTime);
 		currentMonth = date.getMonth();
 		currentDate = date.getDate();
-		
+
 		MatchByMonth matchByMonth = new MatchByMonth(currentMonth);
+		matchByMonth.setDate();
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -77,17 +78,17 @@ public class SplashActivity extends Activity {
 				}
 			}
 		}
-		
-		Log.i("currentMatchList", currentMatchList + "");
-		
+
 		int whitchTeam = pref.getInt("whitchTeam", 10); 
-		if ( (whitchTeam < 10) && (currentMatchList != null) ) {
+		if ( (whitchTeam < 9) && (currentMatchList != null) ) {
+			int count = 0;
 			for(int i=0; i<currentMatchList.size(); i++) {
 				Log.i("여기는 올거고", "여기는 올거고");
-				Log.i("currentMatchList.get(i).getHomeTeamName()", currentMatchList.get(i).getHomeTeamName());
-				Log.i("teamName[whitchTeam]", (String) teamName[whitchTeam]);
-				Log.i("currentMatchList.get(i).getAwayTeamName()", currentMatchList.get(i).getAwayTeamName());
+				Log.i("currentMatchList.get(i).getHomeTeamName()", "*" + currentMatchList.get(i).getHomeTeamName() + "*");
+				Log.i("teamName[whitchTeam]", "*" + (String) teamName[whitchTeam] + "*");
+				Log.i("currentMatchList.get(i).getAwayTeamName()", "*" + currentMatchList.get(i).getAwayTeamName() + "*");
 				if ((currentMatchList.get(i).getHomeTeamName().equals((String) teamName[whitchTeam])) || (currentMatchList.get(i).getAwayTeamName().equals((String) teamName[whitchTeam]))) {
+					Log.i("for 안", "TRUE");
 					final Intent intent = new Intent(SplashActivity.this, MainActivity.class);
 					intent.putExtra("selectMatch", i);
 					Handler handler = new Handler() {
@@ -98,22 +99,37 @@ public class SplashActivity extends Activity {
 							finish();
 						}
 					};
-					handler.sendEmptyMessageDelayed(0, 500);
+					handler.sendEmptyMessageDelayed(0, 1000);
+					break;
+				}
+				count ++;
+				if (count == 4) {
+					Log.i("for 안", "FALSE");
+					final Intent intent1 = new Intent(SplashActivity.this, CalendarActivity.class);
+					Handler handler = new Handler() {
+						public void handleMessage(Message msg) {
+							super.handleMessage(msg);
+							startActivity(intent1);
+							overridePendingTransition(R.anim.fade, R.anim.hold);
+							finish();
+						}
+					};
+					handler.sendEmptyMessageDelayed(0, 1000);
+					break;
 				}
 			}
-		} else {
-				Handler handler = new Handler() {
-					public void handleMessage(Message msg) {
-						super.handleMessage(msg);
-						startActivity(new Intent (SplashActivity.this, CalendarActivity.class));
-						overridePendingTransition(R.anim.fade, R.anim.hold);
-						finish();
-					}
-				};
-				handler.sendEmptyMessageDelayed(0, 500);
+		} 
+		else {
+			Log.i("for 밖", "-------");
+			Handler handler = new Handler() {
+				public void handleMessage(Message msg) {
+					super.handleMessage(msg);
+					startActivity(new Intent (SplashActivity.this, CalendarActivity.class));
+					overridePendingTransition(R.anim.fade, R.anim.hold);
+					finish();
+				}
+			};
+			handler.sendEmptyMessageDelayed(0, 1000);
 		}
-		
-		
-		
 	}
 }

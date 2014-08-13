@@ -26,6 +26,7 @@
                 android:layout_width="90dip"
                 android:layout_height="fill_parent"
                 android:gravity="center"
+                android:textColor="#ffffff"
                 android:textSize="18dip" />
 
             <TextView
@@ -43,6 +44,7 @@
                 android:layout_height="fill_parent"
                 android:layout_toRightOf="@+id/firstcolon"
                 android:gravity="center"
+                android:textColor="#ffffff"
                 android:textSize="18dip" />
         </RelativeLayout>
 
@@ -99,6 +101,7 @@
                 android:layout_width="90dip"
                 android:layout_height="fill_parent"
                 android:gravity="center"
+                android:textColor="#ffffff"
                 android:textSize="18dip" />
 
             <TextView
@@ -116,6 +119,7 @@
                 android:layout_height="fill_parent"
                 android:layout_toRightOf="@+id/secondcolon"
                 android:gravity="center"
+                android:textColor="#ffffff"
                 android:textSize="18dip" />
         </RelativeLayout>
 
@@ -172,6 +176,7 @@
                 android:layout_width="90dip"
                 android:layout_height="fill_parent"
                 android:gravity="center"
+                android:textColor="#ffffff"
                 android:textSize="18dip" />
 
             <TextView
@@ -189,6 +194,7 @@
                 android:layout_height="fill_parent"
                 android:layout_toRightOf="@+id/thirdcolon"
                 android:gravity="center"
+                android:textColor="#ffffff"
                 android:textSize="18dip" />
         </RelativeLayout>
 
@@ -244,6 +250,7 @@
                 android:layout_width="90dip"
                 android:layout_height="fill_parent"
                 android:gravity="center"
+                android:textColor="#ffffff"
                 android:textSize="18dip" />
 
             <TextView
@@ -261,6 +268,7 @@
                 android:layout_height="fill_parent"
                 android:layout_toRightOf="@+id/fourthcolon"
                 android:gravity="center"
+                android:textColor="#ffffff"
                 android:textSize="18dip" />
         </RelativeLayout>
 

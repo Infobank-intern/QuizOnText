@@ -12,14 +12,13 @@ import android.util.Log;
 
 public class MatchByMonth {
 	private int currentMonth;
-	private List<Match> matchList;
+	static private List<Match> matchList;
 	
 	public MatchByMonth (int currentMonth) {
 		this.currentMonth = currentMonth;
-		setDate();
 	}
 	
-	private void setDate() {
+	public void setDate() {
 		new AsyncTask<Void, Void, List<Match>>() {
 
 			@Override
