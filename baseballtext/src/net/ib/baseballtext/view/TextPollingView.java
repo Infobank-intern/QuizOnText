@@ -129,6 +129,7 @@ public class TextPollingView implements OnClickListener {
 			@Override
 			protected void onPostExecute(GetMatchInfoRes result) {
 				if (result != null && result.getMatchInfo() != null) {
+					Log.i("getPresentInning_GetMatchInfoReq_result", result + "");
 					presentInning = result.getMatchInfo().getInning();
 					if (presentInning == 1) {
 						setButtonColor(firstButton);
@@ -190,6 +191,7 @@ public class TextPollingView implements OnClickListener {
 					setMatchPlayers(matchPlayers);
 					
 					List<MatchSummary> matchSummaryList = getMatchBroadcastRes.getMatchSummaryList();
+					Log.i("updateView_ getMatchBroadcastRes.getMatchPlayers()", matchSummaryList + "");
 					for (MatchSummary matchSummary : matchSummaryList) {
 						if (matchSummary == null) {
 							continue;
@@ -266,10 +268,14 @@ public class TextPollingView implements OnClickListener {
 			updateView(matchId, 9);
 			break;
 		case R.id.hometeamname:
+			homeTeamNameText.setTextColor(Color.YELLOW);
+			awayTeamNameText.setTextColor(Color.YELLOW);
 			intent = new Intent(mainContext, MatchLineUpActivity.class);
 			mainContext.startActivity(intent);
 			break;
 		case R.id.awayteamname:
+			homeTeamNameText.setTextColor(Color.YELLOW);
+			awayTeamNameText.setTextColor(Color.YELLOW);
 			intent = new Intent(mainContext, MatchLineUpActivity.class);
 			mainContext.startActivity(intent);
 			break;

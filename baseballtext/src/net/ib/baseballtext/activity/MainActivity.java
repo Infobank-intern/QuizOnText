@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -57,6 +58,16 @@ public class MainActivity extends Activity implements OnTouchListener {
 	private int inning;
 	private int selectMatch;
 	private float pressedX;
+	private int matchTempListSize;
+	
+	private String firstMatchName;
+	private String secondMatchName;
+	private String thirdMatchName;
+	private String fourthMatchName;
+	private int firstMatch;
+	private int secondMatch;
+	private int thirdMatch;
+	private int fourthMatch;
 
 	// JOB
 	private TextPollingView pollingView;
@@ -111,7 +122,12 @@ public class MainActivity extends Activity implements OnTouchListener {
 		pollingView = new TextPollingView(titleView, mainView, mContext);
 
 		selectMatch = getIntent().getIntExtra("selectMatch", 0);
-		
+		firstMatchName = getIntent().getStringExtra("firstMatchName");
+		secondMatchName = getIntent().getStringExtra("secondMatchName");
+		thirdMatchName = getIntent().getStringExtra("thirdMatchName");
+		fourthMatchName = getIntent().getStringExtra("fourthMatchName");
+//		Log.i("selectMatchName", selectMatchName);
+//		Log.i("matchTempList", matchTempList + "");
 		baseballTextScroll.setOnTouchListener(this);
 		
 	}
@@ -120,6 +136,8 @@ public class MainActivity extends Activity implements OnTouchListener {
 	protected void onResume() {
 		super.onResume();
 //		HttpLib.setTest(true);
+		homeTeamNameText.setTextColor(Color.WHITE);
+		awayTeamNameText.setTextColor(Color.WHITE);
 		setData();
 		timerTask = new TimerJob();
 		timer = new Timer();
@@ -165,12 +183,11 @@ public class MainActivity extends Activity implements OnTouchListener {
 		Intent intent = new Intent(MainActivity.this, MainActivity.class);
 		if (distance > 0) {
 			// 손가락을 왼쪽으로 움직였으면 오른쪽 화면이 나타나야 한다.
-			intent.putExtra("selectMatch", (selectMatch+1)%4 );
+			intent.putExtra("selectMatch", (selectMatch+1)%matchTempListSize );
 		} else {
 			// 손가락을 오른쪽으로 움직였으면 왼쪽 화면이 나타나야 한다.
 			if (selectMatch == 0) {
-				selectMatch = 3;
-				intent.putExtra("selectMatch", selectMatch);
+				intent.putExtra("selectMatch", matchTempListSize-1);
 			} else {
 				intent.putExtra("selectMatch", (selectMatch-1));
 			}
@@ -204,12 +221,11 @@ public class MainActivity extends Activity implements OnTouchListener {
 		Intent intent = new Intent(MainActivity.this, MainActivity.class);
 		if (distance > 0) {
 			// 손가락을 왼쪽으로 움직였으면 오른쪽 화면이 나타나야 한다.
-			intent.putExtra("selectMatch", (selectMatch+1)%4 );
+			intent.putExtra("selectMatch", (selectMatch+1)%matchTempListSize );
 		} else {
 			// 손가락을 오른쪽으로 움직였으면 왼쪽 화면이 나타나야 한다.
 			if (selectMatch == 0) {
-				selectMatch = 3;
-				intent.putExtra("selectMatch", selectMatch);
+				intent.putExtra("selectMatch", matchTempListSize-1);
 			} else {
 				intent.putExtra("selectMatch", (selectMatch-1));
 			}
@@ -248,14 +264,18 @@ public class MainActivity extends Activity implements OnTouchListener {
 			protected void onPostExecute(List<Match> result) { 
 				// ui process
 				if (result != null) {
+					Log.i("setData_GetMatchInfoReq_result", result + "");
 					spinnerList.clear();
+					matchTempListSize = result.size();
 					for (int i=0; i<result.size(); i++) {
 						matchTempList.add(result.get(i));
 						spinnerList.add(result.get(i).getHomeTeamName() + " vs " + result.get(i).getAwayTeamName());
 					}
+					
 					adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.matchspinner, spinnerList);
 					spinner.setAdapter(adapter);
 					spinner.setSelection(selectMatch);
+					Log.i("selectMatch", selectMatch + "");
 					
 					spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 						@Override
@@ -263,6 +283,8 @@ public class MainActivity extends Activity implements OnTouchListener {
 							switch (position) {
 							case 0:
 								matchNumber = 0;
+								selectMatch = 0;
+								Log.i("setData_matchTempList(0)", matchTempList.get(0).getHomeTeamName());
 								matchId = matchTempList.get(0).getMatchId();
 								homeTeamNameText.setText(matchTempList.get(0).getHomeTeamName());
 								awayTeamNameText.setText(matchTempList.get(0).getAwayTeamName());
@@ -270,6 +292,8 @@ public class MainActivity extends Activity implements OnTouchListener {
 								break;
 							case 1:
 								matchNumber = 1;
+								selectMatch = 1;
+								Log.i("setData_matchTempList(0)", matchTempList.get(1).getHomeTeamName());
 								matchId = matchTempList.get(1).getMatchId();
 								homeTeamNameText.setText(matchTempList.get(1).getHomeTeamName());
 								awayTeamNameText.setText(matchTempList.get(1).getAwayTeamName());
@@ -277,6 +301,8 @@ public class MainActivity extends Activity implements OnTouchListener {
 								break;
 							case 2:
 								matchNumber = 2;
+								selectMatch = 2;
+								Log.i("setData_matchTempList(0)", matchTempList.get(2).getHomeTeamName());
 								matchId = matchTempList.get(2).getMatchId();
 								homeTeamNameText.setText(matchTempList.get(2).getHomeTeamName());
 								awayTeamNameText.setText(matchTempList.get(2).getAwayTeamName());
@@ -284,6 +310,8 @@ public class MainActivity extends Activity implements OnTouchListener {
 								break;
 							case 3:
 								matchNumber = 3;
+								selectMatch = 3;
+								Log.i("setData_matchTempList(0)", matchTempList.get(3).getHomeTeamName());
 								matchId = matchTempList.get(3).getMatchId();
 								homeTeamNameText.setText(matchTempList.get(3).getHomeTeamName());
 								awayTeamNameText.setText(matchTempList.get(3).getAwayTeamName());
@@ -294,7 +322,6 @@ public class MainActivity extends Activity implements OnTouchListener {
 							}
 							pollingView.getPresentInning(matchId, matchTempList, matchNumber);
 						}
-
 						@Override
 						public void onNothingSelected(AdapterView<?> arg0) {
 						}

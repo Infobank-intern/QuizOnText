@@ -83,7 +83,8 @@
             android:layout_marginRight="5dip"
             android:gravity="center"
             android:text="문자중계"
-            android:textSize="13dip" >
+            android:textSize="13dip"
+            android:background="@drawable/btn_yellow" >
         </Button>
     </LinearLayout>
 
@@ -158,7 +159,8 @@
             android:layout_marginRight="5dip"
             android:gravity="center"
             android:text="문자중계"
-            android:textSize="13dip" >
+            android:textSize="13dip"
+            android:background="@drawable/btn_yellow" >
         </Button>
     </LinearLayout>
 
@@ -232,7 +234,8 @@
             android:layout_marginRight="5dip"
             android:gravity="center"
             android:text="문자중계"
-            android:textSize="13dip" >
+            android:textSize="13dip"
+            android:background="@drawable/btn_yellow" >
         </Button>
     </LinearLayout>
 
@@ -306,7 +309,8 @@
             android:layout_marginRight="5dip"
             android:gravity="center"
             android:text="문자중계"
-            android:textSize="13dip" >
+            android:textSize="13dip"
+            android:background="@drawable/btn_yellow" >
         </Button>
     </LinearLayout>
 

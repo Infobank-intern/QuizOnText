@@ -76,6 +76,7 @@ public class MatchLineUpActivity extends Activity {
 			homeTeambatterText.setText(sb);
 			awayTeambatterText.setText(sb1);
 		}
+		
 		mViewHelper = new ViewHelper(this);
 		View mainLayout = findViewById(R.id.main_layout);
 		mViewHelper.setGlobalSize((ViewGroup) mainLayout);

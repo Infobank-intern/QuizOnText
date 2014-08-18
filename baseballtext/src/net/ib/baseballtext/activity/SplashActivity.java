@@ -87,6 +87,7 @@ public class SplashActivity extends Activity {
 				Log.i("currentMatchList.get(i).getHomeTeamName()", "*" + currentMatchList.get(i).getHomeTeamName() + "*");
 				Log.i("teamName[whitchTeam]", "*" + (String) teamName[whitchTeam] + "*");
 				Log.i("currentMatchList.get(i).getAwayTeamName()", "*" + currentMatchList.get(i).getAwayTeamName() + "*");
+				Log.i("count", count + "");
 				if ((currentMatchList.get(i).getHomeTeamName().equals((String) teamName[whitchTeam])) || (currentMatchList.get(i).getAwayTeamName().equals((String) teamName[whitchTeam]))) {
 					Log.i("for 안", "TRUE");
 					final Intent intent = new Intent(SplashActivity.this, MainActivity.class);
@@ -103,7 +104,7 @@ public class SplashActivity extends Activity {
 					break;
 				}
 				count ++;
-				if (count == 4) {
+				if (count == currentMatchList.size()) {
 					Log.i("for 안", "FALSE");
 					final Intent intent1 = new Intent(SplashActivity.this, CalendarActivity.class);
 					Handler handler = new Handler() {
