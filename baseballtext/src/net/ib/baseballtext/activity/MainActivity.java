@@ -59,15 +59,6 @@ public class MainActivity extends Activity implements OnTouchListener {
 	private int selectMatch;
 	private float pressedX;
 	private int matchTempListSize;
-	
-	private String firstMatchName;
-	private String secondMatchName;
-	private String thirdMatchName;
-	private String fourthMatchName;
-	private int firstMatch;
-	private int secondMatch;
-	private int thirdMatch;
-	private int fourthMatch;
 
 	// JOB
 	private TextPollingView pollingView;
@@ -122,12 +113,6 @@ public class MainActivity extends Activity implements OnTouchListener {
 		pollingView = new TextPollingView(titleView, mainView, mContext);
 
 		selectMatch = getIntent().getIntExtra("selectMatch", 0);
-		firstMatchName = getIntent().getStringExtra("firstMatchName");
-		secondMatchName = getIntent().getStringExtra("secondMatchName");
-		thirdMatchName = getIntent().getStringExtra("thirdMatchName");
-		fourthMatchName = getIntent().getStringExtra("fourthMatchName");
-//		Log.i("selectMatchName", selectMatchName);
-//		Log.i("matchTempList", matchTempList + "");
 		baseballTextScroll.setOnTouchListener(this);
 		
 	}
