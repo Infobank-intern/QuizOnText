@@ -138,7 +138,10 @@ public class CalendarActivity extends Activity implements OnClickListener {
 			name = "선호 구단 선택하기";
 		}
 		
-		setAlertDialog(pref, prefEdit, teamName, name);
+		if (pref.getInt("settingDate", 0) != currentDate) {
+			setAlertDialog(pref, prefEdit, teamName, name);
+		}
+		
 		MatchByMonth matchByMonth = new MatchByMonth(currentMonth);
 		matchList = matchByMonth.getMatchList();
 		
@@ -186,6 +189,7 @@ public class CalendarActivity extends Activity implements OnClickListener {
 				"\n\n5. 위젯을 통하여 스코어, 문자 중계를   볼 수 있습니다." +
 				"\n\n6. 위젯은 새로고침 버튼을 눌러   업데이트 된 기록을 받아 주세요." + 
 				"\n\n7. '선호 구단'을 선택하면, 다음 앱 실행시에 자동으로 문자 중계화면으로 이동합니다." +
+				"\n\n8. 문자중계 화면에서 팀을 클릭하시면 라인업을 볼 수 있어요" +
 				"\n\n★ 매치정보가 안나오면 앱을 껐다 켜 주세요~^^");
 		ab.setPositiveButton(name, new DialogInterface.OnClickListener() {
 			@Override
@@ -197,7 +201,6 @@ public class CalendarActivity extends Activity implements OnClickListener {
 					public void onClick(DialogInterface dialog, int whitchItem) {
 						prefEdit.putInt("whitchTeam", whitchItem);
 						prefEdit.commit();
-						Log.i("whitchItem", whitchItem + "");
 					}
 				});
 				ab2.setPositiveButton("선택하기", new DialogInterface.OnClickListener() {
@@ -210,7 +213,13 @@ public class CalendarActivity extends Activity implements OnClickListener {
 				ab2.show();
 			}
 		});
-		ab.setNegativeButton("닫기", null);
+		ab.setNegativeButton("하루동안 다시보지 않기", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				prefEdit.putInt("settingDate", currentDate);
+				prefEdit.commit();
+			}
+		});
 		ab.show();
 	}
 	

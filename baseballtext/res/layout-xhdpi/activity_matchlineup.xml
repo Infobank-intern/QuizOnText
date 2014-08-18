@@ -1,0 +1,131 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    android:layout_width="300dip"
+    android:layout_height="300dip"
+    android:layout_centerInParent="true"
+    android:background="#000000"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <TextView
+        android:id="@+id/lineuptitle"
+        android:layout_width="fill_parent"
+        android:layout_height="20dip"
+        android:layout_marginTop="10dip"
+        android:gravity="center"
+        android:text="★오늘의 라인업★"
+        android:textSize="15dip"
+        android:textStyle="italic"
+        android:textColor="#ff0000" />
+
+    <LinearLayout
+        android:id="@+id/pitcher"
+        android:layout_width="fill_parent"
+        android:layout_height="20dip"
+        android:layout_marginTop="10dip"
+        android:layout_below="@+id/lineuptitle"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/hometeampitcher"
+            android:layout_width="150dip"
+            android:layout_height="20dip"
+            android:gravity="center"
+            android:text="투수"
+            android:textSize="15dip"
+            android:textStyle="italic"
+            android:textColor="#7cfc00" />
+
+        <TextView
+            android:id="@+id/awayteampitcher"
+            android:layout_width="150dip"
+            android:layout_height="20dip"
+            android:gravity="center"
+            android:text="투수"
+            android:textSize="15dip"
+            android:textStyle="italic"
+            android:textColor="#7cfc00" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pitchertext"
+        android:layout_width="fill_parent"
+        android:layout_height="20dip"
+        android:layout_below="@+id/pitcher"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/hometeampitchertext"
+            android:layout_width="150dip"
+            android:layout_height="20dip"
+            android:gravity="center"
+            android:text="땡땡땡"
+            android:textSize="15dip"
+            android:textColor="#ffffff" />
+        
+        <TextView
+            android:id="@+id/awayteampitchertext"
+            android:layout_width="150dip"
+            android:layout_height="20dip"
+            android:gravity="center"
+            android:text="땡땡땡"
+            android:textSize="15dip"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/batter"
+        android:layout_width="fill_parent"
+        android:layout_height="20dip"
+        android:layout_below="@+id/pitchertext"
+        android:layout_marginTop="10dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/hometeambatter"
+            android:layout_width="150dip"
+            android:layout_height="20dip"
+            android:gravity="center"
+            android:text="타자"
+            android:textSize="15dip"
+            android:textStyle="italic"
+            android:textColor="#7cfc00" />
+        
+        <TextView
+            android:id="@+id/awayteambatter"
+            android:layout_width="150dip"
+            android:layout_height="20dip"
+            android:gravity="center"
+            android:text="타자"
+            android:textSize="15dip"
+            android:textStyle="italic"
+            android:textColor="#7cfc00" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/battertext"
+        android:layout_width="fill_parent"
+        android:layout_height="200dip"
+        android:layout_below="@+id/batter"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/hometeambattertext"
+            android:layout_width="150dip"
+            android:layout_height="200dip"
+            android:gravity="center_horizontal"
+            android:text="땡땡땡"
+            android:textSize="15dip"
+            android:textColor="#ffffff" />
+        
+        <TextView
+            android:id="@+id/awayteambattertext"
+            android:layout_width="150dip"
+            android:layout_height="200dip"
+            android:gravity="center_horizontal"
+            android:text="땡땡땡"
+            android:textSize="15dip"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
+</RelativeLayout>

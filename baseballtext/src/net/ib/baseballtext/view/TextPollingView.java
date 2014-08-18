@@ -1,19 +1,25 @@
 package net.ib.baseballtext.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kr.co.quizon.network.link.match.GetMatchBroadcastLink;
 import kr.co.quizon.network.link.match.GetMatchInfoLink;
 import net.ib.baseballtext.R;
+import net.ib.baseballtext.activity.MainActivity;
+import net.ib.baseballtext.activity.MatchLineUpActivity;
 import net.ib.baseballtext.util.Strings;
 import net.ib.quizon.api.match.GetMatchBroadcastReq;
 import net.ib.quizon.api.match.GetMatchBroadcastRes;
 import net.ib.quizon.api.match.GetMatchInfoReq;
 import net.ib.quizon.api.match.GetMatchInfoRes;
+import net.ib.quizon.domain.match.Match;
 import net.ib.quizon.domain.match.MatchBroadcast;
 import net.ib.quizon.domain.match.MatchDisplayBoard;
 import net.ib.quizon.domain.match.MatchPlayers;
 import net.ib.quizon.domain.match.MatchSummary;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -50,13 +56,24 @@ public class TextPollingView implements OnClickListener {
     private ImageView base2ImageView;
     private ImageView base3ImageView;
     
+    private static List<Match> matchTempList = new ArrayList<Match>();
+    private static int inning;
+    private static int matchNumber;
+    
     private String matchId;
     private int presentInning;
-    protected int inning;
     
-	public TextPollingView(View titleView, View mainView) {
+    private Context mainContext;
+    private Intent intent;
+    
+    public TextPollingView() {
+    }
+    
+	public TextPollingView(View titleView, View mainView, Context mContext) {
         homeTeamNameText = (TextView) titleView.findViewById(R.id.hometeamname);
+        homeTeamNameText.setOnClickListener(this);
         awayTeamNameText = (TextView) titleView.findViewById(R.id.awayteamname);
+        awayTeamNameText.setOnClickListener(this);
         stadiumText = (TextView) titleView.findViewById(R.id.stadium);
         inningText = (TextView) titleView.findViewById(R.id.inning);
         homeTeamPointText = (TextView) titleView.findViewById(R.id.hometeampoint);
@@ -91,10 +108,15 @@ public class TextPollingView implements OnClickListener {
         base1ImageView = (ImageView) mainView.findViewById(R.id.base1);
         base2ImageView = (ImageView) mainView.findViewById(R.id.base2);
         base3ImageView = (ImageView) mainView.findViewById(R.id.base3);
+        
+        mainContext = mContext;
 	}
 	
-	public void getPresentInning(final String matchId) {
-		this.matchId = matchId; 
+	public void getPresentInning(final String matchId, final List<Match> matchTempList, final int matchNumber) {
+		this.matchId = matchId;
+		this.matchTempList = matchTempList;
+		this.matchNumber = matchNumber;
+		
 		new AsyncTask<Void, Void, GetMatchInfoRes>() {
 			@Override
 			protected GetMatchInfoRes doInBackground(Void... params) {
@@ -133,7 +155,6 @@ public class TextPollingView implements OnClickListener {
 			}
 		}.execute();
 	}
-	
 	
 	public void updateView(final String matchId, final int inning) {
 		this.matchId = matchId; 
@@ -244,6 +265,14 @@ public class TextPollingView implements OnClickListener {
 			inning = 9;
 			updateView(matchId, 9);
 			break;
+		case R.id.hometeamname:
+			intent = new Intent(mainContext, MatchLineUpActivity.class);
+			mainContext.startActivity(intent);
+			break;
+		case R.id.awayteamname:
+			intent = new Intent(mainContext, MatchLineUpActivity.class);
+			mainContext.startActivity(intent);
+			break;
 		default:
 			break;
 		}
@@ -307,5 +336,14 @@ public class TextPollingView implements OnClickListener {
 	
 	public int getInning() {
 		return inning;
+	}
+	
+	public List<Match> getMatchTempList() {
+		Log.i("pollingview_matchTempList", matchTempList + "");
+		return matchTempList;
+	}
+	
+	public int getMatchNumber() {
+		return matchNumber;
 	}
 }

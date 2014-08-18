@@ -17,6 +17,7 @@ import net.ib.quizon.api.match.GetMatchListRes;
 import net.ib.quizon.domain.match.Match;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnTouchListener {
 //	private final String ACCESS_TOKEN = "b867b048-8f20-4a01-bfc4-53784e4b488e"; // Test
@@ -74,6 +76,9 @@ public class MainActivity extends Activity implements OnTouchListener {
 	private View mainView;
 
 	private Button button;
+	
+	private int matchNumber;
+	private Context mContext;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +91,6 @@ public class MainActivity extends Activity implements OnTouchListener {
 		
 		titleView = findViewById(R.id.title);
 		mainView = findViewById(R.id.main);
-//		button = (Button) findViewById(R.id.button);
-//		button.setOnClickListener(this);
 
 		baseballText = (TextView) findViewById(R.id.baseballtext);
 		homeTeamNameText = (TextView) findViewById(R.id.hometeamname);
@@ -103,11 +106,14 @@ public class MainActivity extends Activity implements OnTouchListener {
 		spinner.setPrompt("원하는 경기를 선택하세요");
 		spinnerList = new ArrayList<String>();
 
-		pollingView = new TextPollingView(titleView, mainView);
+		mContext = MainActivity.this;
+		
+		pollingView = new TextPollingView(titleView, mainView, mContext);
 
 		selectMatch = getIntent().getIntExtra("selectMatch", 0);
 		
 		baseballTextScroll.setOnTouchListener(this);
+		
 	}
 
 	@Override
@@ -115,8 +121,8 @@ public class MainActivity extends Activity implements OnTouchListener {
 		super.onResume();
 //		HttpLib.setTest(true);
 		setData();
-				timerTask = new TimerJob();
-				timer = new Timer();
+		timerTask = new TimerJob();
+		timer = new Timer();
 		timer.schedule(timerTask, delay, period);
 	}
 
@@ -136,97 +142,12 @@ public class MainActivity extends Activity implements OnTouchListener {
 		finish();
 	}
 
-	private void setData() {
-		new AsyncTask<Void, Void, List<Match>>() {
-			@Override
-			protected List<Match> doInBackground(Void... params) {
-				// network process
-				GetMatchListReq getMatchListReq = new GetMatchListReq();
-				getMatchListReq.setAccessToken(ACCESS_TOKEN);
-				GetMatchListLink getMatchListLink = new GetMatchListLink(getMatchListReq);
-				GetMatchListRes matchListRes = getMatchListLink.linkage();
-
-				if (matchListRes != null) {
-					return matchListRes.getMatchInfoList();
-				}
-				return null;
-			}
-
-			@Override
-			protected void onPostExecute(List<Match> result) {
-				// ui process
-				if (result != null) {
-					spinnerList.clear();
-					for (int i=0; i<result.size(); i++) {
-						matchTempList.add(result.get(i));
-						spinnerList.add(result.get(i).getHomeTeamName() + " vs " + result.get(i).getAwayTeamName());
-					}
-
-					adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.matchspinner, spinnerList);
-					spinner.setAdapter(adapter);
-					spinner.setSelection(selectMatch);
-					
-					spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-						@Override
-						public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-							switch (position) {
-							case 0:
-								matchId = matchTempList.get(0).getMatchId();
-								homeTeamNameText.setText(matchTempList.get(0).getHomeTeamName());
-								awayTeamNameText.setText(matchTempList.get(0).getAwayTeamName());
-								stadiumText.setText(matchTempList.get(0).getMatchStadium());
-								break;
-							case 1:
-								matchId = matchTempList.get(1).getMatchId();
-								homeTeamNameText.setText(matchTempList.get(1).getHomeTeamName());
-								awayTeamNameText.setText(matchTempList.get(1).getAwayTeamName());
-								stadiumText.setText(matchTempList.get(1).getMatchStadium());
-								break;
-							case 2:
-								matchId = matchTempList.get(2).getMatchId();
-								homeTeamNameText.setText(matchTempList.get(2).getHomeTeamName());
-								awayTeamNameText.setText(matchTempList.get(2).getAwayTeamName());
-								stadiumText.setText(matchTempList.get(2).getMatchStadium());
-								break;
-							case 3:
-								matchId = matchTempList.get(3).getMatchId();
-								homeTeamNameText.setText(matchTempList.get(3).getHomeTeamName());
-								awayTeamNameText.setText(matchTempList.get(3).getAwayTeamName());
-								stadiumText.setText(matchTempList.get(3).getMatchStadium());
-								break;
-							default:
-								break;
-							}
-							pollingView.getPresentInning(matchId);
-						}
-
-						@Override
-						public void onNothingSelected(AdapterView<?> arg0) {
-						}
-					});
-				} else {
-					baseballText.setText("매치 정보 로딩 실패");
-					spinnerList.add("아직 경기가 열리지 않았습니다.");
-					adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.matchspinner, spinnerList);
-					spinner.setAdapter(adapter);
-					stadiumText.setText("-");
-					inningText.setText("-");
-					homeTeamNameText.setText("---");
-					awayTeamNameText.setText("---");
-					homeTeamPointText.setText("-");
-					awayTeamPointText.setText("-");
-				}
-			}
-		}.execute();
-	}
-
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		float distance = 0;
 
 		switch(event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-
 			// 손가락을 touch 했을 떄 x 좌표값 저장
 			pressedX = event.getX();
 			break;
@@ -255,19 +176,9 @@ public class MainActivity extends Activity implements OnTouchListener {
 			}
 		}
 		startActivity(intent);
-
 		finish(); // finish 해주지 않으면 activity가 계속 쌓인다. 
 
 		return true;
-	}
-
-
-	class TimerJob extends TimerTask {
-		@Override
-		public void run() {
-			inning = pollingView.getInning();
-			pollingView.updateView(matchId, inning);
-		}
 	}
 
 	@Override
@@ -304,9 +215,103 @@ public class MainActivity extends Activity implements OnTouchListener {
 			}
 		}
 		startActivity(intent);
-
 		finish(); // finish 해주지 않으면 activity가 계속 쌓인다. 
 
 		return true;
+	}
+	
+	class TimerJob extends TimerTask {
+		@Override
+		public void run() {
+			inning = pollingView.getInning();
+			pollingView.updateView(matchId, inning);
+		}
+	}
+
+	private void setData() {
+		new AsyncTask<Void, Void, List<Match>>() {
+			@Override
+			protected List<Match> doInBackground(Void... params) {
+				// network process
+				GetMatchListReq getMatchListReq = new GetMatchListReq();
+				getMatchListReq.setAccessToken(ACCESS_TOKEN);
+				GetMatchListLink getMatchListLink = new GetMatchListLink(getMatchListReq);
+				GetMatchListRes matchListRes = getMatchListLink.linkage();
+
+				if (matchListRes != null) {
+					return matchListRes.getMatchInfoList();
+				}
+				return null;
+			}
+			
+			@Override
+			protected void onPostExecute(List<Match> result) { 
+				// ui process
+				if (result != null) {
+					spinnerList.clear();
+					for (int i=0; i<result.size(); i++) {
+						matchTempList.add(result.get(i));
+						spinnerList.add(result.get(i).getHomeTeamName() + " vs " + result.get(i).getAwayTeamName());
+					}
+					adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.matchspinner, spinnerList);
+					spinner.setAdapter(adapter);
+					spinner.setSelection(selectMatch);
+					
+					spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+						@Override
+						public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+							switch (position) {
+							case 0:
+								matchNumber = 0;
+								matchId = matchTempList.get(0).getMatchId();
+								homeTeamNameText.setText(matchTempList.get(0).getHomeTeamName());
+								awayTeamNameText.setText(matchTempList.get(0).getAwayTeamName());
+								stadiumText.setText(matchTempList.get(0).getMatchStadium());
+								break;
+							case 1:
+								matchNumber = 1;
+								matchId = matchTempList.get(1).getMatchId();
+								homeTeamNameText.setText(matchTempList.get(1).getHomeTeamName());
+								awayTeamNameText.setText(matchTempList.get(1).getAwayTeamName());
+								stadiumText.setText(matchTempList.get(1).getMatchStadium());
+								break;
+							case 2:
+								matchNumber = 2;
+								matchId = matchTempList.get(2).getMatchId();
+								homeTeamNameText.setText(matchTempList.get(2).getHomeTeamName());
+								awayTeamNameText.setText(matchTempList.get(2).getAwayTeamName());
+								stadiumText.setText(matchTempList.get(2).getMatchStadium());
+								break;
+							case 3:
+								matchNumber = 3;
+								matchId = matchTempList.get(3).getMatchId();
+								homeTeamNameText.setText(matchTempList.get(3).getHomeTeamName());
+								awayTeamNameText.setText(matchTempList.get(3).getAwayTeamName());
+								stadiumText.setText(matchTempList.get(3).getMatchStadium());
+								break;
+							default:
+								break;
+							}
+							pollingView.getPresentInning(matchId, matchTempList, matchNumber);
+						}
+
+						@Override
+						public void onNothingSelected(AdapterView<?> arg0) {
+						}
+					});
+				} else {
+					baseballText.setText("매치 정보 로딩 실패");
+					spinnerList.add("아직 경기가 열리지 않았습니다.");
+					adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.matchspinner, spinnerList);
+					spinner.setAdapter(adapter);
+					stadiumText.setText("-");
+					inningText.setText("-");
+					homeTeamNameText.setText("---");
+					awayTeamNameText.setText("---");
+					homeTeamPointText.setText("-");
+					awayTeamPointText.setText("-");
+				}
+			}
+		}.execute();
 	}
 }
