@@ -68,12 +68,17 @@ public class CalendarActivity extends Activity implements OnClickListener {
 	private int selectedDate;
 
 	private Intent intent;
+	private Intent matchListSizeIntent;
 
 	private int matchListSize = 0;
 	private List<Match> matchList;
+	private List<Match> currentMatchList;
 	
 	private BackPressCloseHandler backPressCloseHandler;
 
+	private SharedPreferences sharedPref;
+	
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
@@ -115,6 +120,7 @@ public class CalendarActivity extends Activity implements OnClickListener {
 		calendar = (CalendarView)findViewById(R.id.calendar);
 		
 		matchList = new ArrayList<Match>();
+		currentMatchList = new ArrayList<Match>();
 
 		currentTime = System.currentTimeMillis();
 		Date date = new Date(currentTime);
@@ -125,11 +131,23 @@ public class CalendarActivity extends Activity implements OnClickListener {
 		
 		backPressCloseHandler = new BackPressCloseHandler(this);
 		
+		sharedPref = getSharedPreferences("Pref2", 0);
+		final Editor sharedPrefEdit = sharedPref.edit();
+		
 		final SharedPreferences pref = getSharedPreferences("Pref1", 0);
 		final Editor prefEdit = pref.edit();
 		
 		final CharSequence[] teamName = {"SAMSUNG LIONS", "DOOSAN BEARS", "LG TWINS", "NEXEN HEROES",
 										 "LOTTE GIANTS", "SK WYVERNS", "NC DINOS", "KIA TIGERS", "HANWHA EAGLES", "없음"};
+		
+		// 하루지나면 초기화
+		if (sharedPref.getInt("currentDate", 0) != currentDate) {
+			sharedPrefEdit.putInt("matchListSize", 0);
+			sharedPrefEdit.putString("firstSelectName", null);
+			sharedPrefEdit.putString("secondSelectName", null);
+			sharedPrefEdit.putString("thirdSelectName", null);
+			sharedPrefEdit.putString("fourthSelectName", null);
+		}
 		
 		String name;
 		int temp = pref.getInt("whitchTeam", 10);
@@ -140,6 +158,7 @@ public class CalendarActivity extends Activity implements OnClickListener {
 		}
 		
 		if (pref.getInt("settingDate", 0) != currentDate) {
+			//Dialog 띄우기
 			setAlertDialog(pref, prefEdit, teamName, name);
 		}
 		
@@ -155,9 +174,40 @@ public class CalendarActivity extends Activity implements OnClickListener {
 				if (matchDate.getMonth() == currentMonth && matchDate.getDate() == currentDate) {
 					++matchListSize;
 					count ++ ;
+					currentMatchList.add(matchList.get(i));
 					getCalendarText(count, i);
 				}
 			}
+			
+//			Log.i("currentMatchList", currentMatchList + "");
+			
+			
+			intent = new Intent(CalendarActivity.this, MainActivity.class);
+//			intent.putExtra("matchListSize", matchListSize);
+			sharedPrefEdit.putInt("matchListSize", matchListSize);
+			sharedPrefEdit.putInt("currentDate", currentDate);
+			sharedPrefEdit.commit();
+			if (1 <= matchListSize) {
+//				intent.putExtra("firstSelectName", currentMatchList.get(0).getHomeTeamName());
+				sharedPrefEdit.putString("firstSelectName", currentMatchList.get(0).getHomeTeamName());
+				sharedPrefEdit.commit();
+			}
+			if (2 <= matchListSize) {
+//				intent.putExtra("secondSelectName", currentMatchList.get(1).getHomeTeamName());
+				sharedPrefEdit.putString("secondSelectName", currentMatchList.get(1).getHomeTeamName());
+				sharedPrefEdit.commit();
+			}
+			if (3 <= matchListSize) {
+//				intent.putExtra("thirdSelectName", currentMatchList.get(2).getHomeTeamName());
+				sharedPrefEdit.putString("thirdSelectName", currentMatchList.get(2).getHomeTeamName());
+				sharedPrefEdit.commit();
+			}
+			if (4 <= matchListSize) {
+//				intent.putExtra("fourthSelectName", currentMatchList.get(3).getHomeTeamName());
+				sharedPrefEdit.putString("fourthSelectName", currentMatchList.get(3).getHomeTeamName());
+				sharedPrefEdit.commit();
+			}
+			
 			
 			calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 				public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
@@ -233,7 +283,6 @@ public class CalendarActivity extends Activity implements OnClickListener {
 		case R.id.firstmatchbutton:
 			if (selectedDate == currentDate && selectedMonth == currentMonth) {
 				if (1 <= matchListSize) {
-					intent = new Intent(CalendarActivity.this, MainActivity.class);
 					intent.putExtra("selectMatch", 0);
 					startActivity(intent);
 					finish();
@@ -249,7 +298,6 @@ public class CalendarActivity extends Activity implements OnClickListener {
 		case R.id.secondmatchbutton:
 			if (selectedDate == currentDate && selectedMonth == currentMonth) {
 				if (2 <= matchListSize) {
-					intent = new Intent(CalendarActivity.this, MainActivity.class);
 					intent.putExtra("selectMatch", 1);
 					startActivity(intent);
 					finish();
@@ -265,7 +313,6 @@ public class CalendarActivity extends Activity implements OnClickListener {
 		case R.id.thirdmatchbutton:
 			if (selectedDate == currentDate && selectedMonth == currentMonth) {
 				if (3 <= matchListSize) {
-					intent = new Intent(CalendarActivity.this, MainActivity.class);
 					intent.putExtra("selectMatch", 2);
 					startActivity(intent);
 					finish();
@@ -281,7 +328,6 @@ public class CalendarActivity extends Activity implements OnClickListener {
 		case R.id.fourthmatchbutton:
 			if (selectedDate == currentDate && selectedMonth == currentMonth) {
 				if (4 <= matchListSize) {
-					intent = new Intent(CalendarActivity.this, MainActivity.class);
 					intent.putExtra("selectMatch", 3);
 					startActivity(intent);
 					finish();

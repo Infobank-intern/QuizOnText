@@ -356,4 +356,11 @@
             android:gravity="center_horizontal" />
     </RelativeLayout>
 
+    
+    <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+             >
+    </android.support.v4.view.ViewPager>
 </RelativeLayout>

@@ -73,7 +73,7 @@ public class SplashActivity extends Activity {
 			for (int i=0; i<matchList.size(); i++) {
 				Date matchDate = new Date(matchList.get(i).getMatchDate());
 				if( (matchDate.getMonth()==currentMonth) && (matchDate.getDate()==currentDate) ) {
-					Log.i("matchList.get(i)", matchList.get(i) + "");
+//					Log.i("matchList.get(i)", matchList.get(i) + "");
 					currentMatchList.add(matchList.get(i));
 				}
 			}
@@ -83,11 +83,11 @@ public class SplashActivity extends Activity {
 		if ( (whitchTeam < 9) && (currentMatchList != null) ) {
 			int count = 0;
 			for(int i=0; i<currentMatchList.size(); i++) {
-				Log.i("여기는 올거고", "여기는 올거고");
-				Log.i("currentMatchList.get(i).getHomeTeamName()", "*" + currentMatchList.get(i).getHomeTeamName() + "*");
-				Log.i("teamName[whitchTeam]", "*" + (String) teamName[whitchTeam] + "*");
-				Log.i("currentMatchList.get(i).getAwayTeamName()", "*" + currentMatchList.get(i).getAwayTeamName() + "*");
-				Log.i("count", count + "");
+//				Log.i("여기는 올거고", "여기는 올거고");
+//				Log.i("currentMatchList.get(i).getHomeTeamName()", "*" + currentMatchList.get(i).getHomeTeamName() + "*");
+//				Log.i("teamName[whitchTeam]", "*" + (String) teamName[whitchTeam] + "*");
+//				Log.i("currentMatchList.get(i).getAwayTeamName()", "*" + currentMatchList.get(i).getAwayTeamName() + "*");
+//				Log.i("count", count + "");
 				if ((currentMatchList.get(i).getHomeTeamName().equals((String) teamName[whitchTeam])) || (currentMatchList.get(i).getAwayTeamName().equals((String) teamName[whitchTeam]))) {
 					Log.i("for 안", "TRUE");
 					final Intent intent = new Intent(SplashActivity.this, MainActivity.class);
