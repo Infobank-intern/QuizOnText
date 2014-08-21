@@ -99,14 +99,12 @@ public class BaseballWidget extends AppWidgetProvider {
 
 		// ACTION_SELECT
 		if (action != null && action.equals(ACTION_SELECT)) {
-			
 			selectId = intent.getIntExtra("selectGame", 0);
 			UpdateWidget(context, appWidgetManager, mId);
 		}
 
 		// 자동 업데이트
-		if(action.equals("android.appwidget.action.APPWIDGET_UPDATE"))
-		{
+		if (action.equals("android.appwidget.action.APPWIDGET_UPDATE")) {
 			Log.w(TAG, "android.appwidget.action.APPWIDGET_UPDATE");
 			removePreviousAlarm();
 
@@ -114,10 +112,7 @@ public class BaseballWidget extends AppWidgetProvider {
 			mSender = PendingIntent.getBroadcast(context, 0, intent, 0);
 			mManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 			mManager.set(AlarmManager.RTC, firstTime, mSender);
-		}
-		// 위젯 제거 인텐트를 수신했을 때
-		else if(action.equals("android.appwidget.action.APPWIDGET_DISABLED"))
-		{
+		} else if(action.equals("android.appwidget.action.APPWIDGET_DISABLED")) {// 위젯 제거 인텐트를 수신했을 때
 			Log.w(TAG, "android.appwidget.action.APPWIDGET_DISABLED");
 			removePreviousAlarm();
 		}
@@ -274,7 +269,6 @@ public class BaseballWidget extends AppWidgetProvider {
 						}
 					}
 					//					RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.baseballwidget);
-
 					Intent listviewIntent = new Intent(context, BaseballWidgetService.class);
 					listviewIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds);
 					listviewIntent.putExtra("text", sb.toString());

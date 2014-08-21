@@ -140,15 +140,6 @@ public class CalendarActivity extends Activity implements OnClickListener {
 		final CharSequence[] teamName = {"SAMSUNG LIONS", "DOOSAN BEARS", "LG TWINS", "NEXEN HEROES",
 										 "LOTTE GIANTS", "SK WYVERNS", "NC DINOS", "KIA TIGERS", "HANWHA EAGLES", "없음"};
 		
-		// 하루지나면 초기화
-		if (sharedPref.getInt("currentDate", 0) != currentDate) {
-			sharedPrefEdit.putInt("matchListSize", 0);
-			sharedPrefEdit.putString("firstSelectName", null);
-			sharedPrefEdit.putString("secondSelectName", null);
-			sharedPrefEdit.putString("thirdSelectName", null);
-			sharedPrefEdit.putString("fourthSelectName", null);
-		}
-		
 		String name;
 		int temp = pref.getInt("whitchTeam", 10);
 		if (temp < 9) {
@@ -162,10 +153,10 @@ public class CalendarActivity extends Activity implements OnClickListener {
 			setAlertDialog(pref, prefEdit, teamName, name);
 		}
 		
+		initCalendarText();
+		
 		MatchByMonth matchByMonth = new MatchByMonth(currentMonth);
 		matchList = matchByMonth.getMatchList();
-		
-		initCalendarText();
 		
 		int count = 0;
 		if (matchList != null) {
@@ -179,35 +170,7 @@ public class CalendarActivity extends Activity implements OnClickListener {
 				}
 			}
 			
-//			Log.i("currentMatchList", currentMatchList + "");
-			
-			
 			intent = new Intent(CalendarActivity.this, MainActivity.class);
-//			intent.putExtra("matchListSize", matchListSize);
-			sharedPrefEdit.putInt("matchListSize", matchListSize);
-			sharedPrefEdit.putInt("currentDate", currentDate);
-			sharedPrefEdit.commit();
-			if (1 <= matchListSize) {
-//				intent.putExtra("firstSelectName", currentMatchList.get(0).getHomeTeamName());
-				sharedPrefEdit.putString("firstSelectName", currentMatchList.get(0).getHomeTeamName());
-				sharedPrefEdit.commit();
-			}
-			if (2 <= matchListSize) {
-//				intent.putExtra("secondSelectName", currentMatchList.get(1).getHomeTeamName());
-				sharedPrefEdit.putString("secondSelectName", currentMatchList.get(1).getHomeTeamName());
-				sharedPrefEdit.commit();
-			}
-			if (3 <= matchListSize) {
-//				intent.putExtra("thirdSelectName", currentMatchList.get(2).getHomeTeamName());
-				sharedPrefEdit.putString("thirdSelectName", currentMatchList.get(2).getHomeTeamName());
-				sharedPrefEdit.commit();
-			}
-			if (4 <= matchListSize) {
-//				intent.putExtra("fourthSelectName", currentMatchList.get(3).getHomeTeamName());
-				sharedPrefEdit.putString("fourthSelectName", currentMatchList.get(3).getHomeTeamName());
-				sharedPrefEdit.commit();
-			}
-			
 			
 			calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 				public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
@@ -232,7 +195,6 @@ public class CalendarActivity extends Activity implements OnClickListener {
 			Toast.makeText(CalendarActivity.this, "경기정보를 불러오는데 실패하였습니다.", Toast.LENGTH_SHORT).show();
 		}
 	}
-
 
 	private void getCalendarText(int count, int i) {
 		if (count == 1) {
